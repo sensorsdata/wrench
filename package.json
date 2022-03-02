@@ -1,0 +1,27 @@
+{
+  "name": "wrench",
+  "version": "1.0.0",
+  "description": "This is a simple javascript common function library",
+  "main": "index.js",
+  "scripts": {
+    "setup-husky": "node ./scripts/setup-husky.js",
+    "build": "node ./scripts/build.js",
+    "publish": "echo publish not ready yet",
+    "test": "npx nyc --reporter=lcov --reporter=text-summary --reporter=text npx babel-tape-runner ./test/**/*.js;"
+  },
+  "author": "SENSORS Data",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/register": "^7.17.0",
+    "babel-tape-runner": "^3.0.0",
+    "better-docs": "^2.7.2",
+    "cheerio": "^1.0.0-rc.10",
+    "eslint": "^7.32.0",
+    "husky": "^7.0.4",
+    "jsdoc": "^3.6.10",
+    "nyc": "^14.1.1",
+    "sinon": "^13.0.1",
+    "tape": "^5.5.2"
+  }
+}

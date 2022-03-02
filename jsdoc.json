@@ -1,0 +1,30 @@
+{
+    "opts": {
+        "template": "node_modules/better-docs"
+    },
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "plugins": [
+        "node_modules/better-docs/category"
+    ],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "search": true,
+        "better-docs": {
+            "name": "SENSORS OPEN SOURCE",
+            "title": "Code Document",
+            "navLinks": [
+                {
+                    "label": "Github",
+                    "href": "#"
+                },
+                {
+                    "label": "Npm",
+                    "href": "#"
+                }
+            ]
+        }
+    }
+}
