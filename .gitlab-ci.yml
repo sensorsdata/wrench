@@ -12,6 +12,7 @@ publish:
       changes:
         - package.json
   script:
+      echo 'hello world'
     # # If no .npmrc if included in the repo, generate a temporary one that is configured to publish to GitLab's NPM registry
     # - |
     #   if [[ ! -f .npmrc ]]; then
