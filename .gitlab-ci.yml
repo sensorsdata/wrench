@@ -16,6 +16,8 @@ publish:
   script:
       echo 'hello world'
       
+      npm install
+
       npm run test
 
 #      npm profile get
