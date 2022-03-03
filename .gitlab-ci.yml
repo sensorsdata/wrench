@@ -13,6 +13,7 @@ publish:
         - package.json
   script:
       echo 'hello world'
+      npm profile get
 
     # # If no .npmrc if included in the repo, generate a temporary one that is configured to publish to GitLab's NPM registry
     # - |
