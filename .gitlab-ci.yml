@@ -7,6 +7,8 @@
 publish:
   image: node:latest
   stage: deploy
+  tags:
+    - wrench-runner-tt
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /^v\d+\.\d+\.\d+.*$/
       changes:
