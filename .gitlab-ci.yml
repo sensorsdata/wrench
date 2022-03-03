@@ -5,7 +5,6 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/npm.gitlab-ci.yml
 
 publish:
-  image: node:latest
   stage: deploy
   tags:
     - wrench-runner-tt
