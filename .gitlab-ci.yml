@@ -16,7 +16,7 @@ publish:
     CI_PROJECT_ROOT_NAMESPACE: "1"
     CI_API_V4_URL: "2"
     CI_PROJECT_ID: "3"
-    CI_JOB_TOKEN : "${NPM_AUTH}"
+    CI_JOB_TOKEN : "${NPM_TOKEN}"
   script:
      - echo 'hello world'
      - echo $CI_PROJECT_ROOT_NAMESPACE
