@@ -12,11 +12,19 @@ publish:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /^v\d+\.\d+\.\d+.*$/
       changes:
         - package.json
+  variables:
+    CI_PROJECT_ROOT_NAMESPACE: "1"
+    CI_API_V4_URL: "2"
+    CI_PROJECT_ID: "3"
+    CI_JOB_TOKEN : "${NPM_AUTH}"
   script:
       echo 'hello world'
-      echo $lxdtest
-
-      npm profile get
+      echo $CI_PROJECT_ROOT_NAMESPACE
+      echo $CI_API_V4_URL
+      echo $CI_PROJECT_ID
+      echo $CI_JOB_TOKEN
+      
+      #npm profile get
       
 #      npm install
 
