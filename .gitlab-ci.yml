@@ -9,7 +9,6 @@ publish:
   #  - npm publish
   only: # only autorun when click “RunPipeLine” on GitLab WebSite
     - web
-    - master
   when: 
       manual
   allow_failure: false
