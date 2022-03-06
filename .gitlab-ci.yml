@@ -12,3 +12,4 @@ publish:
     - master
   when: 
       manual
+  allow_failure: false
