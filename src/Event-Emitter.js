@@ -1,4 +1,4 @@
-import { each } from './util';
+import each from './each';
 
 /**
  * @class EventEmitter

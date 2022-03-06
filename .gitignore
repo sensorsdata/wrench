@@ -108,3 +108,7 @@ dist
 
 # docs
 doc
+
+#build
+/src/index.js
+dist

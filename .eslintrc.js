@@ -10,7 +10,7 @@ module.exports = {
     sourceType: 'module',
     ecmaVersion: 8
   },
-  ignorePatterns: ['doc/*'],
+  ignorePatterns: ['doc/*', 'dist/*'],
   rules: {
     indent: ['error', 2],
     quotes: ['error', 'single'],

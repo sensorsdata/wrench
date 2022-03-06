@@ -15,7 +15,7 @@ import each from './each';
  * var b = values (a)
  * b //=> [1,2,'hello']
  */
-export function values(obj) {
+export default function values(obj) {
   var results = [];
   if (obj == null) {
     return results;
