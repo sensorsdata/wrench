@@ -7,7 +7,7 @@ publish:
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
     - npm profile get
   #  - npm publish
-  only:
+  only: # only autorun when click “RunPipeLine” on GitLab WebSite
     - web
     - master
   when: 
