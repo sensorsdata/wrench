@@ -5,7 +5,8 @@ stages:
 release-npm:
   stage: release-npm
   script:
-    - echo publish to npm
+    npm run test
+    npm run build
   #  - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
   #  - npm profile get
   #  - npm publish
