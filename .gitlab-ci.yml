@@ -8,4 +8,4 @@ publish:
     - npm profile get
   #  - npm publish
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "master"'
