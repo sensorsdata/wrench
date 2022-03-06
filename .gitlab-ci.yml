@@ -4,6 +4,9 @@ stages:
 
 release-npm:
   stage: release-npm
+  artifacts:
+    paths:
+      - dist/
   script:
     - npm install
     - npm run test
