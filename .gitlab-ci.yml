@@ -1,6 +1,6 @@
 stages:
   - release-npm
-
+  - release-github
 publish:
   stage: release-npm
   script:
