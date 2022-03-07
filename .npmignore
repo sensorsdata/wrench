@@ -111,5 +111,6 @@ doc
 
 /src/index.js
 
-# extra
-dist
+#extra
+test
+.gitlab-ci.yml  

@@ -2,11 +2,10 @@
   "name": "wrench",
   "version": "1.0.0",
   "description": "This is a simple javascript common function library",
-  "main": "index.js",
+  "main": "dist/wrench-es6.js",
   "scripts": {
     "setup-husky": "node ./scripts/setup-husky.js",
     "build": "node ./scripts/build.js",
-    "publish": "echo publish not ready yet",
     "test": "npx nyc --reporter=lcov --reporter=text-summary --reporter=text npx babel-tape-runner ./test/**/*.js;"
   },
   "author": "SENSORS Data",
