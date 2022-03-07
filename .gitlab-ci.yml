@@ -24,7 +24,10 @@ release-npm:
 release-github:
   stage: release-github
   script:
-    - echo push to github
+    - git branch
+    - git checkout master
+    - git branch
+    - # git push -f https://${GITHUB_TOKEN}@github.com/NickDone/test-cicd.git master
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
   when: 
