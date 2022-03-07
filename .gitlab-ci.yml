@@ -8,6 +8,7 @@ release-npm:
     paths:
       - dist/
       - coverage
+      - doc
   script:
     - npm install
     - npm run test
