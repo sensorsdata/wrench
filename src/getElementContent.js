@@ -1,4 +1,4 @@
-import trim from './tirm';
+import trim from './trim';
 
 /** 获取元素的文本内容
  * 

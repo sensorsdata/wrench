@@ -1,5 +1,5 @@
 import isString from './isString';
-import trim from './tirm';
+import trim from './trim';
 import _decodeURI from './_decodeURI';
 
 /** 对传入的 url 字符串进行头尾空格去除，并进行 decodeURI 解码<br>

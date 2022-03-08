@@ -3172,8 +3172,8 @@
   exports.setCssStyle = setCssStyle;
   exports.strToUnicode = strToUnicode;
   exports.throttle = throttle;
-  exports.tirm = trim;
   exports.toArray = toArray;
+  exports.trim = trim;
   exports.unique = unique;
   exports.urlParse = urlParse;
   exports.urlSafeBase64 = urlSafeBase64;

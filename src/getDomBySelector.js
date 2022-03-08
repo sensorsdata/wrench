@@ -1,5 +1,5 @@
 import isString from './isString';
-import trim from './tirm';
+import trim from './trim';
 import isElement from './isElement';
 
 /** 通过选择器获取 dom 元素

@@ -1,5 +1,5 @@
 import test from 'tape';
-import trim from '../src/tirm';
+import trim from '../src/trim';
 
 const testCases = [
   {

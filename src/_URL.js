@@ -1,6 +1,6 @@
 import getURLSearchParams from './getURLSearchParams';
 import isString from './isString';
-import trim from './tirm';
+import trim from './trim';
 import urlParse from './urlParse';
 
 /**
