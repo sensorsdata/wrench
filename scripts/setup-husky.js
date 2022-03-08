@@ -15,6 +15,8 @@ function installCommitHook() {
     ${huskyBin} add .husky/pre-commit "echo 等待单元测试执行完成."\n
     ${huskyBin} add .husky/pre-commit "${utBin}"\n
 
+    ${huskyBin} add .husky/pre-commit "npm run build"\n
+
     ${huskyBin} add .husky/pre-commit "git add ."\n
   `;
   return run(cmd);

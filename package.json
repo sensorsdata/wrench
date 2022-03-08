@@ -4,7 +4,7 @@
   "description": "This is a simple javascript common function library",
   "main": "dist/wrench-es6.js",
   "scripts": {
-    "setup-husky": "node ./scripts/setup-husky.js",
+    "prepare": "node ./scripts/setup-husky.js",
     "build": "node ./scripts/build.js",
     "test": "npx nyc --reporter=lcov --reporter=text-summary --reporter=text npx babel-tape-runner ./test/**/*.js;"
   },

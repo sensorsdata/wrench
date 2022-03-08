@@ -4,5 +4,5 @@
 
 ### 如何提交代码:
 1. 首先执行 npm install 安装依赖。
-2. 执行 npm run setup-husky 设置代码提交检查器。
+2. 执行 npm run prepare 准备开发环境。
 3. 修改代码进行提交。
