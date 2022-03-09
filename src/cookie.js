@@ -102,4 +102,36 @@ export default {
       document.cookie = valid_name + '=' + encodeURIComponent(valid_value) + expires + '; path=/' + valid_domain + samesite + secure;
     }
   },
+  /** 删除指定 cookie 名的 cookie 值
+   * 
+   * @param {*} name 要删除的 cookie 名
+   * @returns 传入 cookie 名的值
+   * @example 
+   * cookie.remove('key1','value1')
+   * cookie.get('key1');//=> null
+   */
+  remove: function (name, cross_subdomain) {
+    this.set(name, '1', -1, cross_subdomain);
+  },
+  /** 通过传入的测试 key 和 value 来判断当前环境是否支持 cookie 存储
+   * 
+   * @param {String} testKey  测试键值
+   * @param {String} testValue 测试值
+   * @returns {Boolean} 当前环境是否支持 cookie 存储
+   * @example
+   * cookie.isSupport() // => true / false
+   */
+  isSupport: function (testKey, testValue) {
+    testKey = testKey || '';
+    testValue = testValue || '1';
+    var self = this;
+    function accessNormal() {
+      self.set(testKey, testValue);
+      var val = self.get(testKey);
+      if (val !== testValue) return false;
+      self.remove(testKey);
+      return true;
+    }
+    return navigator.cookieEnabled && accessNormal();
+  }
 };

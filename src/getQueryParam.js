@@ -1,4 +1,4 @@
-import _decodeURIComponent from './_decodeURIComponent';
+import _decodeURIComponent from './decodeURIComponent';
 
 /** 获取 url 中指定查询参数的值
  * 

@@ -1,4 +1,4 @@
-import _decodeURIComponent from './_decodeURIComponent';
+import _decodeURIComponent from './decodeURIComponent';
 /**
  * 解析传入查询参数到一个含有查询参数列表的 key/value 对象
  * @param {string} queryString - 以问号开头的查询参数字符串

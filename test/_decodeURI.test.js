@@ -1,5 +1,5 @@
 import test from 'tape';
-import _decodeURI from '../src/_decodeURI';
+import _decodeURI from '../src/decodeURI';
 import sinon from 'sinon';
 
 test('test _decodeURI function', (t) => {

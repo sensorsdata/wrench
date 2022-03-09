@@ -1,4 +1,4 @@
-import _URL from './_URL';
+import _URL from './URL';
 
 /** 获取指定 url 的域名
  * 

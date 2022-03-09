@@ -1,6 +1,6 @@
 import isString from './isString';
 import trim from './trim';
-import _decodeURI from './_decodeURI';
+import _decodeURI from './decodeURI';
 
 /** 对传入的 url 字符串进行头尾空格去除，并进行 decodeURI 解码<br>
  * 若未传入 url 则对当前页面的地址进行 decodeURI 解码并返回
