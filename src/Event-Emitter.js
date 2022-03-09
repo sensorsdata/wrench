@@ -1,4 +1,12 @@
-import each from './each';
+function isValidListener(listener) {
+  if (typeof listener === 'function') {
+    return true;
+  } else if (listener && typeof listener === 'object') {
+    return isValidListener(listener.listener);
+  } else {
+    return false;
+  }
+}
 
 /**
  * @class EventEmitter
@@ -12,80 +20,166 @@ import each from './each';
  * e.emit('HelloEvent',123);
  * // Hello Event happens , 123
  */
-var EventEmitter = function () {
-  this._events = [];
-  this.pendingEvents = [];
+function EventEmitter() {
+  this._events = {};
+}
+
+/**
+ * 添加事件
+ * @param  {String} eventName 事件名称
+ * @param  {Function} listener 监听器函数
+ * @return {Object} 可链式调用
+ */
+EventEmitter.prototype.on = function (eventName, listener) {
+  if (!eventName || !listener) {
+    return false;
+  }
+
+  if (!isValidListener(listener)) {
+    throw new Error('listener must be a function');
+  }
+
+  this._events[eventName] = this._events[eventName] || [];
+  var listenerIsWrapped = typeof listener === 'object';
+
+  this._events[eventName].push(
+    listenerIsWrapped
+      ? listener
+      : {
+        listener: listener,
+        once: false
+      }
+  );
+
+  return this;
 };
 
-EventEmitter.prototype = {
-  /** 派发事件
-   * 
-   * @param {String} type 事件名
-   * @param {Object} data 事件数据
-   */
-  emit: function (type) {
-    var args = [].slice.call(arguments, 1);
+/**
+ * 添加事件到事件回调函数列表头
+ * @param  {String} eventName 事件名称
+ * @param  {Function} listener 监听器函数
+ * @return {Object} 可链式调用
+ */
+EventEmitter.prototype.prepend = function (eventName, listener) {
+  if (!eventName || !listener) {
+    return false;
+  }
 
-    each(this._events, function (val) {
-      if (val.type !== type) {
-        return;
+  if (!isValidListener(listener)) {
+    throw new Error('listener must be a function');
+  }
+
+  this._events[eventName] = this._events[eventName] || [];
+  var listenerIsWrapped = typeof listener === 'object';
+
+  this._events[eventName].unshift(
+    listenerIsWrapped
+      ? listener
+      : {
+        listener: listener,
+        once: false
       }
-      val.callback.apply(val.context, args);
-    });
+  );
 
-    this.pendingEvents.push({
-      type: type,
-      data: args
-    });
-    this.pendingEvents.length > 20 ? this.pendingEvents.shift() : null;
-  },
+  return this;
+};
 
-  /**
-   * @callback eventEmitterCallback EventEmitter 事件回调
-   * @param {Object} data 事件回调值 
-   */
+/**
+ * 添加事件到事件回调函数列表头，回调只执行一次
+ * @param  {String} eventName 事件名称
+ * @param  {Function} listener 监听器函数
+ * @return {Object} 可链式调用
+ */
+EventEmitter.prototype.prependOnce = function (eventName, listener) {
+  return this.prepend(eventName, {
+    listener: listener,
+    once: true
+  });
+};
 
-  /** 监听指定事件名的事件
-   * @param {String} event 事件名
-   * @param {eventEmitterCallback} callback 事件回调
-   * @param {Object} context 回调执行上下文对象
-   * @param {Boolean} replayAll 是否回放已经发生过的事件，最多 20 条
-   */
+/**
+ * 添加事件，该事件只能被执行一次
+ * @param  {String} eventName 事件名称
+ * @param  {Function} listener 监听器函数
+ * @return {Object} 可链式调用
+ */
+EventEmitter.prototype.once = function (eventName, listener) {
+  return this.on(eventName, {
+    listener: listener,
+    once: true
+  });
+};
 
-  /**
-   * 
-   * @param {*} event 
-   * @param {*} callback 
-   * @param {*} context 
-   * @param {*} replayAll 
-   */
-
-  on: function (event, callback, context, replayAll) {
-    if (typeof callback !== 'function') {
-      return;
+/**
+ * 删除事件
+ * @param  {String} eventName 事件名称
+ * @param  {Function} listener 监听器函数
+ * @return {Object} 可链式调用
+ */
+EventEmitter.prototype.off = function (eventName, listener) {
+  var listeners = this._events[eventName];
+  if (!listeners) {
+    return false;
+  }
+  if (typeof listener === 'number') {
+    listeners.splice(listener, 1);
+  } else if (typeof listener === 'function') {
+    for (var i = 0, len = listeners.length; i < len; i++) {
+      if (listeners[i] && listeners[i].listener === listener) {
+        listeners.splice(i, 1);
+      }
     }
-    this._events.push({
-      type: event,
-      callback: callback,
-      context: context || this
-    });
+  }
+  return this;
+};
 
-    replayAll = replayAll === false ? false : true;
-    if (this.pendingEvents.length > 0 && replayAll) {
-      each(this.pendingEvents, function (val) {
-        if (val.type === event) {
-          callback.apply(context, val.data);
-        }
-      });
+/**
+ * 触发事件
+ * @param  {String} eventName 事件名称
+ * @param  {Array} args 传入监听器函数的参数，使用数组形式传入
+ * @return {Object} 可链式调用
+ */
+EventEmitter.prototype.emit = function (eventName, args) {
+  var listeners = this._events[eventName];
+  if (!listeners) {
+    return false;
+  }
+
+  for (var i = 0; i < listeners.length; i++) {
+    var listener = listeners[i];
+    if (listener) {
+      listener.listener.call(this, args || {});
+      if (listener.once) {
+        this.off(eventName, i);
+      }
     }
-  },
-  tempAdd: function (event, data) {
-    if (!data || !event) {
-      return;
-    }
-    return this.emit(event, data);
-  },
-  isReady: function () { }
+  }
+
+  return this;
+};
+
+/**
+ * 删除某一个类型的所有事件或者所有事件
+ * @param  {String[]} eventName 事件名称
+ */
+EventEmitter.prototype.removeAllListeners = function (eventName) {
+  if (eventName && this._events[eventName]) {
+    this._events[eventName] = [];
+  } else {
+    this._events = {};
+  }
+};
+
+/**
+ * 返回某一个类型的所有事件或者所有事件
+ * @param  {String[]} eventName 事件名称
+ */
+EventEmitter.prototype.listeners = function (eventName) {
+  if (eventName && typeof eventName === 'string') {
+    return this._events[eventName];
+  } else {
+    return this._events;
+  }
 };
 
 export default EventEmitter;
