@@ -1,4 +1,4 @@
-import each from './extend';
+import each from './each';
 
 /** 使用源对象对目标对象进行扩展，
  * 如果目标已经有该属性则不覆盖,如果没有的属性加进来
