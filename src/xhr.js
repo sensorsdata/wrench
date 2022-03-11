@@ -1,3 +1,5 @@
+import logger from './logger';
+
 /** 兼容低版本 IE 的 XMLHttpRequest 的实例化方法
  * @category Bom
  * @param {Boolean} cors 请求是否需要支持跨域
@@ -27,7 +29,7 @@ export default function xhr(cors) {
           // eslint-disable-next-line no-undef
           return new ActiveXObject('Microsoft.XMLHTTP');
         } catch (d) {
-          console.log(d);
+          logger.log(d);
         }
       }
     }

@@ -1,3 +1,4 @@
+import logger from './logger';
 /** 将传入字符串转换为 unicode 编码
  * @category Encoding
  * @param {String} str 传入字符串
@@ -8,7 +9,7 @@
  */
 export default function strToUnicode(str) {
   if (typeof str !== 'string') {
-    console.log('转换unicode错误', str);
+    logger.log('转换unicode错误', str);
     return str;
   }
   var nstr = '';

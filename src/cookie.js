@@ -1,6 +1,6 @@
 import isString from './isString';
 import getCookieTopLevelDomain from './getCookieTopLevelDomain';
-
+import now from './now';
 /** 获取和设置 cookie 的模块
  * @category Bom
  * @exports cookie
@@ -119,10 +119,10 @@ export default {
    * @param {String} testValue 测试值
    * @returns {Boolean} 当前环境是否支持 cookie 存储
    * @example
-   * cookie.isSupport() // => true / false
+   * cookie.isSupport('a','1') // => true / false
    */
   isSupport: function (testKey, testValue) {
-    testKey = testKey || '';
+    testKey = testKey || 'cookie' + now();
     testValue = testValue || '1';
     var self = this;
     function accessNormal() {

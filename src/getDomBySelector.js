@@ -1,6 +1,7 @@
 import isString from './isString';
 import trim from './trim';
 import isElement from './isElement';
+import logger from './logger';
 
 /** 通过选择器获取 dom 元素
  * 
@@ -77,7 +78,7 @@ export default function getDomBySelector(selector) {
     try {
       element = getDom(tagSelector, parent);
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
     if (!(element && isElement(element))) {
       return null;

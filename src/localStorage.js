@@ -1,3 +1,6 @@
+import now from './now';
+import logger from './logger';
+
 /** 一个封装了 localStorage 的对象
  * @category Bom
  * @exports _localStorage
@@ -27,7 +30,7 @@ var _localStorage = {
     try {
       storedValue = JSON.parse(_localStorage.get(key)) || null;
     } catch (err) {
-      console.log(err);
+      logger.log(err);
     }
     return storedValue;
   },
@@ -62,7 +65,7 @@ var _localStorage = {
   isSupport: function () {
     var supported = true;
     try {
-      var supportName = '__sensorsdatasupport__';
+      var supportName = '__local_store_support__' + now();
       var val = 'testIsSupportStorage';
       _localStorage.set(supportName, val);
       if (_localStorage.get(supportName) !== val) {

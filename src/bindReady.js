@@ -1,3 +1,4 @@
+import logger from './logger';
 /**
  * @callback bindReadyCallback
  * @param {Event|String} e  DOMContentLoaded 或 readystatechange 时间回调参数<br>
@@ -53,7 +54,7 @@ export default function bindReady(fn, win) {
       try {
         top = !win.frameElement;
       } catch (e) {
-        console.log(e);
+        logger.log(e);
       }
       if (top) poll();
     }

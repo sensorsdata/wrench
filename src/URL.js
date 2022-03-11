@@ -2,6 +2,7 @@ import getURLSearchParams from './getURLSearchParams';
 import isString from './isString';
 import trim from './trim';
 import urlParse from './urlParse';
+import logger from './logger';
 
 /**
  * @typedef SearchParams
@@ -72,7 +73,7 @@ export default function _URL(url) {
     url = trim(url);
     var _regex = /^https?:\/\/.+/;
     if (_regex.test(url) === false) {
-      console.log('Invalid URL');
+      logger.log('Invalid URL');
       return;
     }
     var instance = urlParse(url);

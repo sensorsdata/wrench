@@ -257,6 +257,37 @@ function trim(str) {
   return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 }
 
+var logFn;
+
+/** 一个封装了 localStorage 的对象
+ * @category Util
+ * @exports logger
+ */
+var logger = {
+  /** 自定义工具库的日志函数，默认使用控制台输出
+   * 
+   * @param {Function} logger 日志函数
+   * @example
+   * function myLog(arg){
+   *    console.log(arg);
+   *    alert(arg);
+   * }
+   * logger.setup(myLog); // 使用 myLog 作为日志输出 
+   */
+  setup: function (logger) {
+    logFn = logger;
+  },
+  /**
+   * 使用自定义的日志函数输出日志
+   * 
+   * @example
+   * logger.log('hello world','1234');
+   */
+  log: function () {
+    (logFn || (console && console.log) || function () { }).apply(null, arguments);
+  }
+};
+
 /**
  * @typedef {Object} URLParser URL 解析器对象，用于添加查询参数，和重新获取添加查询参数后的 URL 字符串
  * @property {Function} setUrl <strong>setUrl(url:String)->void</strong><br>重新设置需要解析的 url
@@ -346,7 +377,7 @@ function urlParse(url) {
 
     var b = this._regex.exec(url);
     if (!b) {
-      console.log('URLParser::_parse -> Invalid URL');
+      logger.log('URLParser::_parse -> Invalid URL');
     }
 
     var urlTmp = url.split('#');
@@ -435,7 +466,7 @@ function _URL(url) {
     url = trim(url);
     var _regex = /^https?:\/\/.+/;
     if (_regex.test(url) === false) {
-      console.log('Invalid URL');
+      logger.log('Invalid URL');
       return;
     }
     var instance = urlParse(url);
@@ -957,7 +988,7 @@ function xhr(cors) {
           // eslint-disable-next-line no-undef
           return new ActiveXObject('Microsoft.XMLHTTP');
         } catch (d) {
-          console.log(d);
+          logger.log(d);
         }
       }
     }
@@ -1144,7 +1175,7 @@ function ajax(para) {
         g.abort();
       }
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
 
     //如果 g.abort 未生效，手动执行 error
@@ -1234,7 +1265,7 @@ function ajax(para) {
       }
     }
   } catch (e) {
-    console.log(e);
+    logger.log(e);
   }
 
   g.send(para.data || null);
@@ -1379,7 +1410,7 @@ function bindReady(fn, win) {
       try {
         top = !win.frameElement;
       } catch (e) {
-        console.log(e);
+        logger.log(e);
       }
       if (top) poll();
     }
@@ -1435,6 +1466,19 @@ function getCookieTopLevelDomain(hostname, testFlag) {
   }
   return '';
 }
+
+/** 获取当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
+ * @category Util
+ * @function now
+ * @returns {Number} 返回当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
+ * @example 
+ * now() // 1646122486530
+ */
+var now =
+  Date.now ||
+  function () {
+    return new Date().getTime();
+  };
 
 /** 获取和设置 cookie 的模块
  * @category Bom
@@ -1554,10 +1598,10 @@ var cookie = {
    * @param {String} testValue 测试值
    * @returns {Boolean} 当前环境是否支持 cookie 存储
    * @example
-   * cookie.isSupport() // => true / false
+   * cookie.isSupport('a','1') // => true / false
    */
   isSupport: function (testKey, testValue) {
-    testKey = testKey || '';
+    testKey = testKey || 'cookie' + now();
     testValue = testValue || '1';
     var self = this;
     function accessNormal() {
@@ -1904,7 +1948,7 @@ function getDomBySelector(selector) {
     try {
       element = getDom(tagSelector, parent);
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
     if (!(element && isElement(element))) {
       return null;
@@ -1971,7 +2015,7 @@ function getHostname(url, defaultValue) {
   try {
     hostname = _URL(url).hostname;
   } catch (e) {
-    console.log('getHostname传入的url参数不合法！');
+    logger.log('getHostname传入的url参数不合法！');
   }
   return hostname || defaultValue;
 }
@@ -2389,7 +2433,7 @@ function isHttpUrl(str) {
   if (typeof str !== 'string') return false;
   var _regex = /^https?:\/\/.+/;
   if (_regex.test(str) === false) {
-    console.log('Invalid URL');
+    logger.log('Invalid URL');
     return false;
   }
   return true;
@@ -2542,7 +2586,7 @@ function isSupportCors() {
  */
 function jsonp(obj) {
   if (!(isObject(obj) && isString(obj.callbackName))) {
-    console.log('JSONP 请求缺少 callbackName');
+    logger.log('JSONP 请求缺少 callbackName');
     return false;
   }
   obj.success = isFunction(obj.success) ? obj.success : function () { };
@@ -2560,7 +2604,7 @@ function jsonp(obj) {
       }
       obj.error('timeout');
       window[obj.callbackName] = function () {
-        console.log('call jsonp error');
+        logger.log('call jsonp error');
       };
       timer = null;
       head.removeChild(script);
@@ -2572,7 +2616,7 @@ function jsonp(obj) {
     timer = null;
     obj.success.apply(null, arguments);
     window[obj.callbackName] = function () {
-      console.log('call jsonp error');
+      logger.log('call jsonp error');
     };
     head.removeChild(script);
   };
@@ -2594,7 +2638,7 @@ function jsonp(obj) {
       return false;
     }
     window[obj.callbackName] = function () {
-      console.log('call jsonp error');
+      logger.log('call jsonp error');
     };
     clearTimeout(timer);
     timer = null;
@@ -2766,7 +2810,7 @@ var _localStorage = {
     try {
       storedValue = JSON.parse(_localStorage.get(key)) || null;
     } catch (err) {
-      console.log(err);
+      logger.log(err);
     }
     return storedValue;
   },
@@ -2801,7 +2845,7 @@ var _localStorage = {
   isSupport: function () {
     var supported = true;
     try {
-      var supportName = '__sensorsdatasupport__';
+      var supportName = '__local_store_support__' + now();
       var val = 'testIsSupportStorage';
       _localStorage.set(supportName, val);
       if (_localStorage.get(supportName) !== val) {
@@ -2814,19 +2858,6 @@ var _localStorage = {
     return supported;
   }
 };
-
-/** 获取当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
- * @category Util
- * @function now
- * @returns {Number} 返回当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
- * @example 
- * now() // 1646122486530
- */
-var now =
-  Date.now ||
-  function () {
-    return new Date().getTime();
-  };
 
 /** 删除传入字符串开头的 'javascript'
  * 
@@ -2949,7 +2980,7 @@ var _sessionStorage = {
      */
   isSupport: function () {
     var supported = true;
-    var supportName = '__sensorsdatasupport__';
+    var supportName = '__session_storage_support__' + now();
     var val = 'testIsSupportStorage';
     try {
       if (sessionStorage && sessionStorage.setItem) {
@@ -3016,7 +3047,7 @@ function setCssStyle(css) {
  */
 function strToUnicode(str) {
   if (typeof str !== 'string') {
-    console.log('转换unicode错误', str);
+    logger.log('转换unicode错误', str);
     return str;
   }
   var nstr = '';
@@ -3222,4 +3253,4 @@ var urlSafeBase64 = {
   }
 };
 
-export { EventEmitter, _URL as URL, UUID, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, values, xhr };
+export { EventEmitter, _URL as URL, UUID, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, logger, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, values, xhr };

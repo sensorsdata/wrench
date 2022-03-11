@@ -1,3 +1,4 @@
+import logger from './logger';
 /**
  * @typedef {Object} URLParser URL 解析器对象，用于添加查询参数，和重新获取添加查询参数后的 URL 字符串
  * @property {Function} setUrl <strong>setUrl(url:String)->void</strong><br>重新设置需要解析的 url
@@ -87,7 +88,7 @@ export default function urlParse(url) {
 
     var b = this._regex.exec(url);
     if (!b) {
-      console.log('URLParser::_parse -> Invalid URL');
+      logger.log('URLParser::_parse -> Invalid URL');
     }
 
     var urlTmp = url.split('#');
