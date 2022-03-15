@@ -12,7 +12,6 @@ export default function isEmptyObject(arg) {
   if (isObject(arg)) {
     for (var key in arg) {
       if (Object.prototype.hasOwnProperty.call(arg, key)) {
-        console.log(8888);
         return false;
       }
     }
