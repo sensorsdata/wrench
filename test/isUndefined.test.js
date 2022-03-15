@@ -6,7 +6,7 @@ const testCases = [
   { input: null, expect: false },
 ];
 
-test('test isString function', (t) => {
+test('test isUndefined function', (t) => {
   testCases.forEach((testCase) => {
     const val = isUndefined(testCase.input);
     t.equal(val, testCase.expect, `when call isUndefined("${testCase.input}"), then it returns "${testCase.expect}"`);
