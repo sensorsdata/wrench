@@ -15,7 +15,7 @@ import isArray from './isArray';
  */
 export default function getCookieTopLevelDomain(hostname, testFlag) {
   hostname = hostname || location.hostname;
-  testFlag = testFlag || 'sensorsdata_domain_test';
+  testFlag = testFlag || 'domain_test';
   function validHostname(value) {
     if (value) {
       return value;
@@ -35,10 +35,10 @@ export default function getCookieTopLevelDomain(hostname, testFlag) {
       document.cookie = testFlag + '=true; path=/; domain=' + domainStr;
 
       if (document.cookie.indexOf(testFlag + '=true') !== -1) {
-        var now = new Date();
-        now.setTime(now.getTime() - 1000);
+        var nowDate = new Date();
+        nowDate.setTime(nowDate.getTime() - 1000);
 
-        document.cookie = testFlag + '=true; expires=' + now.toGMTString() + '; path=/; domain=' + domainStr;
+        document.cookie = testFlag + '=true; expires=' + nowDate.toGMTString() + '; path=/; SameSite=Lax; domain=' + domainStr;
 
         return domainStr;
       }

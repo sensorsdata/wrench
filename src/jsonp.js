@@ -3,7 +3,7 @@ import isString from './isString';
 import isFunction from './isFunction';
 import isNumber from './isNumber';
 import each from './each';
-
+import logger from './logger';
 /**
  * @callback jsonpSuccessCallback  jsonp 请求成功回调
  * @param {Object} data jsonp 请求成功回调数据
@@ -41,7 +41,7 @@ import each from './each';
  */
 export default function jsonp(obj) {
   if (!(isObject(obj) && isString(obj.callbackName))) {
-    console.log('JSONP 请求缺少 callbackName');
+    logger.log('JSONP 请求缺少 callbackName');
     return false;
   }
   obj.success = isFunction(obj.success) ? obj.success : function () { };
@@ -59,7 +59,7 @@ export default function jsonp(obj) {
       }
       obj.error('timeout');
       window[obj.callbackName] = function () {
-        console.log('call jsonp error');
+        logger.log('call jsonp error');
       };
       timer = null;
       head.removeChild(script);
@@ -71,7 +71,7 @@ export default function jsonp(obj) {
     timer = null;
     obj.success.apply(null, arguments);
     window[obj.callbackName] = function () {
-      console.log('call jsonp error');
+      logger.log('call jsonp error');
     };
     head.removeChild(script);
   };
@@ -93,7 +93,7 @@ export default function jsonp(obj) {
       return false;
     }
     window[obj.callbackName] = function () {
-      console.log('call jsonp error');
+      logger.log('call jsonp error');
     };
     clearTimeout(timer);
     timer = null;

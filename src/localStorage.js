@@ -1,6 +1,9 @@
+import now from './now';
+import logger from './logger';
+
 /** 一个封装了 localStorage 的对象
  * @category Bom
- * @exports _localStorage
+ * @exports localStorage
  */
 var _localStorage = {
   /** 获取 localStorage 值
@@ -8,8 +11,8 @@ var _localStorage = {
    * @param {String} key 传入存储值的键 key
    * @returns {String} 返回值
    * @example
-   * _localStorage.set('key1','value1');
-   * _localStorage.get('key1'); //=> value1
+   * localStorage.set('key1','value1');
+   * localStorage.get('key1'); //=> value1
    */
   get: function (key) {
     return window.localStorage.getItem(key);
@@ -19,15 +22,15 @@ var _localStorage = {
    * @param {String} key 传入存储值的键 key
    * @returns {Object} 返回值
    * @example
-   * _localStorage.set('key2',JSON.stringify({a:1}));
-   * _localStorage.parse('key2'); //=> {a:1}
+   * localStorage.set('key2',JSON.stringify({a:1}));
+   * localStorage.parse('key2'); //=> {a:1}
    */
   parse: function (key) {
     var storedValue;
     try {
       storedValue = JSON.parse(_localStorage.get(key)) || null;
     } catch (err) {
-      console.log(err);
+      logger.log(err);
     }
     return storedValue;
   },
@@ -36,8 +39,8 @@ var _localStorage = {
    * @param {String} key 传入存储值的键 key
    * @param {String} value 传入存储值的值 value
    * @example
-   *  _localStorage.set('key1','value1');
-   *  _localStorage.get('key1'); //=> value1
+   *  localStorage.set('key1','value1');
+   *  localStorage.get('key1'); //=> value1
    */
   set: function (key, value) {
     window.localStorage.setItem(key, value);
@@ -46,8 +49,8 @@ var _localStorage = {
    * 
    * @param {*} key 传入存储值的键 key
    * @example
-   * _localStorage.remove('key2');
-   * _localStorage.get('key2') //=> null
+   * localStorage.remove('key2');
+   * localStorage.get('key2') //=> null
    */
   remove: function (key) {
     window.localStorage.removeItem(key);
@@ -57,12 +60,12 @@ var _localStorage = {
    * @returns {Boolean} 返回当前浏览器是否支持 localStorage 存储
    * @example
    * // 在支持 localStorage 的浏览器中
-   * _localStorage.isSupport() //=> true
+   * localStorage.isSupport() //=> true
    */
   isSupport: function () {
     var supported = true;
     try {
-      var supportName = '__sensorsdatasupport__';
+      var supportName = '__local_store_support__' + now();
       var val = 'testIsSupportStorage';
       _localStorage.set(supportName, val);
       if (_localStorage.get(supportName) !== val) {

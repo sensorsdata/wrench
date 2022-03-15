@@ -2,6 +2,7 @@ import getURLSearchParams from './getURLSearchParams';
 import isString from './isString';
 import trim from './trim';
 import urlParse from './urlParse';
+import logger from './logger';
 
 /**
  * @typedef SearchParams
@@ -32,12 +33,12 @@ import urlParse from './urlParse';
  * @returns {URL|URLObject} 一个原生 URL 对象或者普通JS对象( 参见 URLObject)
  *
  * @example
- * var url = _.URL('http://www.domain.com:8080/path/index.html?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese');
+ * var url = URL('http://www.domain.com:8080/path/index.html?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese');
  *
  * url.hostname; // => www.domain.com
  * url.searchParams.get('project'); // => testproject
  * @category Bom
- * @function _URL
+ * @function URL
  */
 export default function _URL(url) {
   var result = {};
@@ -72,7 +73,7 @@ export default function _URL(url) {
     url = trim(url);
     var _regex = /^https?:\/\/.+/;
     if (_regex.test(url) === false) {
-      console.log('Invalid URL');
+      logger.log('Invalid URL');
       return;
     }
     var instance = urlParse(url);

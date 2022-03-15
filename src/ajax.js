@@ -2,6 +2,7 @@ import xhr from './xhr';
 import isObject from './isObject';
 import extend from './extend';
 import each from './each';
+import logger from './logger';
 
 /** Ajax 请求成功回调
  * @callback ajaxSuccessCallback
@@ -87,7 +88,7 @@ export default function ajax(para) {
         g.abort();
       }
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
 
     //如果 g.abort 未生效，手动执行 error
@@ -177,7 +178,7 @@ export default function ajax(para) {
       }
     }
   } catch (e) {
-    console.log(e);
+    logger.log(e);
   }
 
   g.send(para.data || null);

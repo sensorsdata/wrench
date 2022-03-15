@@ -1,4 +1,5 @@
 import _URL from './URL';
+import logger from './logger';
 
 /** 获取指定 url 的域名
  * 
@@ -17,7 +18,7 @@ export default function getHostname(url, defaultValue) {
   try {
     hostname = _URL(url).hostname;
   } catch (e) {
-    console.log('getHostname传入的url参数不合法！');
+    logger.log('getHostname传入的url参数不合法！');
   }
   return hostname || defaultValue;
 }
