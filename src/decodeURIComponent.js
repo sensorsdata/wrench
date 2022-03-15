@@ -2,9 +2,9 @@
  * @category Bom
  * @param {String} uri 传入的 uri 字符串
  * @returns {String}  解码后的 uri，如果出现异常则返回原始传入值
- * @function _decodeURIComponent
+ * @function decodeURIComponent
  * @example
- * _decodeURIComponent('%2Fhello%E4%B8%96%E7%95%8C') //=> 'hello世界'
+ * decodeURIComponent('%2Fhello%E4%B8%96%E7%95%8C') //=> 'hello世界'
  */
 export default function _decodeURIComponent(uri) {
   var result = uri;

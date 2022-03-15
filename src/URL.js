@@ -33,12 +33,12 @@ import logger from './logger';
  * @returns {URL|URLObject} 一个原生 URL 对象或者普通JS对象( 参见 URLObject)
  *
  * @example
- * var url = _.URL('http://www.domain.com:8080/path/index.html?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese');
+ * var url = URL('http://www.domain.com:8080/path/index.html?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese');
  *
  * url.hostname; // => www.domain.com
  * url.searchParams.get('project'); // => testproject
  * @category Bom
- * @function _URL
+ * @function URL
  */
 export default function _URL(url) {
   var result = {};

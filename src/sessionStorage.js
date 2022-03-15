@@ -3,14 +3,14 @@ import now from './now';
 /** 一个封装了 sessionStorage 的对象 <br>
  * 目前只提供检测是否支持 sessionStorage 的方法
  * @category Bom
- * @exports _sessionStorage
+ * @exports sessionStorage
  */
 var _sessionStorage = {
   /** 检测当前浏览器是否支持 sessionStorage 存储
      * @returns {Boolean} 返回当前浏览器是否支持 sessionStorage 存储
      * @example 
      * // 在支持 sessionStorage 的浏览器中
-     * _sessionStorage.isSupport() //=> true
+     * sessionStorage.isSupport() //=> true
      */
   isSupport: function () {
     var supported = true;

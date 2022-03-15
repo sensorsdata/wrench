@@ -1,6 +1,6 @@
 var logFn;
 
-/** 一个封装了 localStorage 的对象
+/** wrench 库的日志打印模块，可以通过 setup 设置自定义日志打印方式
  * @category Util
  * @exports logger
  */

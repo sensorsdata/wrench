@@ -192,9 +192,9 @@
    * @category Bom
    * @param {String} uri 传入的 uri 字符串
    * @returns {String}  解码后的 uri，如果出现异常则返回原始传入值
-   * @function _decodeURIComponent
+   * @function decodeURIComponent
    * @example
-   * _decodeURIComponent('%2Fhello%E4%B8%96%E7%95%8C') //=> 'hello世界'
+   * decodeURIComponent('%2Fhello%E4%B8%96%E7%95%8C') //=> 'hello世界'
    */
   function _decodeURIComponent(uri) {
     var result = uri;
@@ -265,7 +265,7 @@
 
   var logFn;
 
-  /** 一个封装了 localStorage 的对象
+  /** wrench 库的日志打印模块，可以通过 setup 设置自定义日志打印方式
    * @category Util
    * @exports logger
    */
@@ -432,12 +432,12 @@
    * @returns {URL|URLObject} 一个原生 URL 对象或者普通JS对象( 参见 URLObject)
    *
    * @example
-   * var url = _.URL('http://www.domain.com:8080/path/index.html?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese');
+   * var url = URL('http://www.domain.com:8080/path/index.html?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese');
    *
    * url.hostname; // => www.domain.com
    * url.searchParams.get('project'); // => testproject
    * @category Bom
-   * @function _URL
+   * @function URL
    */
   function _URL(url) {
     var result = {};
@@ -1426,53 +1426,6 @@
     }
   }
 
-  /** 获取指定域名的顶级域名， 例如在 a.example.com 中调用该方法，将返回 example.com
-   * 
-   * @param {String} ?hostname 指定域名，缺省值为当前域名
-   * @param {String} ?testFlag 指定 cookie 测试方法，获取顶层域名的原理是通过不断尝试在当前域名的上一层域名进行 cookie 读写测试，
-   * 来确定最终可以安全读写 cookie 的顶层域名，testFlag 为这个测试 cookie 的名字，如果不填写，将使用 sensorsdata_domain_test 作为 testFlag
-   * @returns {String} 指定域名的顶级域名
-   * @function getCookieTopLevelDomain
-   * @category Bom
-   * 
-   * @example
-   * // 在 www.example.com 域名下
-   * getCookieTopLevelDomai() //=> example.com
-   */
-  function getCookieTopLevelDomain(hostname, testFlag) {
-    hostname = hostname || location.hostname;
-    testFlag = testFlag || 'sensorsdata_domain_test';
-    function validHostname(value) {
-      if (value) {
-        return value;
-      } else {
-        return false;
-      }
-    }
-    var new_hostname = validHostname(hostname);
-    if (!new_hostname) {
-      return '';
-    }
-    var splitResult = new_hostname.split('.');
-    if (isArray(splitResult) && splitResult.length >= 2 && !/^(\d+\.)+\d+$/.test(new_hostname)) {
-      var domainStr = '.' + splitResult.splice(splitResult.length - 1, 1);
-      while (splitResult.length > 0) {
-        domainStr = '.' + splitResult.splice(splitResult.length - 1, 1) + domainStr;
-        document.cookie = testFlag + '=true; path=/; domain=' + domainStr;
-
-        if (document.cookie.indexOf(testFlag + '=true') !== -1) {
-          var now = new Date();
-          now.setTime(now.getTime() - 1000);
-
-          document.cookie = testFlag + '=true; expires=' + now.toGMTString() + '; path=/; domain=' + domainStr;
-
-          return domainStr;
-        }
-      }
-    }
-    return '';
-  }
-
   /** 获取当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
    * @category Util
    * @function now
@@ -1508,7 +1461,7 @@
           c = c.substring(1, c.length);
         }
         if (c.indexOf(nameEQ) == 0) {
-          return decodeURIComponent(c.substring(nameEQ.length, c.length));
+          return _decodeURIComponent(c.substring(nameEQ.length, c.length));
         }
       }
       return null;
@@ -1523,25 +1476,18 @@
      * b.example.com 也能读取 a.example 的 cookie，达成 cookie 共享
      * @param {String} cookie_samesite 是否允许跨站请求携带 cookie，可选值有 Lax，Strict，None
      * @param {Boolean} is_secure 是否允许 http 请求携带 cookie，设置为 true 后 cookie 只能通过 https 发送
+     * @param {String} domain 设置 cookie 存储的 domain 值
      * 
      * @example 
      * cookie.set('key2','value2',10,true,true,true)
      * cookie.get('key2');//=> value2
      */
-    set: function (name, value, days, cross_subdomain, cookie_samesite, is_secure) {
-      var cdomain = '',
+    set: function (name, value, days, cross_subdomain, cookie_samesite, is_secure, domain) {
+      var cdomain = domain,
         expires = '',
         secure = '',
         samesite = '';
       days = days == null ? 73000 : days;
-
-      if (cross_subdomain) {
-        var domain = getCookieTopLevelDomain();
-        if (domain === 'url解析失败') {
-          domain = '';
-        }
-        cdomain = domain ? '; domain=' + domain : '';
-      }
 
       // 0 session
       // -1 马上过期
@@ -1659,7 +1605,7 @@
    * @category Bom
    * @param {String} uri 传入的 uri 字符串
    * @returns {String} 解码后的 uri，如果出现异常则返回原始传入值
-   * @function _decodeURI
+   * @function decodeURI
    * @example
    * decodeURI('/hello%E4%B8%96%E7%95%8C') //=> '/hello世界'
    */
@@ -1877,6 +1823,53 @@
     } catch (e) {
       return JSON.stringify(obj);
     }
+  }
+
+  /** 获取指定域名的顶级域名， 例如在 a.example.com 中调用该方法，将返回 example.com
+   * 
+   * @param {String} ?hostname 指定域名，缺省值为当前域名
+   * @param {String} ?testFlag 指定 cookie 测试方法，获取顶层域名的原理是通过不断尝试在当前域名的上一层域名进行 cookie 读写测试，
+   * 来确定最终可以安全读写 cookie 的顶层域名，testFlag 为这个测试 cookie 的名字，如果不填写，将使用 sensorsdata_domain_test 作为 testFlag
+   * @returns {String} 指定域名的顶级域名
+   * @function getCookieTopLevelDomain
+   * @category Bom
+   * 
+   * @example
+   * // 在 www.example.com 域名下
+   * getCookieTopLevelDomai() //=> example.com
+   */
+  function getCookieTopLevelDomain(hostname, testFlag) {
+    hostname = hostname || location.hostname;
+    testFlag = testFlag || 'domain_test';
+    function validHostname(value) {
+      if (value) {
+        return value;
+      } else {
+        return false;
+      }
+    }
+    var new_hostname = validHostname(hostname);
+    if (!new_hostname) {
+      return '';
+    }
+    var splitResult = new_hostname.split('.');
+    if (isArray(splitResult) && splitResult.length >= 2 && !/^(\d+\.)+\d+$/.test(new_hostname)) {
+      var domainStr = '.' + splitResult.splice(splitResult.length - 1, 1);
+      while (splitResult.length > 0) {
+        domainStr = '.' + splitResult.splice(splitResult.length - 1, 1) + domainStr;
+        document.cookie = testFlag + '=true; path=/; domain=' + domainStr;
+
+        if (document.cookie.indexOf(testFlag + '=true') !== -1) {
+          var nowDate = new Date();
+          nowDate.setTime(nowDate.getTime() - 1000);
+
+          document.cookie = testFlag + '=true; expires=' + nowDate.toGMTString() + '; path=/; SameSite=Lax; domain=' + domainStr;
+
+          return domainStr;
+        }
+      }
+    }
+    return '';
   }
 
   /** 通过选择器获取 dom 元素
@@ -2789,7 +2782,7 @@
 
   /** 一个封装了 localStorage 的对象
    * @category Bom
-   * @exports _localStorage
+   * @exports localStorage
    */
   var _localStorage = {
     /** 获取 localStorage 值
@@ -2797,8 +2790,8 @@
      * @param {String} key 传入存储值的键 key
      * @returns {String} 返回值
      * @example
-     * _localStorage.set('key1','value1');
-     * _localStorage.get('key1'); //=> value1
+     * localStorage.set('key1','value1');
+     * localStorage.get('key1'); //=> value1
      */
     get: function (key) {
       return window.localStorage.getItem(key);
@@ -2808,8 +2801,8 @@
      * @param {String} key 传入存储值的键 key
      * @returns {Object} 返回值
      * @example
-     * _localStorage.set('key2',JSON.stringify({a:1}));
-     * _localStorage.parse('key2'); //=> {a:1}
+     * localStorage.set('key2',JSON.stringify({a:1}));
+     * localStorage.parse('key2'); //=> {a:1}
      */
     parse: function (key) {
       var storedValue;
@@ -2825,8 +2818,8 @@
      * @param {String} key 传入存储值的键 key
      * @param {String} value 传入存储值的值 value
      * @example
-     *  _localStorage.set('key1','value1');
-     *  _localStorage.get('key1'); //=> value1
+     *  localStorage.set('key1','value1');
+     *  localStorage.get('key1'); //=> value1
      */
     set: function (key, value) {
       window.localStorage.setItem(key, value);
@@ -2835,8 +2828,8 @@
      * 
      * @param {*} key 传入存储值的键 key
      * @example
-     * _localStorage.remove('key2');
-     * _localStorage.get('key2') //=> null
+     * localStorage.remove('key2');
+     * localStorage.get('key2') //=> null
      */
     remove: function (key) {
       window.localStorage.removeItem(key);
@@ -2846,7 +2839,7 @@
      * @returns {Boolean} 返回当前浏览器是否支持 localStorage 存储
      * @example
      * // 在支持 localStorage 的浏览器中
-     * _localStorage.isSupport() //=> true
+     * localStorage.isSupport() //=> true
      */
     isSupport: function () {
       var supported = true;
@@ -2975,14 +2968,14 @@
   /** 一个封装了 sessionStorage 的对象 <br>
    * 目前只提供检测是否支持 sessionStorage 的方法
    * @category Bom
-   * @exports _sessionStorage
+   * @exports sessionStorage
    */
   var _sessionStorage = {
     /** 检测当前浏览器是否支持 sessionStorage 存储
        * @returns {Boolean} 返回当前浏览器是否支持 sessionStorage 存储
        * @example 
        * // 在支持 sessionStorage 的浏览器中
-       * _sessionStorage.isSupport() //=> true
+       * sessionStorage.isSupport() //=> true
        */
     isSupport: function () {
       var supported = true;

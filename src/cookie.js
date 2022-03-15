@@ -1,6 +1,6 @@
 import isString from './isString';
-import getCookieTopLevelDomain from './getCookieTopLevelDomain';
 import now from './now';
+import _decodeURIComponent from './decodeURIComponent';
 /** 获取和设置 cookie 的模块
  * @category Bom
  * @exports cookie
@@ -23,7 +23,7 @@ export default {
         c = c.substring(1, c.length);
       }
       if (c.indexOf(nameEQ) == 0) {
-        return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        return _decodeURIComponent(c.substring(nameEQ.length, c.length));
       }
     }
     return null;
@@ -38,25 +38,18 @@ export default {
    * b.example.com 也能读取 a.example 的 cookie，达成 cookie 共享
    * @param {String} cookie_samesite 是否允许跨站请求携带 cookie，可选值有 Lax，Strict，None
    * @param {Boolean} is_secure 是否允许 http 请求携带 cookie，设置为 true 后 cookie 只能通过 https 发送
+   * @param {String} domain 设置 cookie 存储的 domain 值
    * 
    * @example 
    * cookie.set('key2','value2',10,true,true,true)
    * cookie.get('key2');//=> value2
    */
-  set: function (name, value, days, cross_subdomain, cookie_samesite, is_secure) {
-    var cdomain = '',
+  set: function (name, value, days, cross_subdomain, cookie_samesite, is_secure, domain) {
+    var cdomain = domain,
       expires = '',
       secure = '',
       samesite = '';
     days = days == null ? 73000 : days;
-
-    if (cross_subdomain) {
-      var domain = getCookieTopLevelDomain();
-      if (domain === 'url解析失败') {
-        domain = '';
-      }
-      cdomain = domain ? '; domain=' + domain : '';
-    }
 
     // 0 session
     // -1 马上过期
