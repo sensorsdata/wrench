@@ -1,7 +1,7 @@
 import test from 'tape';
 import extend2Lev from '../src/extend2Lev';
 
-var a = {
+var obj = {
   name: 'Alice',
   age: 18,
   address: {
@@ -10,7 +10,7 @@ var a = {
   },
 };
 
-var b = {
+var source1 = {
   name: 'Bob',
   favor: 'Apple',
   address: {
@@ -18,7 +18,7 @@ var b = {
   },
 };
 
-var c = {
+var source2 = {
   name: 'Bob',
   favor: 'Apple',
   test: undefined,
@@ -38,10 +38,10 @@ var target = {
 };
 
 test('test extend2Lev function', (t) => {
-  var val = extend2Lev(a, b);
+  var val = extend2Lev(obj, source1);
   t.deepEqual(val, target, 'when call extend2Lev(obj, source), then it returns target');
   
-  val = extend2Lev(a, c);
+  val = extend2Lev(obj, source2);
   t.deepEqual(val, target, 'when call extend2Lev(obj, source) and source has an attribute whose value is undefined, then it returns target');
   t.end();
 });
