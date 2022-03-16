@@ -1,5 +1,3 @@
-import now from './now';
-
 /** 一个封装了 sessionStorage 的对象 <br>
  * 目前只提供检测是否支持 sessionStorage 的方法
  * @category Bom
@@ -14,7 +12,7 @@ var _sessionStorage = {
      */
   isSupport: function () {
     var supported = true;
-    var supportName = '__session_storage_support__' + now();
+    var supportName = '__session_storage_support__';
     var val = 'testIsSupportStorage';
     try {
       if (sessionStorage && sessionStorage.setItem) {

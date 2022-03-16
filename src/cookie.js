@@ -1,5 +1,4 @@
 import isString from './isString';
-import now from './now';
 import _decodeURIComponent from './decodeURIComponent';
 /** 获取和设置 cookie 的模块
  * @category Bom
@@ -115,7 +114,7 @@ export default {
    * cookie.isSupport('a','1') // => true / false
    */
   isSupport: function (testKey, testValue) {
-    testKey = testKey || 'cookie' + now();
+    testKey = testKey || 'cookie_support_test';
     testValue = testValue || '1';
     var self = this;
     function accessNormal() {

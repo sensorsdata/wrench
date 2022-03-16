@@ -1,4 +1,3 @@
-import now from './now';
 import logger from './logger';
 
 /** 一个封装了 localStorage 的对象
@@ -65,7 +64,7 @@ var _localStorage = {
   isSupport: function () {
     var supported = true;
     try {
-      var supportName = '__local_store_support__' + now();
+      var supportName = '__local_store_support__';
       var val = 'testIsSupportStorage';
       _localStorage.set(supportName, val);
       if (_localStorage.get(supportName) !== val) {
