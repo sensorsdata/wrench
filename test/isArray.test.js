@@ -1,16 +1,20 @@
 import test from 'tape';
 import isArray from '../src/isArray';
 
-const arr = [];
-const obj = {};
+const testCases = [
+  { input: [1, 2, 3], expect: true },
+  { input: {}, expect: false },
+  { input: undefined, expect: false },
+  { input: null, expect: false },
+  { input: 666, expect: false },
+  { input: '666', expect: false },
+];
 
 test('test isArray function', (t) => {
-  // 支持 Array.isArray 的情况
-  var val = isArray(arr);
-  t.equal(val, true, 'when call isArray([]), then it returns true');
-
-  val = isArray(obj);
-  t.equal(val, false, 'when call isArray({}), then it returns false');
+  testCases.forEach((testCase) => {
+    const val = isArray(testCase.input);
+    t.equal(val, testCase.expect, `when call isArray(${JSON.stringify(testCase.input)}), then it returns ${testCase.expect}`);
+  });
 
   t.end();
 });

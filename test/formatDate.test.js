@@ -1,11 +1,20 @@
 import test from 'tape';
 import formatDate from '../src/formatDate';
 
+const testCases = [
+  { input: new Date('2020-2-2 8:0:12'), expect: '2020-02-02 08:00:12.00' },
+];
+
 test('test formatDate function', (t) => {
-  t.equal(
-    formatDate(new Date('2020-2-2 8:0:12')),
-    '2020-02-02 08:00:12.00',
-    'when call formatDate(new Date("2020-2-2 8:0:12")), then it returns "2020-02-02 08:00:12.00"'
-  );
+  testCases.forEach((testCase) => {
+    const val = formatDate(testCase.input);
+    t.equal(
+      val,
+      testCase.expect,
+      `when call formatDate(${testCase.input.toString()}), then it returns ${
+        testCase.expect
+      }`
+    );
+  });
   t.end();
 });

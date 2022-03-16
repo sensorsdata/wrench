@@ -1,11 +1,11 @@
 import test from 'tape';
 import coverExtend from '../src/coverExtend';
 
-const a = {
+const obj = {
   name: 'Alice',
   age: 18,
 };
-const b = {
+const source = {
   name: 'Bob',
   favor: 'Apple',
 };
@@ -16,11 +16,7 @@ const target = {
 };
 
 test('test coverExtend function', (t) => {
-  var val = coverExtend(a, b);
-  t.deepEqual(
-    val,
-    target,
-    'when call coverExtend(obj, source), then it returns target'
-  );
+  var val = coverExtend(obj, source);
+  t.deepEqual(val, target, 'when call coverExtend(obj, source), then it returns target');
   t.end();
 });
