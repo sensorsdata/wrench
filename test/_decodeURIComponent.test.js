@@ -17,6 +17,7 @@ test('test _decodeURIComponent function', (t) => {
   
   val = _decodeURIComponent(str);
   t.equal(val, str, `when call  _decodeURIComponent("${str}") exception happens,then return original input ${str}`);
-
+  
+  sinon.restore();
   t.end();
 });
