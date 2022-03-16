@@ -5,7 +5,7 @@
  * @function hashCode 
  * 
  * @example
- * hasdCode('hell world') //=> 1794106052
+ * hasdCode('hello world') //=> 1794106052
  */
 export default function hashCode(str) {
   if (typeof str !== 'string') {

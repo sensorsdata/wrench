@@ -2161,7 +2161,7 @@ function hasAttributes(ele, attrNames) {
  * @function hashCode 
  * 
  * @example
- * hasdCode('hell world') //=> 1794106052
+ * hasdCode('hello world') //=> 1794106052
  */
 function hashCode(str) {
   if (typeof str !== 'string') {

@@ -3,12 +3,20 @@ import isObject from '../src/isObject';
 
 const testCases = [
   { input: null, expect: false },
-  { input: {test: 2}, expect: true },
+  { input: undefined, expect: false },
+  { input: [], expect: false },
+  { input: 123, expect: false },
+  { input: new Date(), expect: false },
+  { input: new RegExp(/^[0-9]*$/), expect: false },
+  // { input: { test: 2 }, expect: true },
 ];
 
 test('test isObject function', (t) => {
+  var val = isObject({ test: 2 });
+  t.equal(val, true, 'when call isObject({ test: 2 }), then it returns true');
+
   testCases.forEach((testCase) => {
-    const val = isObject(testCase.input);
+    val = isObject(testCase.input);
     t.deepEqual(
       val,
       testCase.expect,

@@ -17,11 +17,14 @@ const testCases = [
   { input: {}, expect: true },
   { input: 1, expect: false },
   { input: instance, expect: true },
+  { input: [], expect: false },
+  { input: null, expect: false },
+  { input: undefined, expect: false },
+  { input: true, expect: false },
 ];
 
 test('test isEmptyObject function', (t) => {
   testCases.forEach((testCase) => {
-    console.log(testCase);
     const val = isEmptyObject(testCase.input);
     t.equal(
       val,
