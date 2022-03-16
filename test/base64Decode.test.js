@@ -4,9 +4,7 @@ import base64Decode from '../src/base64Decode';
 
 // base64Decode('aGVsbG/kuJbnlYw=')//=> 'hello世界'
 test('test base64Decode function', (t) => {
-  global.atob = function () {
-    return true;
-  };
+  global.atob = function () { };
 
   var stub = sinon.stub(global, 'atob');
   stub.withArgs('UlVOT09C').returns('RUNOOB');
@@ -26,11 +24,11 @@ test('test base64Decode function', (t) => {
 
   // atob functional，decodeURIComponent disfunctional
   stub.withArgs('UlVOT09C').returns('RUNOOB');
-  var stub2 = sinon.stub(global, 'decodeURIComponent').throws('some expection');
+  sinon.stub(global, 'decodeURIComponent').throws('some expection');
   val = base64Decode('UlVOT09C');
   t.equal(val, '', 'call base64Decode("UlVOT09C") when exception happens to decodeURIComponent function, then it returns ""');
 
-  stub2.restore();
   sinon.restore();
+  delete global.atob;
   t.end();
 });
