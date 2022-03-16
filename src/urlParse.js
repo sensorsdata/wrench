@@ -31,7 +31,6 @@ export default function urlParse(url) {
       Fragment: 10
     };
     this._values = {};
-    this._regex = null;
     //eslint-disable-next-line
     this._regex = /^((\w+):\/\/)?((\w+):?(\w+)?@)?([^\/\?:]+):?(\d+)?(\/?[^\?#]+)?\??([^#]+)?#?(\w*)/;
 

@@ -320,7 +320,6 @@ function urlParse(url) {
       Fragment: 10
     };
     this._values = {};
-    this._regex = null;
     //eslint-disable-next-line
     this._regex = /^((\w+):\/\/)?((\w+):?(\w+)?@)?([^\/\?:]+):?(\d+)?(\/?[^\?#]+)?\??([^#]+)?#?(\w*)/;
 
@@ -492,6 +491,142 @@ function _URL(url) {
   }
   return result;
 }
+
+/** 检测传入参数是否是对象类型
+ * @category Util
+ * @param {*} arg 传入参数
+ * @returns {Boolean} 是否是对象类型
+ * @function isObject
+ * @example 
+ * isObject({}) //=> true
+ * isObject(1) //=> false
+ */
+function isObject(arg) {
+  if (arg == null) {
+    return false;
+  } else {
+    return toString.call(arg) == '[object Object]';
+  }
+}
+
+/** 获取指定数字范围内的随随机数
+ * @param {Number} max 随机数最大值
+ * @category Math
+ * @function getRandomBasic
+ * @return 指定数字范围内的随机数
+ * 
+ * @example
+ * getRandomBasic(100) //=> 85
+ */
+var getRandomBasic = (function () {
+  var today = new Date();
+  var seed = today.getTime();
+  function rnd() {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280.0;
+  }
+  return function rand(number) {
+    return Math.ceil(rnd() * number);
+  };
+})();
+
+/** 安全的 js 随机数生成方式,返回与原生 Math.random 类似的 0-1 的随机数值
+ * @function getRandom
+ * @category Math
+ * @returns {Number} 一个介于 0 -1 的数字
+ * 
+ * @example 
+ * getRandom() //=> 0.8368784293552812
+ */
+function getRandom() {
+  if (typeof Uint32Array === 'function') {
+    var cry = '';
+    if (typeof crypto !== 'undefined') {
+      cry = crypto;
+    } else if (typeof msCrypto !== 'undefined') {
+      // eslint-disable-next-line no-undef
+      cry = msCrypto;
+    }
+    if (isObject(cry) && cry.getRandomValues) {
+      var typedArray = new Uint32Array(1);
+      var randomNumber = cry.getRandomValues(typedArray)[0];
+      var integerLimit = Math.pow(2, 32);
+      return randomNumber / integerLimit;
+    }
+  }
+  return getRandomBasic(10000000000000000000) / 10000000000000000000;
+}
+
+/** 浏览器环境的生成唯一 ID 的算法
+ * @function UUID
+ * @category Util
+ * @returns {String} 唯一 ID
+ * @example
+ * UUID() //=> '17f44206897991-078fdaeab826c4c-37677a09-3686400-17f44206898caa'
+ */
+
+var UUID = (function () {
+  var T = function () {
+    var d = 1 * new Date(),
+      i = 0;
+    while (d == 1 * new Date()) {
+      i++;
+    }
+    return d.toString(16) + i.toString(16);
+  };
+  var R = function () {
+    return getRandom().toString(16).replace('.', '');
+  };
+  var UA = function () {
+    var ua = navigator.userAgent,
+      i,
+      ch,
+      buffer = [],
+      ret = 0;
+
+    function xor(result, byte_array) {
+      var j,
+        tmp = 0;
+      for (j = 0; j < byte_array.length; j++) {
+        tmp |= buffer[j] << (j * 8);
+      }
+      return result ^ tmp;
+    }
+
+    for (i = 0; i < ua.length; i++) {
+      ch = ua.charCodeAt(i);
+      buffer.unshift(ch & 0xff);
+      if (buffer.length >= 4) {
+        ret = xor(ret, buffer);
+        buffer = [];
+      }
+    }
+
+    if (buffer.length > 0) {
+      ret = xor(ret, buffer);
+    }
+
+    return ret.toString(16);
+  };
+
+  return function () {
+    // 有些浏览器取个屏幕宽度都异常...
+    var se = String(screen.height * screen.width);
+    if (se && /\d{5,}/.test(se)) {
+      se = se.toString(16);
+    } else {
+      se = String(getRandom() * 31242)
+        .replace('.', '')
+        .slice(0, 8);
+    }
+    var val = T() + '-' + R() + '-' + UA() + '-' + se + '-' + T();
+    if (val) {
+      return val;
+    } else {
+      return (String(getRandom()) + String(getRandom()) + String(getRandom())).slice(2, 15);
+    }
+  };
+})();
 
 /** 检测传入参数是否一个 Dom 元素
  * 
@@ -856,23 +991,6 @@ function xhr(cors) {
         }
       }
     }
-  }
-}
-
-/** 检测传入参数是否是对象类型
- * @category Util
- * @param {*} arg 传入参数
- * @returns {Boolean} 是否是对象类型
- * @function isObject
- * @example 
- * isObject({}) //=> true
- * isObject(1) //=> false
- */
-function isObject(arg) {
-  if (arg == null) {
-    return false;
-  } else {
-    return toString.call(arg) == '[object Object]';
   }
 }
 
@@ -1301,19 +1419,6 @@ function bindReady(fn, win) {
   }
 }
 
-/** 获取当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
- * @category Util
- * @function now
- * @returns {Number} 返回当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
- * @example 
- * now() // 1646122486530
- */
-var now =
-  Date.now ||
-  function () {
-    return new Date().getTime();
-  };
-
 /** 获取和设置 cookie 的模块
  * @category Bom
  * @exports cookie
@@ -1428,7 +1533,7 @@ var cookie = {
    * cookie.isSupport('a','1') // => true / false
    */
   isSupport: function (testKey, testValue) {
-    testKey = testKey || 'cookie' + now();
+    testKey = testKey || 'cookie_support_test';
     testValue = testValue || '1';
     var self = this;
     function accessNormal() {
@@ -1704,7 +1809,7 @@ function formatJsonString(obj) {
  * 
  * @param {String} ?hostname 指定域名，缺省值为当前域名
  * @param {String} ?testFlag 指定 cookie 测试方法，获取顶层域名的原理是通过不断尝试在当前域名的上一层域名进行 cookie 读写测试，
- * 来确定最终可以安全读写 cookie 的顶层域名，testFlag 为这个测试 cookie 的名字，如果不填写，将使用 sensorsdata_domain_test 作为 testFlag
+ * 来确定最终可以安全读写 cookie 的顶层域名，testFlag 为这个测试 cookie 的名字，如果不填写，将使用 domain_test 作为 testFlag
  * @returns {String} 指定域名的顶级域名
  * @function getCookieTopLevelDomain
  * @category Bom
@@ -1954,54 +2059,6 @@ function getQueryParamsFromUrl(url) {
     result = getURLSearchParams('?' + queryString);
   }
   return result;
-}
-
-/** 获取指定数字范围内的随随机数
- * @param {Number} max 随机数最大值
- * @category Math
- * @function getRandomBasic
- * @return 指定数字范围内的随机数
- * 
- * @example
- * getRandomBasic(100) //=> 85
- */
-var getRandomBasic = (function () {
-  var today = new Date();
-  var seed = today.getTime();
-  function rnd() {
-    seed = (seed * 9301 + 49297) % 233280;
-    return seed / 233280.0;
-  }
-  return function rand(number) {
-    return Math.ceil(rnd() * number);
-  };
-})();
-
-/** 安全的 js 随机数生成方式,返回与原生 Math.random 类似的 0-1 的随机数值
- * @function getRandom
- * @category Math
- * @returns {Number} 一个介于 0 -1 的数字
- * 
- * @example 
- * getRandom() //=> 0.8368784293552812
- */
-function getRandom() {
-  if (typeof Uint32Array === 'function') {
-    var cry = '';
-    if (typeof crypto !== 'undefined') {
-      cry = crypto;
-    } else if (typeof msCrypto !== 'undefined') {
-      // eslint-disable-next-line no-undef
-      cry = msCrypto;
-    }
-    if (isObject(cry) && cry.getRandomValues) {
-      var typedArray = new Uint32Array(1);
-      var randomNumber = cry.getRandomValues(typedArray)[0];
-      var integerLimit = Math.pow(2, 32);
-      return randomNumber / integerLimit;
-    }
-  }
-  return getRandomBasic(10000000000000000000) / 10000000000000000000;
 }
 
 /** 检测是否支持媒体查询
@@ -2767,7 +2824,7 @@ var _localStorage = {
   isSupport: function () {
     var supported = true;
     try {
-      var supportName = '__local_store_support__' + now();
+      var supportName = '__local_store_support__';
       var val = 'testIsSupportStorage';
       _localStorage.set(supportName, val);
       if (_localStorage.get(supportName) !== val) {
@@ -2780,6 +2837,19 @@ var _localStorage = {
     return supported;
   }
 };
+
+/** 获取当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
+ * @category Util
+ * @function now
+ * @returns {Number} 返回当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
+ * @example 
+ * now() // 1646122486530
+ */
+var now =
+  Date.now ||
+  function () {
+    return new Date().getTime();
+  };
 
 /** 删除传入字符串开头的 'javascript'
  * 
@@ -2902,7 +2972,7 @@ var _sessionStorage = {
      */
   isSupport: function () {
     var supported = true;
-    var supportName = '__session_storage_support__' + now();
+    var supportName = '__session_storage_support__';
     var val = 'testIsSupportStorage';
     try {
       if (sessionStorage && sessionStorage.setItem) {
@@ -3175,75 +3245,4 @@ var urlSafeBase64 = {
   }
 };
 
-/** 浏览器环境的生成唯一 ID 的算法
- * @function UUID
- * @category Util
- * @returns {String} 唯一 ID
- * @example
- * UUID() //=> '17f44206897991-078fdaeab826c4c-37677a09-3686400-17f44206898caa'
- */
-
-var UUID = (function () {
-  var T = function () {
-    var d = 1 * new Date(),
-      i = 0;
-    while (d == 1 * new Date()) {
-      i++;
-    }
-    return d.toString(16) + i.toString(16);
-  };
-  var R = function () {
-    return getRandom().toString(16).replace('.', '');
-  };
-  var UA = function () {
-    var ua = navigator.userAgent,
-      i,
-      ch,
-      buffer = [],
-      ret = 0;
-
-    function xor(result, byte_array) {
-      var j,
-        tmp = 0;
-      for (j = 0; j < byte_array.length; j++) {
-        tmp |= buffer[j] << (j * 8);
-      }
-      return result ^ tmp;
-    }
-
-    for (i = 0; i < ua.length; i++) {
-      ch = ua.charCodeAt(i);
-      buffer.unshift(ch & 0xff);
-      if (buffer.length >= 4) {
-        ret = xor(ret, buffer);
-        buffer = [];
-      }
-    }
-
-    if (buffer.length > 0) {
-      ret = xor(ret, buffer);
-    }
-
-    return ret.toString(16);
-  };
-
-  return function () {
-    // 有些浏览器取个屏幕宽度都异常...
-    var se = String(screen.height * screen.width);
-    if (se && /\d{5,}/.test(se)) {
-      se = se.toString(16);
-    } else {
-      se = String(getRandom() * 31242)
-        .replace('.', '')
-        .slice(0, 8);
-    }
-    var val = T() + '-' + R() + '-' + UA() + '-' + se + '-' + T();
-    if (val) {
-      return val;
-    } else {
-      return (String(getRandom()) + String(getRandom()) + String(getRandom())).slice(2, 15);
-    }
-  };
-})();
-
-export { EventEmitter, _URL as URL, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, logger, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, UUID as uuid, values, xhr };
+export { EventEmitter, _URL as URL, UUID, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, logger, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, values, xhr };

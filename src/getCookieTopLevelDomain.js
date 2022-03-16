@@ -4,7 +4,7 @@ import isArray from './isArray';
  * 
  * @param {String} ?hostname 指定域名，缺省值为当前域名
  * @param {String} ?testFlag 指定 cookie 测试方法，获取顶层域名的原理是通过不断尝试在当前域名的上一层域名进行 cookie 读写测试，
- * 来确定最终可以安全读写 cookie 的顶层域名，testFlag 为这个测试 cookie 的名字，如果不填写，将使用 sensorsdata_domain_test 作为 testFlag
+ * 来确定最终可以安全读写 cookie 的顶层域名，testFlag 为这个测试 cookie 的名字，如果不填写，将使用 domain_test 作为 testFlag
  * @returns {String} 指定域名的顶级域名
  * @function getCookieTopLevelDomain
  * @category Bom
