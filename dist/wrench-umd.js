@@ -882,7 +882,6 @@
   }
 
   var nativeForEach = Array.prototype.forEach;
-  var breaker = {};
 
   /** 迭代器回调
    * @callback iteratorCallback
@@ -897,13 +896,13 @@
    * @param {Object} context 迭代器方法的执行上下文
    * @category Array
    * @function each
-   * 
+   *
    * @example
    * each([1,2,3],function(v,i,arr){console.log(v,i,arr)})
    * //1,0,[1, 2, 3]
    * //2,1,[1, 2, 3]
    * //3,2,[1, 2, 3]
-   * 
+   *
    */
   function each(obj, iterator, context) {
     if (obj == null) {
@@ -913,16 +912,12 @@
       obj.forEach(iterator, context);
     } else if (isArray(obj) && obj.length === +obj.length) {
       for (var i = 0, l = obj.length; i < l; i++) {
-        if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) {
-          return false;
-        }
+        i in obj && iterator.call(context, obj[i], i, obj);
       }
     } else {
       for (var key in obj) {
         if (hasOwnProperty.call(obj, key)) {
-          if (iterator.call(context, obj[key], key, obj) === breaker) {
-            return false;
-          }
+          iterator.call(context, obj[key], key, obj);
         }
       }
     }
