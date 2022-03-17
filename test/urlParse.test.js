@@ -6,7 +6,7 @@ test('test urlParse function', t => {
   const testParseCases = [
     {
       url: 'https://alice:a12345@www.example.com:8080/category?a=1&b=2&c=3#hello',
-      fileds: {
+      fields: {
         Username: 'alice',
         Password: 'a12345',
         Port: '8080',
@@ -20,7 +20,7 @@ test('test urlParse function', t => {
     },
     {
       url: 'https://www.example.com/category#haha?a=1&b=2&c=3#hello',
-      fileds: {
+      fields: {
         Port: '',
         Origin: 'https://www.example.com',
         Protocol: 'https',
@@ -32,7 +32,7 @@ test('test urlParse function', t => {
     },
     {
       url: 'https://example.com?a=1&b=2&c=3#hello',
-      fileds: {
+      fields: {
         Port: '',
         Origin: 'https://example.com',
         Protocol: 'https',
@@ -44,7 +44,7 @@ test('test urlParse function', t => {
     },
     {
       url: 'https://example.com#hello',
-      fileds: {
+      fields: {
         Port: '',
         Origin: 'https://example.com',
         Protocol: 'https',
@@ -56,7 +56,7 @@ test('test urlParse function', t => {
     },
     {
       url: 'https://example.com',
-      fileds: {
+      fields: {
         Port: '',
         Origin: 'https://example.com',
         Protocol: 'https',
@@ -70,8 +70,8 @@ test('test urlParse function', t => {
 
   testParseCases.forEach(testCase => {
     let urlobj = urlParse(testCase.url);
-    for (let i in testCase.fileds) {
-      t.equal(urlobj._values[i], testCase.fileds[i], `when call urlParse(${testCase.url}), then ${i} is as expected.`);
+    for (let i in testCase.fields) {
+      t.equal(urlobj._values[i], testCase.fields[i], `when call urlParse(${testCase.url}), then ${i} is as expected.`);
     }
   });
 
