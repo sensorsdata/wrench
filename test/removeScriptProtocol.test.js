@@ -19,7 +19,7 @@ test('test removeScriptProtocol function', (t) => {
       testCase.expect,
       `when call removeScriptProtocol(${JSON.stringify(
         testCase.input
-      )}), then it returns ${testCase.expect}`
+      )}), then it returns ${JSON.stringify(testCase.expect)}`
     );
   });
   t.end();
