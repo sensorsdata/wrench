@@ -1029,7 +1029,7 @@
     }
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
-    } else if (isArray(obj) && obj.length === +obj.length) {
+    } else if (isArray(obj)) {
       for (var i = 0, l = obj.length; i < l; i++) {
         i in obj && iterator.call(context, obj[i], i, obj);
       }
