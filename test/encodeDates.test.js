@@ -24,7 +24,7 @@ const testCases = [
   },
 ];
 
-test('test map encodeDates', (t) => {
+test('test encodeDates function', (t) => {
   testCases.forEach((testCase) => {
     const val = encodeDates(testCase.input);
     t.deepEqual(

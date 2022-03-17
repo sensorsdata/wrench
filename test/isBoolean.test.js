@@ -8,6 +8,7 @@ const testCases = [
   { input: undefined, expect: false },
   { input: null, expect: false },
   { input: {}, expect: false },
+  { input: [], expect: false },
 ];
 
 test('test isBoolean function', (t) => {
