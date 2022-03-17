@@ -498,6 +498,142 @@
     return result;
   }
 
+  /** 检测传入参数是否是对象类型
+   * @category Util
+   * @param {*} arg 传入参数
+   * @returns {Boolean} 是否是对象类型
+   * @function isObject
+   * @example 
+   * isObject({}) //=> true
+   * isObject(1) //=> false
+   */
+  function isObject(arg) {
+    if (arg == null) {
+      return false;
+    } else {
+      return toString.call(arg) == '[object Object]';
+    }
+  }
+
+  /** 获取指定数字范围内的随随机数
+   * @param {Number} max 随机数最大值
+   * @category Math
+   * @function getRandomBasic
+   * @return 指定数字范围内的随机数
+   * 
+   * @example
+   * getRandomBasic(100) //=> 85
+   */
+  var getRandomBasic = (function () {
+    var today = new Date();
+    var seed = today.getTime();
+    function rnd() {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280.0;
+    }
+    return function rand(number) {
+      return Math.ceil(rnd() * number);
+    };
+  })();
+
+  /** 安全的 js 随机数生成方式,返回与原生 Math.random 类似的 0-1 的随机数值
+   * @function getRandom
+   * @category Math
+   * @returns {Number} 一个介于 0 -1 的数字
+   * 
+   * @example 
+   * getRandom() //=> 0.8368784293552812
+   */
+  function getRandom() {
+    if (typeof Uint32Array === 'function') {
+      var cry = '';
+      if (typeof crypto !== 'undefined') {
+        cry = crypto;
+      } else if (typeof msCrypto !== 'undefined') {
+        // eslint-disable-next-line no-undef
+        cry = msCrypto;
+      }
+      if (isObject(cry) && cry.getRandomValues) {
+        var typedArray = new Uint32Array(1);
+        var randomNumber = cry.getRandomValues(typedArray)[0];
+        var integerLimit = Math.pow(2, 32);
+        return randomNumber / integerLimit;
+      }
+    }
+    return getRandomBasic(10000000000000000000) / 10000000000000000000;
+  }
+
+  /** 浏览器环境的生成唯一 ID 的算法
+   * @function UUID
+   * @category Util
+   * @returns {String} 唯一 ID
+   * @example
+   * UUID() //=> '17f44206897991-078fdaeab826c4c-37677a09-3686400-17f44206898caa'
+   */
+
+  var UUID = (function () {
+    var T = function () {
+      var d = 1 * new Date(),
+        i = 0;
+      while (d == 1 * new Date()) {
+        i++;
+      }
+      return d.toString(16) + i.toString(16);
+    };
+    var R = function () {
+      return getRandom().toString(16).replace('.', '');
+    };
+    var UA = function () {
+      var ua = navigator.userAgent,
+        i,
+        ch,
+        buffer = [],
+        ret = 0;
+
+      function xor(result, byte_array) {
+        var j,
+          tmp = 0;
+        for (j = 0; j < byte_array.length; j++) {
+          tmp |= buffer[j] << (j * 8);
+        }
+        return result ^ tmp;
+      }
+
+      for (i = 0; i < ua.length; i++) {
+        ch = ua.charCodeAt(i);
+        buffer.unshift(ch & 0xff);
+        if (buffer.length >= 4) {
+          ret = xor(ret, buffer);
+          buffer = [];
+        }
+      }
+
+      if (buffer.length > 0) {
+        ret = xor(ret, buffer);
+      }
+
+      return ret.toString(16);
+    };
+
+    return function () {
+      // 有些浏览器取个屏幕宽度都异常...
+      var se = String(screen.height * screen.width);
+      if (se && /\d{5,}/.test(se)) {
+        se = se.toString(16);
+      } else {
+        se = String(getRandom() * 31242)
+          .replace('.', '')
+          .slice(0, 8);
+      }
+      var val = T() + '-' + R() + '-' + UA() + '-' + se + '-' + T();
+      if (val) {
+        return val;
+      } else {
+        return (String(getRandom()) + String(getRandom()) + String(getRandom())).slice(2, 15);
+      }
+    };
+  })();
+
   /** 检测传入参数是否一个 Dom 元素
    * 
    * @param {*} arg 传入参数
@@ -861,23 +997,6 @@
           }
         }
       }
-    }
-  }
-
-  /** 检测传入参数是否是对象类型
-   * @category Util
-   * @param {*} arg 传入参数
-   * @returns {Boolean} 是否是对象类型
-   * @function isObject
-   * @example 
-   * isObject({}) //=> true
-   * isObject(1) //=> false
-   */
-  function isObject(arg) {
-    if (arg == null) {
-      return false;
-    } else {
-      return toString.call(arg) == '[object Object]';
     }
   }
 
@@ -1946,54 +2065,6 @@
       result = getURLSearchParams('?' + queryString);
     }
     return result;
-  }
-
-  /** 获取指定数字范围内的随随机数
-   * @param {Number} max 随机数最大值
-   * @category Math
-   * @function getRandomBasic
-   * @return 指定数字范围内的随机数
-   * 
-   * @example
-   * getRandomBasic(100) //=> 85
-   */
-  var getRandomBasic = (function () {
-    var today = new Date();
-    var seed = today.getTime();
-    function rnd() {
-      seed = (seed * 9301 + 49297) % 233280;
-      return seed / 233280.0;
-    }
-    return function rand(number) {
-      return Math.ceil(rnd() * number);
-    };
-  })();
-
-  /** 安全的 js 随机数生成方式,返回与原生 Math.random 类似的 0-1 的随机数值
-   * @function getRandom
-   * @category Math
-   * @returns {Number} 一个介于 0 -1 的数字
-   * 
-   * @example 
-   * getRandom() //=> 0.8368784293552812
-   */
-  function getRandom() {
-    if (typeof Uint32Array === 'function') {
-      var cry = '';
-      if (typeof crypto !== 'undefined') {
-        cry = crypto;
-      } else if (typeof msCrypto !== 'undefined') {
-        // eslint-disable-next-line no-undef
-        cry = msCrypto;
-      }
-      if (isObject(cry) && cry.getRandomValues) {
-        var typedArray = new Uint32Array(1);
-        var randomNumber = cry.getRandomValues(typedArray)[0];
-        var integerLimit = Math.pow(2, 32);
-        return randomNumber / integerLimit;
-      }
-    }
-    return getRandomBasic(10000000000000000000) / 10000000000000000000;
   }
 
   /** 检测是否支持媒体查询
@@ -3180,79 +3251,9 @@
     }
   };
 
-  /** 浏览器环境的生成唯一 ID 的算法
-   * @function UUID
-   * @category Util
-   * @returns {String} 唯一 ID
-   * @example
-   * UUID() //=> '17f44206897991-078fdaeab826c4c-37677a09-3686400-17f44206898caa'
-   */
-
-  var UUID = (function () {
-    var T = function () {
-      var d = 1 * new Date(),
-        i = 0;
-      while (d == 1 * new Date()) {
-        i++;
-      }
-      return d.toString(16) + i.toString(16);
-    };
-    var R = function () {
-      return getRandom().toString(16).replace('.', '');
-    };
-    var UA = function () {
-      var ua = navigator.userAgent,
-        i,
-        ch,
-        buffer = [],
-        ret = 0;
-
-      function xor(result, byte_array) {
-        var j,
-          tmp = 0;
-        for (j = 0; j < byte_array.length; j++) {
-          tmp |= buffer[j] << (j * 8);
-        }
-        return result ^ tmp;
-      }
-
-      for (i = 0; i < ua.length; i++) {
-        ch = ua.charCodeAt(i);
-        buffer.unshift(ch & 0xff);
-        if (buffer.length >= 4) {
-          ret = xor(ret, buffer);
-          buffer = [];
-        }
-      }
-
-      if (buffer.length > 0) {
-        ret = xor(ret, buffer);
-      }
-
-      return ret.toString(16);
-    };
-
-    return function () {
-      // 有些浏览器取个屏幕宽度都异常...
-      var se = String(screen.height * screen.width);
-      if (se && /\d{5,}/.test(se)) {
-        se = se.toString(16);
-      } else {
-        se = String(getRandom() * 31242)
-          .replace('.', '')
-          .slice(0, 8);
-      }
-      var val = T() + '-' + R() + '-' + UA() + '-' + se + '-' + T();
-      if (val) {
-        return val;
-      } else {
-        return (String(getRandom()) + String(getRandom()) + String(getRandom())).slice(2, 15);
-      }
-    };
-  })();
-
   exports.EventEmitter = EventEmitter;
   exports.URL = _URL;
+  exports.UUID = UUID;
   exports.addEvent = addEvent;
   exports.addHashEvent = addHashEvent;
   exports.ajax = ajax;
@@ -3329,7 +3330,6 @@
   exports.unique = unique;
   exports.urlParse = urlParse;
   exports.urlSafeBase64 = urlSafeBase64;
-  exports.uuid = UUID;
   exports.values = values;
   exports.xhr = xhr;
 
