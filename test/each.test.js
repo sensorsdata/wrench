@@ -1,5 +1,21 @@
+import Sinon from 'sinon';
 import test from 'tape';
 import each from '../src/each';
+
+// 对象继承：原型式继承
+function Parent() {
+  this.father = 52;
+}
+Parent.prototype.getParentValue = function () {
+  return this.value;
+};
+function Child(first, second) {
+  this.first = first;
+  this.second = second;
+}
+Child.prototype = new Parent();
+var instance = new Child(10, 10);
+var target = new Child(20, 20);
 
 const testCases = [
   // isArray(obj)
@@ -22,6 +38,29 @@ const testCases = [
       b: 12,
       c: 13,
     },
+    iterator: function (value, key, obj) {
+      obj[key] = value + 10;
+    },
+  },
+  // instance 中有继承父对象的属性
+  {
+    input: instance,
+    expect: target,
+    iterator: function (value, key, obj) {
+      obj[key] = value + 10;
+    },
+  },
+  // input 为 0 / ''
+  {
+    input: 0,
+    expect: 0,
+    iterator: function (value, key, obj) {
+      obj[key] = value + 10;
+    },
+  },
+  {
+    input: '',
+    expect: '',
     iterator: function (value, key, obj) {
       obj[key] = value + 10;
     },
@@ -51,5 +90,16 @@ test('test each function', (t) => {
     );
   });
 
+  // arr.forEach !== nativeForEach
+  Sinon.stub(Array.prototype, 'forEach').value(undefined);
+  var arr = new Array(3).fill(10);
+  each(arr, testCases[0].iterator);
+  t.deepEqual(
+    arr,
+    [20, 20, 20],
+    'call each([10, 10, 10]) when arr.forEach !== nativeForEach, then it returns as expected'
+  );
+
+  Sinon.restore();
   t.end();
 });
