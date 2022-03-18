@@ -2,37 +2,27 @@ import test from 'tape';
 import Sinon from 'sinon';
 import getHostname from '../src/getHostname';
 
-const testCases = [
-  // { input: 'https://www.example.com', expect: 'www.example.com' },
-  { input: 'test', expect: 'hostname解析异常' },
-  { input: 666, expect: 'hostname解析异常' },
-  { input: false, expect: 'hostname解析异常' },
-  { input: {}, expect: 'hostname解析异常' },
-  { input: null, expect: 'hostname解析异常' },
-  { input: undefined, expect: 'hostname解析异常' },
-];
+const testCases = ['test', 666, false, {}, null, undefined];
 
 test('test getHostname function', (t) => {
   var val;
   testCases.forEach((testCase) => {
-    val = getHostname(testCase.input);
+    val = getHostname(testCase);
     t.equal(
       val,
-      testCase.expect,
+      'hostname解析异常',
       `when call getHostname(${JSON.stringify(
-        testCase.input
-      )}), then it returns ${testCase.expect}`
+        testCase
+      )}), then it returns 'hostname解析异常'`
     );
   });
 
-  // 输入 defaultValue
-  val = getHostname(testCases[0].input, 'defaultValue test');
+  // defaultValue && typeof defaultValue == 'string'
+  val = getHostname('test', 'defaultValue test');
   t.equal(
     val,
     'defaultValue test',
-    `when call getHostname(${JSON.stringify(
-      testCases[0].input
-    )}, 'defaultValue test'), then it returns "defaultValue test"`
+    'when call getHostname("test", "defaultValue test"), then it returns "defaultValue test"'
   );
 
   // 输入 url 正常，且 _URL 可以正常运行
