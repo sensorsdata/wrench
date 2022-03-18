@@ -7,19 +7,19 @@
  */
 
 /** 使用指定过滤函数在指定源数组每一项上执行，返回一个新的数组包含指定过滤函数返回真值的数组项
- * 
+ *
  * @param {Array} arr 指定源数组
  * @param {filterCallback} fn 指定过滤函数
  * @param {Object}  context 指定过滤函数执行上下文
  * @returns {Array} 新的数组，包含指定过滤函数值行返回真值的源数组项
  * @category Array
  * @function filter
- * 
+ *
  * @example
  * filter([1,2,3,4,5,6],
  * function(v,i,arr)
- * { 
- *   console.log(v,i,arr); 
+ * {
+ *   console.log(v,i,arr);
  *    return v>=4
  * });
  * //=>
@@ -29,7 +29,7 @@
  * // 4 3 [1, 2, 3, 4, 5, 6]
  * // 5 4 [1, 2, 3, 4, 5, 6]
  * // 6 5 [1, 2, 3, 4, 5, 6]
- * // [4,5,6] // return value 
+ * // [4,5,6] // return value
  */
 export default function filter(arr, fn, context) {
   var hasOwn = Object.prototype.hasOwnProperty;
