@@ -29,7 +29,8 @@ release-github:
     - git checkout master
     - git pull
     - git branch
-    - git remove origin
+    - git remote add old http://gitlab.sensorsdata.cn/team/rd/jssdk/wrench.git
+    - git fetch --unshallow old
     - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
