@@ -29,6 +29,7 @@ release-github:
     - git checkout master
     - git pull
     - git branch
+    - git remove origin
     - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
