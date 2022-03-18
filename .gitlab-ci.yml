@@ -1,32 +1,33 @@
 stages:
-  - release-npm
+  # - release-npm
   - release-github
 
-release-npm:
-  stage: release-npm
-  artifacts:
-    paths:
-      - dist/
-      - coverage
-      - doc
-  script:
-    - npm install
-    - npm run test
-    - npm run build
-    - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-    - npm profile get
-    - npm publish
-  only:
-    - web # only autorun when click “RunPipeLine” on GitLab WebSite
-  when: 
-      manual
-  allow_failure: false
+# release-npm:
+#   stage: release-npm
+#   artifacts:
+#     paths:
+#       - dist/
+#       - coverage
+#       - doc
+#   script:
+#     - npm install
+#     - npm run test
+#     - npm run build
+#     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+#     - npm profile get
+#     - npm publish
+#   only:
+#     - web # only autorun when click “RunPipeLine” on GitLab WebSite
+#   when: 
+#       manual
+#   allow_failure: false
 
 release-github:
   stage: release-github
   script:
     - git branch
     - git checkout master
+    - git pull
     - git branch
     - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
   only:
