@@ -1,5 +1,5 @@
 {
-  "name": "wrench",
+  "name": "wrenchjs",
   "version": "1.0.0",
   "description": "This is a simple javascript common function library",
   "main": "dist/wrench-es6.js",
