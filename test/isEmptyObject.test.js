@@ -25,7 +25,7 @@ const testCases = [
 
 test('test isEmptyObject function', (t) => {
   testCases.forEach((testCase) => {
-    const val = isEmptyObject(testCase.input);
+    var val = isEmptyObject(testCase.input);
     t.equal(
       val,
       testCase.expect,

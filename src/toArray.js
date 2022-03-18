@@ -18,11 +18,8 @@ export default function toArray(iterable) {
   if (iterable.toArray) {
     return iterable.toArray();
   }
-  if (isArray(iterable)) {
+  if (isArray(iterable) || isArguments(iterable)) {
     return Array.prototype.slice.call(iterable);
-  }
-  if (isArguments(iterable)) {
-    return Array.prototype.call(iterable);
   }
   return values(iterable);
 }
