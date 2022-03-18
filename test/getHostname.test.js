@@ -1,4 +1,5 @@
 import test from 'tape';
+import Sinon from 'sinon';
 import getHostname from '../src/getHostname';
 
 const testCases = [
@@ -24,14 +25,34 @@ test('test getHostname function', (t) => {
     );
   });
 
-  // global._URL = _URL;
-  // var url = 'https://www.example.com';
-  // Sinon.stub(global, '_URL').callsFake(function (param) {
-  //   // console.log('here');
-  //   return { hostname: param == url ? 'www.example.com' : '' };
-  // });
-  // val = getHostname(url);
-  // t.equal(val, 'www.example.com', 'success');
+  // 输入 defaultValue
+  val = getHostname(testCases[0].input, 'defaultValue test');
+  t.equal(
+    val,
+    'defaultValue test',
+    `when call getHostname(${JSON.stringify(
+      testCases[0].input
+    )}, 'defaultValue test'), then it returns "defaultValue test"`
+  );
 
+  // 输入 url 正常，且 _URL 可以正常运行
+  global.window = {
+    URL: function (url) {
+      return {
+        href: url,
+        hostname: '',
+        searchParams: '',
+      };
+    },
+  };
+  var url = 'https://www.example.com';
+  Sinon.stub(global.window, 'URL').withArgs(url).returns({
+    href: url,
+    hostname: 'www.example.com',
+    searchParams: '',
+  });
+  val = getHostname(url);
+  t.equal(val, 'www.example.com', 'success');
+  Sinon.restore();
   t.end();
 });
