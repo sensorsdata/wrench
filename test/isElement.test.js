@@ -1,5 +1,4 @@
 import test from 'tape';
-// import sinon from 'sinon';
 import isElement from '../src/isElement';
 
 const testCases = [
@@ -12,8 +11,9 @@ const testCases = [
 ];
 
 test('test isElement function', (t) => {
+  var val;
   testCases.forEach((testCase) => {
-    var val = isElement(testCase.input);
+    val = isElement(testCase.input);
     t.equal(
       val,
       testCase.expect,
@@ -23,9 +23,13 @@ test('test isElement function', (t) => {
     );
   });
 
-  // global.document = document;
-  // var ele = document.createElement('body');
-  // t.equal(isElement(ele), true, 'success');
-  
+  var createEle = function name(tagName, ) {
+    this.tagName = tagName;
+    this.nodeType = 1;
+  };
+  var arg = new createEle('div');
+  val = isElement(arg);
+  t.equal(val, true, 'success');
+
   t.end();
 });
