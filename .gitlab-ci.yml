@@ -25,14 +25,14 @@ stages:
 release-github:
   stage: release-github
   script:
+    - git config --global user.email "wrench_pipeline@sensors.com"
+    - git config --global user.name "wrench_pipeline"
     - git branch
     - git checkout master
     - git pull
     - git branch
     - git add .
     - git commit -m "update dist"
-    - git config --global user.email "wrench_pipeline@sensors.com"
-    - git config --global user.name "wrench_pipeline"
     - git push origin
     - git fetch --unshallow origin
     - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
