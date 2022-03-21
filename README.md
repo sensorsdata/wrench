@@ -2,7 +2,8 @@
 
 在这里查找常用的方法，来让开发变得容易。
 
-### 如何提交代码:
-1. 首先执行 npm install 安装依赖。
-2. 执行 npm run prepare 准备开发环境。
-3. 修改代码进行提交。
+### 使用示例
+```js
+import {trim} from 'wrenchjs'
+console.log(trim(' some string with white space at start'));
+```
