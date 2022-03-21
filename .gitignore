@@ -109,3 +109,5 @@ typings/
 doc
 
 /src/index.js
+
+.DS_Store

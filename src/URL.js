@@ -77,7 +77,7 @@ export default function _URL(url) {
       return;
     }
     var instance = urlParse(url);
-    result.hash = '';
+    result.hash = instance._values.Fragment;
     result.host = instance._values.Host ? instance._values.Host + (instance._values.Port ? ':' + instance._values.Port : '') : '';
     result.href = instance._values.URL;
     result.password = instance._values.Password;

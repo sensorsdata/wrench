@@ -1,3 +1,4 @@
+import isFunction from './isFunction';
 /** 检测传入参数是否是数组类型
  * @category Util
  * @param {*} arg 传入参数
@@ -7,8 +8,9 @@
  * @example 
  * isArray([])//=> true
  */
-var isArray = Array.isArray || function (arg) {
+export default function isArray(arg) {
+  if (Array.isArray && isFunction(isArray)) {
+    return Array.isArray(arg);
+  }
   return toString.call(arg) === '[object Array]';
-};
-
-export default isArray;
+}

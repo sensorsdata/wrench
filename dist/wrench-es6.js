@@ -469,7 +469,7 @@ function _URL(url) {
       return;
     }
     var instance = urlParse(url);
-    result.hash = '';
+    result.hash = instance._values.Fragment;
     result.host = instance._values.Host ? instance._values.Host + (instance._values.Port ? ':' + instance._values.Port : '') : '';
     result.href = instance._values.URL;
     result.password = instance._values.Password;
@@ -655,6 +655,22 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
+/** 检测传入参数是否是函数
+ * @category Util
+ * @param {*} arg 传入参数
+ * @returns 是否是函数
+ * @function isFunction
+ * @example 
+ * isFunction (function(){}) //=> true
+ */
+function isFunction(arg) {
+  if (!arg) {
+    return false;
+  }
+  var type = toString.call(arg);
+  return type == '[object Function]' || type == '[object AsyncFunction]';
+}
+
 /** 检测传入参数是否是数组类型
  * @category Util
  * @param {*} arg 传入参数
@@ -664,9 +680,12 @@ function isUndefined(arg) {
  * @example 
  * isArray([])//=> true
  */
-var isArray = Array.isArray || function (arg) {
+function isArray(arg) {
+  if (Array.isArray && isFunction(isArray)) {
+    return Array.isArray(arg);
+  }
   return toString.call(arg) === '[object Array]';
-};
+}
 
 /**
  * @typedef {Object} DomElementInfo 包含了 Dom 信息获取和设置方法的对象
@@ -2378,22 +2397,6 @@ function isEmptyObject(arg) {
   return false;
 }
 
-/** 检测传入参数是否是函数
- * @category Util
- * @param {*} arg 传入参数
- * @returns 是否是函数
- * @function isFunction
- * @example 
- * isFunction (function(){}) //=> true
- */
-function isFunction(arg) {
-  if (!arg) {
-    return false;
-  }
-  var type = toString.call(arg);
-  return type == '[object Function]' || type == '[object AsyncFunction]';
-}
-
 /** 检测传入字符串是否是 http 或 https 地址
  * @category Util
  * @param {String} str 传入字符串
@@ -2840,11 +2843,12 @@ var _localStorage = {
  * @example 
  * now() // 1646122486530
  */
-var now =
-  Date.now ||
-  function () {
-    return new Date().getTime();
-  };
+function now() {
+  if (Date.now && isFunction(Date.now)) {
+    return Date.now();
+  }
+  return new Date().getTime();
+}
 
 /** 删除传入字符串开头的 'javascript'
  * 
