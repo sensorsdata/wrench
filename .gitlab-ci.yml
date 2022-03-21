@@ -31,7 +31,6 @@ release-github:
     - git branch
     - git add .
     - git commit -m "update dist"
-    - git push
     - git fetch --unshallow origin
     - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
   only:
