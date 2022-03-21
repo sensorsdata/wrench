@@ -32,7 +32,7 @@ release-github:
     - git pull
     - git branch
     - git add .
-    - git commit -m "update dist"
+    - git commit -m "update dist" || echo "No changes to commit"
     - git push origin
     - git fetch --unshallow origin
     - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
