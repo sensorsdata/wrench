@@ -33,6 +33,7 @@ release-github:
     - git branch
     - git add .
     - git commit -m "update dist" || echo "No changes to commit"
+    - git push  https://${GITHUB_TOKEN}@gitlab.sensorsdata.cn/team/rd/jssdk/wrench.git master
     - git fetch --unshallow origin
     - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
   only:
