@@ -9,4 +9,4 @@ console.log(trim(' some string with white space at start'));
 ```
 
 ### 文档地址
-https://lulu0110.github.io/global.html#each
+https://lulu0110.github.io
