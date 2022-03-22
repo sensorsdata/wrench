@@ -13,16 +13,16 @@
         "monospaceLinks": false,
         "search": true,
         "better-docs": {
-            "name": "SENSORS OPEN SOURCE",
-            "title": "Code Document",
+            "name": "WrenchJS Document",
+            "title": "Wrench Document - ",
             "navLinks": [
                 {
                     "label": "Github",
-                    "href": "#"
+                    "href": "https://github.com/sensorsdata/wrench"
                 },
                 {
                     "label": "Npm",
-                    "href": "#"
+                    "href": "https://www.npmjs.com/package/wrenchjs"
                 }
             ]
         }
