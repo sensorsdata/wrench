@@ -1,45 +1,42 @@
 stages:
-  # - release-npm
+  - release-npm
   - release-github
 
-# release-npm:
-#   stage: release-npm
-#   artifacts:
-#     paths:
-#       - dist/
-#       - coverage
-#       - doc
-#   script:
-#     - npm install
-#     - npm run test
-#     - npm run build
-#     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-#     - npm profile get
-#     - npm publish
-#   only:
-#     - web # only autorun when click “RunPipeLine” on GitLab WebSite
-#   when: 
-#       manual
-#   allow_failure: false
+release-npm:
+  stage: release-npm
+  artifacts:
+    paths:
+      - dist/
+      - coverage
+      - doc
+  script:
+    - npm install
+    - npm run test
+    - npm run build
+    - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+    - npm profile get
+    - npm publish
+  only:
+    - web # only autorun when click “RunPipeLine” on GitLab WebSite
+  when: 
+      manual
+  allow_failure: false
 
 release-github:
   stage: release-github
   script:
     - git config --global user.email "wrench_pipeline@sensors.com"
     - git config --global user.name "wrench_pipeline"
-    # - git branch
-    # - git checkout master
-    # - git pull
-    # - git branch
-    # - git add .
-    # - git commit -m "update dist" || echo "No changes to commit"
-    # - git push  http://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.sensorsdata.cn/team/rd/jssdk/wrench.git master
-    # - git fetch --unshallow origin
-    # - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
-    
-    - npm install
-    - npm run build
-
+    - git branch
+    - git checkout master
+    - git pull
+    - git branch
+    - git add .
+    - git commit -m "update dist" || echo "No changes to commit"
+    - git push  http://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.sensorsdata.cn/team/rd/jssdk/wrench.git master
+    - git fetch --unshallow origin
+    - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
+    # release documents
     - cp -r doc ../
     - cd ..
     - ls
