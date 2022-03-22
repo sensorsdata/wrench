@@ -36,9 +36,15 @@ release-github:
     # - git push  http://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.sensorsdata.cn/team/rd/jssdk/wrench.git master
     # - git fetch --unshallow origin
     # - git push -f https://${GITHUB_TOKEN}@github.com/sensorsdata/wrench.git master
+    
+    - npm install
+    - npm run test
+    - npm run build
+
     - cp -r doc ../
     - cd ..
-    - cd doc
+    - ls
+    - cd ./doc
     - git init
     - git add .
     - git commit -m "update docs"
