@@ -45,7 +45,9 @@ release-github:
     - cd ..
     - ls
     - cd ./doc
+    - ls
     - git init
+    - git checkout -b main
     - git add .
     - git commit -m "update docs"
     - git push -f https://${DOC_TOKEN}@github.com/LuLu0110/LuLu0110.github.io.git main
