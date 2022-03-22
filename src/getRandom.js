@@ -5,8 +5,8 @@ import getRandomBasic from './getRandomBasic';
  * @function getRandom
  * @category Math
  * @returns {Number} 一个介于 0 -1 的数字
- * 
- * @example 
+ *
+ * @example
  * getRandom() //=> 0.8368784293552812
  */
 export default function getRandom() {

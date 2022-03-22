@@ -1,10 +1,9 @@
 import test from 'tape';
-import getURLSearchParams from '../src/getURLSearchParams';
+import getQueryParamsFromUrl from '../src/getQueryParamsFromUrl';
 
 const testCases = [
   {
-    input:
-      '?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese',
+    url: 'https://a.b.com?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese',
     expect: {
       project: 'testproject',
       query1: 'test',
@@ -15,19 +14,20 @@ const testCases = [
     },
   },
   {
-    input: '',
+    url: 'https://a.b.com',
     expect: {},
   },
 ];
-test('test getURLSearchParams function', (t) => {
+
+test('test getQueryParamsFromUrl function', (t) => {
   var val;
   testCases.forEach((testCase) => {
-    val = getURLSearchParams(testCase.input);
+    val = getQueryParamsFromUrl(testCase.url);
     t.deepEqual(
       val,
       testCase.expect,
-      `when call getURLSearchParams(${JSON.stringify(
-        testCase.input
+      `when call getQueryParamsFromUrl(${JSON.stringify(
+        testCase.url
       )}), then it returns as expected`
     );
   });
