@@ -1,4 +1,5 @@
 import test from 'tape';
+// import Sinon from 'sinon';
 import getIOSVersion from '../src/getIOSVersion';
 
 test('test getIOSVersion function', (t) => {
