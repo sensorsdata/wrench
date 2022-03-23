@@ -1,12 +1,12 @@
 import test from 'tape';
 import dfmapping from '../src/dfmapping';
 
-const testCases = [
-  { input: 'hello world', expect: 'zrkkm MmekV' },
-  { input: 'zrkkm MmekV', expect: 'hello world' },
-];
-
 test('test dfmapping function', (t) => {
+  const testCases = [
+    { input: 'hello world', expect: 'zrkkm MmekV' },
+    { input: 'zrkkm MmekV', expect: 'hello world' },
+  ];
+
   var val;
   testCases.forEach((testCase) => {
     val = dfmapping(testCase.input);

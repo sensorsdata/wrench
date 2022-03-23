@@ -2,9 +2,9 @@ import test from 'tape';
 import Sinon from 'sinon';
 import getHostname from '../src/getHostname';
 
-const testCases = ['test', 666, false, {}, null, undefined];
-
 test('test getHostname function', (t) => {
+  const testCases = ['test', 666, false, {}, null, undefined];
+
   var val;
   testCases.forEach((testCase) => {
     val = getHostname(testCase);

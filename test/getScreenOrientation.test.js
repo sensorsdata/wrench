@@ -2,12 +2,13 @@ import test from 'tape';
 import Sinon from 'sinon';
 import getScreenOrientation from '../src/getScreenOrientation';
 
-const testCases = [
-  { obj: { msOrientation: 'landscape' }, expect: 'landscape' },
-  { obj: { mozOrientation: 'portrait' }, expect: 'portrait' },
-  { obj: { orientation: { type: 'landscape' } }, expect: 'landscape' },
-];
 test('test getScreenOrientation function', (t) => {
+  const testCases = [
+    { obj: { msOrientation: 'landscape' }, expect: 'landscape' },
+    { obj: { mozOrientation: 'portrait' }, expect: 'portrait' },
+    { obj: { orientation: { type: 'landscape' } }, expect: 'landscape' },
+  ];
+
   global.screen = {};
   var val;
   // screenOrientationAPI

@@ -2,12 +2,12 @@ import test from 'tape';
 import indexOf from '../src/indexOf';
 import sinon from 'sinon';
 
-const testCases = [
-  { input: [[1, 2, 3], 1], expect: 0 },
-  { input: [[1, 2, 3], 0], expect: -1 },
-];
-
 test('test indexOf function', (t) => {
+  const testCases = [
+    { input: [[1, 2, 3], 1], expect: 0 },
+    { input: [[1, 2, 3], 0], expect: -1 },
+  ];
+
   var arr = [1, 2, 3];
   var spy = sinon.spy(Array.prototype, 'indexOf');
 

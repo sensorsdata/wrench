@@ -2,10 +2,10 @@ import test from 'tape';
 import sinon from 'sinon';
 import safeJSONParse from '../src/safeJSONParse';
 
-const json = '{"a":124}';
-const obj = { a: 124 };
-
 test('test safeJSONParse function', (t) => {
+  const json = '{"a":124}';
+  const obj = { a: 124 };
+  
   var spy = sinon.spy(JSON, 'parse');
   let val = safeJSONParse(json);
 

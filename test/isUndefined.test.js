@@ -1,16 +1,16 @@
 import test from 'tape';
 import isUndefined from '../src/isUndefined';
 
-const testCases = [
-  { input: undefined, expect: true },
-  { input: null, expect: false },
-  { input: 0, expect: false },
-  { input: 'test', expect: false },
-  { input: {}, expect: false },
-  { input: [1, 2, 3], expect: false },
-];
-
 test('test isUndefined function', (t) => {
+  const testCases = [
+    { input: undefined, expect: true },
+    { input: null, expect: false },
+    { input: 0, expect: false },
+    { input: 'test', expect: false },
+    { input: {}, expect: false },
+    { input: [1, 2, 3], expect: false },
+  ];
+  
   testCases.forEach((testCase) => {
     const val = isUndefined(testCase.input);
     t.equal(

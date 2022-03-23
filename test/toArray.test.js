@@ -1,17 +1,15 @@
 import test from 'tape';
 import toArray from '../src/toArray';
 
-// toArray()?
-
-const testCases = [
-  { input: null, expect: [] },
-  { input: undefined, expect: [] },
-  { input: [1, 2, 3], expect: [1, 2, 3] },
-  { input: { a: 1, b: 2 }, expect: [1, 2] },
-  { input: { a: 1, b: [1, 2, 3] }, expect: [1, [1, 2, 3]] },
-];
-
 test('test toArray function', (t) => {
+  const testCases = [
+    { input: null, expect: [] },
+    { input: undefined, expect: [] },
+    { input: [1, 2, 3], expect: [1, 2, 3] },
+    { input: { a: 1, b: 2 }, expect: [1, 2] },
+    { input: { a: 1, b: [1, 2, 3] }, expect: [1, [1, 2, 3]] },
+  ];
+
   var val;
   testCases.forEach((testCase) => {
     val = toArray(testCase.input);
@@ -41,6 +39,6 @@ test('test toArray function', (t) => {
     [1, 2],
     'call toArray(iterable) when iterable.toArray exists, then it returns as expected'
   );
-  
+
   t.end();
 });

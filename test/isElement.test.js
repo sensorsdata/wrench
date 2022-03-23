@@ -1,16 +1,16 @@
 import test from 'tape';
 import isElement from '../src/isElement';
 
-const testCases = [
-  { input: {}, expect: false },
-  { input: [], expect: false },
-  { input: 1, expect: false },
-  { input: true, expect: false },
-  { input: null, expect: false },
-  { input: undefined, expect: false },
-];
-
 test('test isElement function', (t) => {
+  const testCases = [
+    { input: {}, expect: false },
+    { input: [], expect: false },
+    { input: 1, expect: false },
+    { input: true, expect: false },
+    { input: null, expect: false },
+    { input: undefined, expect: false },
+  ];
+
   var val;
   testCases.forEach((testCase) => {
     val = isElement(testCase.input);
@@ -23,7 +23,7 @@ test('test isElement function', (t) => {
     );
   });
 
-  var createEle = function name(tagName, ) {
+  var createEle = function name(tagName) {
     this.tagName = tagName;
     this.nodeType = 1;
   };
