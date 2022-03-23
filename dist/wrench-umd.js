@@ -1491,7 +1491,6 @@
 
       // 0 session
       // -1 马上过期
-      //
       if (days !== 0) {
         var date = new Date();
         // 默认是天，可以是秒
