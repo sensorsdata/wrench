@@ -1,5 +1,4 @@
 import test from 'tape';
-// import sinon from 'sinon';
 import cookie from '../src/cookie';
 
 test('test cookie function', (t) => {
@@ -73,5 +72,7 @@ test('test cookie function', (t) => {
   val = cookie.isSupport('test', 'testValue');
   t.equal(val, true, 'cookie.isSupport performs as expected');
 
+  delete global.document;
+  delete global.navigator;
   t.end();
 });
