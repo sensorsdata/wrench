@@ -30,6 +30,17 @@ test('test setCssStyle function', (t) => {
         value: 'sensorsdata.js',
       },
     },
+    parentNode: {
+      parent: mockParent,
+      insertBefore: function (newEle, referenceNode) {
+        var ind = mockParent.children.indexOf(referenceNode);
+        if (ind == 0) {
+          mockParent.children.unshift(newEle);
+        } else {
+          mockParent.children.splice(ind - 1, 1, newEle);
+        }
+      },
+    },
   };
   // mock head
   const mockHead = {
@@ -61,20 +72,19 @@ test('test setCssStyle function', (t) => {
     appendChild: function () {
       this.innerHTML = 'body { \n    background :red\n  }';
     },
-    parentNode: {
-      parent: mockParent,
-      insertBefore: function (newEle, referenceNode) {
-        var ind = mockParent.children.indexOf(referenceNode);
-        if (ind == 0) {
-          mockParent.children.unshift(newEle);
-        } else {
-          mockParent.children.splice(ind - 1, 1, newEle);
-        }
-      },
-    },
+    // parentNode: {
+    //   parent: mockParent,
+    //   insertBefore: function (newEle, referenceNode) {
+    //     var ind = mockParent.children.indexOf(referenceNode);
+    //     if (ind == 0) {
+    //       mockParent.children.unshift(newEle);
+    //     } else {
+    //       mockParent.children.splice(ind - 1, 1, newEle);
+    //     }
+    //   },
+    // },
   };
 
-  //
   global.document = {
     createElement: function () {},
     createTextNode: function () {},
@@ -84,58 +94,58 @@ test('test setCssStyle function', (t) => {
     background :red
   }`;
 
-  // style.appendChild 未抛出异常 && head && head.children.length
+  // head && head.children.length 的情况下
+  // test style.appendChild 未抛出异常
   sinon
     .stub(global.document, 'createElement')
     .withArgs('style')
     .returns(mockStyle);
-  sinon
-    .stub(global.document, 'getElementsByTagName')
+  var stub = sinon.stub(global.document, 'getElementsByTagName');
+  stub
     .withArgs('head')
     .returns([mockHead])
     .withArgs('script')
     .returns([mockScript]);
-
   setCssStyle(css);
   var val = mockHead.children.indexOf(mockStyle) > -1;
-  t.ok(val, 'setCssStyle function performs as expected');
+  t.ok(
+    val,
+    'setCssStyle function performs as expected when head && head.children.length'
+  );
 
-  // mockHead.children 复原
-  mockHead.children.shift();
-  var stub = sinon.stub(mockStyle, 'appendChild').throws('some exceptions');
+  // style.appendChild 抛出异常
+  mockHead.children = [mockScript];
+  var stub2 = sinon.stub(mockStyle, 'appendChild').throws('some exceptions');
   setCssStyle(css);
-  val = mockStyle.styleSheet.cssText == css;
-  var str =
-    'setCssStyle performs as expected when exceptions happened to style.appendChild';
-  t.ok(val, str);
+  var str = 'setCssStyle performs as expected when exceptions happened to style.appendChild';
+  t.equal(mockStyle.styleSheet.cssText, css, str);
   val = mockHead.children.indexOf(mockStyle) == 0;
   t.ok(val, str);
-  stub.restore();
+  stub2.restore();
 
-  // !head.children.length
-  // mockHead.children 复原
-  mockHead.children.shift();
-  var stub2 = sinon.stub(mockHead, 'children').value([]);
+  // head 但 !head.children.length
+  mockHead.children = [mockScript];
+  var stub3 = sinon.stub(mockHead, 'children').value([]);
   setCssStyle(css);
   val = mockHead.children.indexOf(mockStyle) == 0;
   t.ok(val, 'setCssStyle function performs as expected when !head.children.length');
-  stub2.restore();
+  stub3.restore();
 
-  // !head
-  sinon.restore();
-  sinon
-    .stub(global.document, 'createElement')
-    .withArgs('style')
-    .returns(mockStyle);
+  // !head 的情况下
+  stub.restore();
+  mockHead.children = [mockScript];
   sinon
     .stub(global.document, 'getElementsByTagName')
     .withArgs('head')
     .returns([])
     .withArgs('script')
-    .returns([mockStyle]);
+    .returns([mockScript]);
   setCssStyle(css);
   val = mockParent.children.indexOf(mockStyle) > -1;
-  t.ok(val, 'setCssStyle function performs as expected when !head');
+  t.ok(
+    val,
+    'setCssStyle function performs as expected when document.getElementsByTagName("head")[0] is undefined'
+  );
 
   sinon.restore();
   t.end();
