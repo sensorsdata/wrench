@@ -8,17 +8,8 @@ test('test safeJSONParse function', (t) => {
 
   var spy = sinon.spy(JSON, 'parse');
   let val = safeJSONParse(json);
-
-  t.ok(
-    spy.calledOnce,
-    'when safeJSONParse get called, JSON.parse will be called once.'
-  );
-
-  t.deepEqual(
-    val,
-    obj,
-    'when call  safeJSONParse({"a": 124}), then it returns Object { a: 124 }'
-  );
+  t.ok(spy.calledOnce, 'when safeJSONParse get called, JSON.parse will be called once.');
+  t.deepEqual(val, obj, 'when call safeJSONParse({"a": 124}), then it returns Object { a: 124 }');
   
   sinon.restore();
   t.end();

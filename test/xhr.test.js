@@ -18,7 +18,7 @@ test('test xhr function', (t) => {
   var val = xhr(true);
   t.ok(
     val.__proto__ == XMLHttpRequest.prototype,
-    'xhr(true) performs as expected when typeof window.XMLHttpRequest !== "undefined" && "withCredentials" in new XMLHttpRequest()'
+    'call xhr(true) returns as expected when typeof window.XMLHttpRequest !== "undefined" && "withCredentials" in new XMLHttpRequest()'
   );
   t.ok(
     'withCredentials' in val,
@@ -41,7 +41,7 @@ test('test xhr function', (t) => {
   t.equal(
     val,
     null,
-    'xhr(true) performs as expected when typeof window.XDomainRequest == "undefined" & typeof window.XMLHttpRequest == "undefined"'
+    'xhr(true) performs as expected when typeof window.XDomainRequest == "undefined" && typeof window.XMLHttpRequest == "undefined"'
   );
   stub.restore();
 

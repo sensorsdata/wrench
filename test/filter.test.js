@@ -19,12 +19,12 @@ test('test filter function', (t) => {
   val = filter(arr, fn);
   t.deepEqual(val, [4, 5, 6, 7], 'success');
 
+  // !arr.filter && !hasOwn.call(arr, i)
   stub.value(undefined);
-  sinon.stub(Object.prototype, 'hasOwnProperty').callsFake(function fn() {
+  sinon.stub(Object.prototype, 'hasOwnProperty').callsFake(function func() {
     return false;
   });
   arr = [3, 7, 8, 9];
-
   val = filter(arr, fn);
   t.deepEqual(val, [], 'success');
 

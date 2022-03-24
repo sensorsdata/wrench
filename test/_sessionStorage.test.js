@@ -17,8 +17,6 @@ test('test _sessionStorage function', (t) => {
 
   sinon.stub(global.sessionStorage, 'setItem').value(undefined);
 
-  // sinon.stub(global.sessionStorage, 'setItem').value(undefined);
-
   // 不支持 sessionStorage 时
   var supported = _sessionStorage.isSupport();
   t.equal(

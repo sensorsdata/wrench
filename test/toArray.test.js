@@ -28,8 +28,7 @@ test('test toArray function', (t) => {
     this.b = 2;
   };
   Parent.prototype.toArray = function () {
-    var result = [];
-    result.push(this.a, this.b);
+    var result = [this.a, this.b];
     return result;
   };
   var iterable = new Parent();
