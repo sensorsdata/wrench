@@ -38,11 +38,7 @@ test('test cookie function', (t) => {
   document.cookie = '';
   cookie.set('key1', 'value1', 10, true, 'Lax', true, 'www.test.com');
   val = cookie.get('key1');
-  t.equal(
-    val,
-    'value1',
-    'cookie.set performs as expected when cookie_samesite = "Lax"'
-  );
+  t.equal(val, 'value1', 'cookie.set performs as expected when cookie_samesite = "Lax"');
 
   // cookie.get()
   const getCases = [
@@ -66,9 +62,7 @@ test('test cookie function', (t) => {
   });
 
   // cookie.isSupport()
-  global.navigator = {
-    cookieEnabled: true,
-  };
+  global.navigator = { cookieEnabled: true };
   val = cookie.isSupport('test', 'testValue');
   t.equal(val, true, 'cookie.isSupport performs as expected');
 

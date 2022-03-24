@@ -38,17 +38,9 @@ test('test extend function', (t) => {
 
   // start test
   var val = extend(obj, source);
-  t.deepEqual(
-    val,
-    target,
-    'when call extend(obj, source), then it returns target'
-  );
+  t.deepEqual(val, target, 'when call extend(obj, source), then it returns target');
 
   val = extend(obj, source2);
-  t.deepEqual(
-    val,
-    target,
-    'call extend(obj, source) when source has inherited properties, then it returns target'
-  );
+  t.deepEqual(val, target, 'call extend(obj, source) when source has inherited properties, then it returns target');
   t.end();
 });

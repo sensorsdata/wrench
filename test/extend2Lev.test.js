@@ -40,17 +40,9 @@ test('test extend2Lev function', (t) => {
 
   // start test
   var val = extend2Lev(obj, source1);
-  t.deepEqual(
-    val,
-    target,
-    'when call extend2Lev(obj, source), then it returns target'
-  );
+  t.deepEqual(val, target, 'when call extend2Lev(obj, source), then it returns target');
 
   val = extend2Lev(obj, source2);
-  t.deepEqual(
-    val,
-    target,
-    'when call extend2Lev(obj, source) and source has an attribute whose value is undefined, then it returns target'
-  );
+  t.deepEqual(val, target, 'when call extend2Lev(obj, source) and source has an attribute whose value is undefined, then it returns target');
   t.end();
 });

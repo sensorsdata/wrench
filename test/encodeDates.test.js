@@ -26,9 +26,7 @@ test('test encodeDates function', (t) => {
     t.deepEqual(
       val,
       testCase.expect,
-      `when call encodeDates(${JSON.stringify(
-        testCase.input
-      )}), then it returns ${JSON.stringify(testCase.expect)}`
+      `when call encodeDates(${JSON.stringify(testCase.input)}), then it returns ${JSON.stringify(testCase.expect)}`
     );
   });
 

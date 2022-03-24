@@ -84,11 +84,7 @@ test('test each function', (t) => {
   Sinon.stub(Array.prototype, 'forEach').value(undefined);
   var arr = new Array(3).fill(10);
   each(arr, testCases[0].iterator);
-  t.deepEqual(
-    arr,
-    [20, 20, 20],
-    'call each([10, 10, 10]) when arr.forEach !== nativeForEach, then it returns as expected'
-  );
+  t.deepEqual(arr, [20, 20, 20], 'call each([10, 10, 10]) when arr.forEach !== nativeForEach, then it returns as expected');
 
   Sinon.restore();
   t.end();
