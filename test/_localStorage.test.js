@@ -11,8 +11,8 @@ global.window = {
   },
 };
 
-// test _localStorage.get
 var val;
+// test _localStorage.get
 test('test _localStorage.get', (t) => {
   var k = 'key1';
   var v = 'value1';
