@@ -65,11 +65,7 @@ test('test each function', (t) => {
   // obj == null
   [null, undefined].forEach((item) => {
     var val = each(item);
-    t.equal(
-      val,
-      false,
-      `when call ${JSON.stringify(item)}, and then it returns false`
-    );
+    t.equal(val, false, `when call each(${item}), and then it returns false`);
   });
 
   // obj !== null
