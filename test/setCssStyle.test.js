@@ -72,17 +72,6 @@ test('test setCssStyle function', (t) => {
     appendChild: function () {
       this.innerHTML = 'body { \n    background :red\n  }';
     },
-    // parentNode: {
-    //   parent: mockParent,
-    //   insertBefore: function (newEle, referenceNode) {
-    //     var ind = mockParent.children.indexOf(referenceNode);
-    //     if (ind == 0) {
-    //       mockParent.children.unshift(newEle);
-    //     } else {
-    //       mockParent.children.splice(ind - 1, 1, newEle);
-    //     }
-    //   },
-    // },
   };
 
   global.document = {
@@ -117,7 +106,8 @@ test('test setCssStyle function', (t) => {
   mockHead.children = [mockScript];
   var stub2 = sinon.stub(mockStyle, 'appendChild').throws('some exceptions');
   setCssStyle(css);
-  var str = 'setCssStyle performs as expected when exceptions happened to style.appendChild';
+  var str =
+    'setCssStyle performs as expected when exceptions happened to style.appendChild';
   t.equal(mockStyle.styleSheet.cssText, css, str);
   val = mockHead.children.indexOf(mockStyle) == 0;
   t.ok(val, str);
@@ -128,7 +118,10 @@ test('test setCssStyle function', (t) => {
   var stub3 = sinon.stub(mockHead, 'children').value([]);
   setCssStyle(css);
   val = mockHead.children.indexOf(mockStyle) == 0;
-  t.ok(val, 'setCssStyle function performs as expected when !head.children.length');
+  t.ok(
+    val,
+    'setCssStyle function performs as expected when !head.children.length'
+  );
   stub3.restore();
 
   // !head 的情况下
