@@ -3,14 +3,8 @@ import isHttpUrl from '../src/isHttpUrl';
 
 test('test isHttpUrl function', (t) => {
   const testCases = [
-    {
-      input: 'https://www.example.com',
-      expect: true,
-    },
-    {
-      input: 'www.example.com',
-      expect: false,
-    },
+    { input: 'https://www.example.com', expect: true },
+    { input: 'www.example.com', expect: false },
     { input: null, expect: false },
     { input: undefined, expect: false },
     { input: 666, expect: false },

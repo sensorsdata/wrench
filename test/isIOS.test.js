@@ -14,10 +14,8 @@ test('test isIOS function', (t) => {
       msg: 'call isIOS() when the current operating system is IOS, and it returns true',
     },
   ];
-  
-  global.navigator = {
-    userAgent: '',
-  };
+
+  global.navigator = { userAgent: '' };
 
   var val;
   testCases.forEach((testCase) => {

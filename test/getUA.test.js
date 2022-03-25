@@ -54,5 +54,6 @@ test('test getUA function', (t) => {
     );
   });
 
+  delete global.navigator;
   t.end();
 });

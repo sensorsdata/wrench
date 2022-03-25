@@ -10,7 +10,6 @@ test('test indexOf function', (t) => {
 
   var arr = [1, 2, 3];
   var spy = sinon.spy(Array.prototype, 'indexOf');
-
   let val = indexOf(arr, 1);
   t.ok(
     spy.calledOnce,
@@ -19,8 +18,8 @@ test('test indexOf function', (t) => {
   t.equal(val, 0, `when call indexOf([${arr}], 1), then it returns 0`);
 
   sinon.restore();
-  sinon.stub(Array.prototype, 'indexOf').value(undefined);
 
+  sinon.stub(Array.prototype, 'indexOf').value(undefined);
   testCases.forEach((testCase) => {
     const val = indexOf(testCase.input[0], testCase.input[1]);
     t.equal(
@@ -31,6 +30,5 @@ test('test indexOf function', (t) => {
   });
 
   sinon.restore();
-
   t.end();
 });

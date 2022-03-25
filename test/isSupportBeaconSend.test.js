@@ -83,6 +83,7 @@ test('test isSupportBeaconSend function', (t) => {
     false,
     'call isSupportBeaconSend() when navigator !== "object", then it returns false'
   );
+  
   Sinon.restore();
   delete global.navigator;
   t.end();

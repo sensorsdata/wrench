@@ -31,5 +31,3 @@ test('test isArray function', (t) => {
   sinon.restore();
   t.end();
 });
-
-// jsdom

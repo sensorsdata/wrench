@@ -17,21 +17,18 @@ test('test getRandom function', (t) => {
 
   // typeof crypto !== 'undefined'
   sinon.stub(global, 'Uint32Array').withArgs(1).returns([0]);
-  sinon
-    .stub(global.crypto, 'getRandomValues')
-    .withArgs([0])
-    .returns([Math.floor(Math.random() * 1000000000)]);
+  var stub = sinon.stub(global.crypto, 'getRandomValues');
+  stub.withArgs([0]).returns([Math.floor(Math.random() * 1000000000)]);
   r = getRandom();
   val = r < 1 && r > 0;
   t.ok(
     val,
-    'getRandom() performs as expected when typeof crypto !== "undefined"'
+    'getRandom performs as expected when typeof crypto !== "undefined"'
   );
 
-  sinon.restore();
+  stub.restore();
 
   // typeof msCrypto !== 'undefined'
-  sinon.stub(global, 'Uint32Array').withArgs(1).returns([0]);
   sinon.stub(global, 'crypto').value(undefined);
   sinon
     .stub(global.msCrypto, 'getRandomValues')
@@ -41,7 +38,7 @@ test('test getRandom function', (t) => {
   val = r < 1 && r > 0;
   t.ok(
     val,
-    'getRandom() performs as expected when typeof msCrypto !== "undefined"'
+    'getRandom performs as expected when typeof msCrypto !== "undefined"'
   );
 
   sinon.restore();
@@ -51,7 +48,7 @@ test('test getRandom function', (t) => {
   sinon.stub(global, 'msCrypto').value(undefined);
   r = getRandom();
   val = r < 1 && r > 0;
-  t.ok(val, 'getRandom() performs as expected');
+  t.ok(val, 'getRandom performs as expected');
 
   sinon.restore();
   delete global.Uint16Array;

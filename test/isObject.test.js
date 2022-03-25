@@ -9,7 +9,6 @@ test('test isObject function', (t) => {
     { input: 123, expect: false },
     { input: new Date(), expect: false },
     { input: new RegExp(/^[0-9]*$/), expect: false },
-    // { input: { test: 2 }, expect: true },
   ];
 
   var val = isObject({ test: 2 });

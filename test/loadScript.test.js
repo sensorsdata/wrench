@@ -12,7 +12,6 @@ test('test loadScript function', (t) => {
       this.children.push(ele);
     },
   };
-
   // mock link
   const mockLink = {
     nodeType: 1,
