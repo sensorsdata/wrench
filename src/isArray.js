@@ -12,5 +12,5 @@ export default function isArray(arg) {
   if (Array.isArray && isFunction(isArray)) {
     return Array.isArray(arg);
   }
-  return toString.call(arg) === '[object Array]';
+  return Object.prototype.toString.call(arg) === '[object Array]';
 }

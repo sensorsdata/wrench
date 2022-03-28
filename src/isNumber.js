@@ -9,5 +9,5 @@
  */
 export default function isNumber(arg) {
   /* eslint-disable-next-line */
-  return toString.call(arg) == '[object Number]' && /[\d\.]+/.test(String(arg));
+  return Object.prototype.toString.call(arg) == '[object Number]' && /[\d\.]+/.test(String(arg));
 }

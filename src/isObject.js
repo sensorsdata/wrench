@@ -11,6 +11,6 @@ export default function isObject(arg) {
   if (arg == null) {
     return false;
   } else {
-    return toString.call(arg) == '[object Object]';
+    return Object.prototype.toString.call(arg) == '[object Object]';
   }
 }

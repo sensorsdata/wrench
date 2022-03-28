@@ -8,5 +8,5 @@
  * isString('1234') //=> true
  */
 export default function isString(arg) {
-  return toString.call(arg) == '[object String]';
+  return Object.prototype.toString.call(arg) == '[object String]';
 }

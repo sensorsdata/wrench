@@ -7,5 +7,5 @@
  * isDate(new Date()) //=> true
  */
 export default function isDate(arg) {
-  return toString.call(arg) == '[object Date]';
+  return Object.prototype.toString.call(arg) == '[object Date]';
 }

@@ -246,7 +246,7 @@
    * isString('1234') //=> true
    */
   function isString(arg) {
-    return toString.call(arg) == '[object String]';
+    return Object.prototype.toString.call(arg) == '[object String]';
   }
 
   /** 去除字符串开头和结尾的空白字符串
@@ -511,7 +511,7 @@
     if (arg == null) {
       return false;
     } else {
-      return toString.call(arg) == '[object Object]';
+      return Object.prototype.toString.call(arg) == '[object Object]';
     }
   }
 
@@ -673,7 +673,7 @@
     if (!arg) {
       return false;
     }
-    var type = toString.call(arg);
+    var type = Object.prototype.toString.call(arg);
     return type == '[object Function]' || type == '[object AsyncFunction]';
   }
 
@@ -690,7 +690,7 @@
     if (Array.isArray && isFunction(isArray)) {
       return Array.isArray(arg);
     }
-    return toString.call(arg) === '[object Array]';
+    return Object.prototype.toString.call(arg) === '[object Array]';
   }
 
   /**
@@ -1658,7 +1658,7 @@
    * isDate(new Date()) //=> true
    */
   function isDate(arg) {
-    return toString.call(arg) == '[object Date]';
+    return Object.prototype.toString.call(arg) == '[object Date]';
   }
 
   /** 根据传入的 date 对象返回行如 YYYY-MM-DD HH:MM:SS.sss 的字符串，
@@ -2379,7 +2379,7 @@
    * isBoolean(true) //=> true
    */
   function isBoolean(arg) {
-    return toString.call(arg) == '[object Boolean]';
+    return Object.prototype.toString.call(arg) == '[object Boolean]';
   }
 
   /** 检测传入参数是否是空对象
@@ -2462,7 +2462,7 @@
    */
   function isNumber(arg) {
     /* eslint-disable-next-line */
-    return toString.call(arg) == '[object Number]' && /[\d\.]+/.test(String(arg));
+    return Object.prototype.toString.call(arg) == '[object Number]' && /[\d\.]+/.test(String(arg));
   }
 
   /** 检测是否支持 Beacon 数据发送

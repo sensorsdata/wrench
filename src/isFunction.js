@@ -10,6 +10,6 @@ export default function isFunction(arg) {
   if (!arg) {
     return false;
   }
-  var type = toString.call(arg);
+  var type = Object.prototype.toString.call(arg);
   return type == '[object Function]' || type == '[object AsyncFunction]';
 }

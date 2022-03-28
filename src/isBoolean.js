@@ -8,5 +8,5 @@
  * isBoolean(true) //=> true
  */
 export default function isBoolean(arg) {
-  return toString.call(arg) == '[object Boolean]';
+  return Object.prototype.toString.call(arg) == '[object Boolean]';
 }
