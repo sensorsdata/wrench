@@ -8,13 +8,12 @@ test('test _decodeURIComponent function', (t) => {
 
   var spy = sinon.spy(global, 'decodeURIComponent');
   let val = _decodeURIComponent(str);
-
   t.ok(spy.calledOnce,'when _decodeURIComponent called, then decodeURIComponent will be called once.');
   t.equal(val, result, `when call  _decodeURIComponent("${str}"), then it returns "${result}"`);
 
   sinon.restore();
-  sinon.stub(global, 'decodeURIComponent').throws('some exception');
   
+  sinon.stub(global, 'decodeURIComponent').throws('some exception');
   val = _decodeURIComponent(str);
   t.equal(val, str, `when call  _decodeURIComponent("${str}") exception happens,then return original input ${str}`);
   

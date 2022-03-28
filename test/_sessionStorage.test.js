@@ -15,47 +15,26 @@ test('test _sessionStorage function', (t) => {
     },
   };
 
-  sinon.stub(global.sessionStorage, 'setItem').value(undefined);
-
-  // sinon.stub(global.sessionStorage, 'setItem').value(undefined);
-
   // 不支持 sessionStorage 时
+  sinon.stub(global.sessionStorage, 'setItem').value(undefined);
   var supported = _sessionStorage.isSupport();
-  t.equal(
-    supported,
-    false,
-    'When the browser does not support SessionStorage, call _sessionStorage.isSupport() and it returns false'
-  );
-
+  t.equal(supported, false, 'When the browser does not support SessionStorage, call _sessionStorage.isSupport() and it returns false');
   sinon.restore();
 
   // 支持 sessionStorage 时
   supported = _sessionStorage.isSupport();
-  t.equal(
-    supported,
-    true,
-    'When the browser support SessionStorage, call _sessionStorage.isSupport() and it returns true'
-  );
+  t.equal(supported, true, 'When the browser support SessionStorage, call _sessionStorage.isSupport() and it returns true');
 
   // 支持 sessionStorage, 但 setItem 抛出异常时
   sinon.stub(global.sessionStorage, 'setItem').throws('some exceptions');
   supported = _sessionStorage.isSupport();
-  t.equal(
-    supported,
-    false,
-    'When the browser support SessionStorage but some exceptions happened to setItem, call _sessionStorage.isSupport() and it returns false'
-  );
-
+  t.equal(supported, false, 'When the browser support SessionStorage but some exceptions happened to setItem, call _sessionStorage.isSupport() and it returns false');
   sinon.restore();
 
   // 支持 sessionStorage, 但 removeItem 抛出异常时
   sinon.stub(global.sessionStorage, 'removeItem').throws('some exceptions');
   supported = _sessionStorage.isSupport();
-  t.equal(
-    supported,
-    false,
-    'When the browser support SessionStorage but some exceptions happened to removeItem, call _sessionStorage.isSupport() and it returns false'
-  );
+  t.equal(supported, false, 'When the browser support SessionStorage but some exceptions happened to removeItem, call _sessionStorage.isSupport() and it returns false');
 
   sinon.restore();
   delete global.sessionStorage;

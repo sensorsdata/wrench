@@ -1,25 +1,25 @@
 import test from 'tape';
 import getQueryParamsFromUrl from '../src/getQueryParamsFromUrl';
 
-const testCases = [
-  {
-    url: 'https://a.b.com?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese',
-    expect: {
-      project: 'testproject',
-      query1: 'test',
-      silly: 'willy',
-      'field[0]': 'zero',
-      'field[2]': 'two#test=hash',
-      chucky: 'cheese',
-    },
-  },
-  {
-    url: 'https://a.b.com',
-    expect: {},
-  },
-];
-
 test('test getQueryParamsFromUrl function', (t) => {
+  const testCases = [
+    {
+      url: 'https://a.b.com?project=testproject&query1=test&silly=willy&field[0]=zero&field[2]=two#test=hash&chucky=cheese',
+      expect: {
+        project: 'testproject',
+        query1: 'test',
+        silly: 'willy',
+        'field[0]': 'zero',
+        'field[2]': 'two#test=hash',
+        chucky: 'cheese',
+      },
+    },
+    {
+      url: 'https://a.b.com',
+      expect: {},
+    },
+  ];
+  
   var val;
   testCases.forEach((testCase) => {
     val = getQueryParamsFromUrl(testCase.url);

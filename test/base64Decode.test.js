@@ -8,18 +8,15 @@ test('test base64Decode function', (t) => {
 
   var stub = sinon.stub(global, 'atob');
   stub.withArgs('UlVOT09C').returns('RUNOOB');
-
   // atob functional，decodeURIComponent functional
   var val = base64Decode('UlVOT09C');
   t.equal(val, 'RUNOOB', 'when call base64Decode("UlVOT09C"), then it returns "RUNOOB"');
-
   stub.restore();
 
   // atob disfunctional，decodeURIComponent functional
   stub.throws('some expection');
   val = base64Decode('UlVOT09C');
   t.equal(val, '', 'call base64Decode("UlVOT09C") when exception happens, then it returns ""');
-  
   stub.restore();
 
   // atob functional，decodeURIComponent disfunctional
