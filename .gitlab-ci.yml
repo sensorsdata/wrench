@@ -19,7 +19,7 @@ release-npm:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">.npmrc
     - ls -a
     - cat .npmrc
-    - npm publish
+    - npm publish --verbose
     - rm -f .npmrc
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
