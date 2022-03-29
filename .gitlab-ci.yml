@@ -5,8 +5,6 @@ stages:
   - release-github
 
 release-npm:
-  tags:
-    - wrench2
   stage: release-npm
   artifacts:
     paths:
