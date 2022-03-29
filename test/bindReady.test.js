@@ -6,15 +6,17 @@ test('test bindReady function', (t) => {
   global.window = {
     document: {
       readyState: undefined,
-      documentElement: function () {},
+      documentElement: {
+        doScroll: function () {},
+      },
       addEventListener: function () {},
       removeEventListener: function () {},
       attachEvent: function () {},
       detachEvent: function () {},
-      doScroll: function () {},
     },
     frameElement: undefined,
     addEventListener: function () {},
+    attachEvent: function () {},
   };
 
   var helper;
@@ -32,10 +34,21 @@ test('test bindReady function', (t) => {
   );
   sinon.restore();
 
-  // sinon.stub(global.window.document, 'doScroll').value(undefined);
-  // sinon.stub(global.window.document, 'addEventListener').value(sinon.fake());
-  // sinon.stub(global.window, 'addEventListener').value(sinon.fake());
-  // bindReady(func, window);
-  // sinon.restore();
+  // !window.document.addEventListener
+  sinon.stub(global.window.document, 'addEventListener').value(undefined);
+  var spy = sinon.spy(global.window.document, 'attachEvent');
+  var spy2 = sinon.spy(global.window, 'attachEvent');
+  bindReady(func, window);
+  t.equal(
+    spy.callCount,
+    2,
+    'call bindReady(func, window) when !window.document.addEventListener, then global.window.document.attachEvent get called twice'
+  );
+  t.equal(
+    spy2.callCount,
+    1,
+    'call bindReady(func, window) when !window.document.addEventListener, then global.window.attachEvent get called once'
+  );
+  sinon.restore();
   t.end();
 });
