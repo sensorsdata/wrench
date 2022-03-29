@@ -13,7 +13,7 @@ release-npm:
     - npm install
     - npm run test
     - npm run build
-    - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}">.npmrc
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">.npmrc
     - cat .npmrc
     - npm publish
     - rm -f .npmrc
