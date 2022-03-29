@@ -709,10 +709,10 @@
    * @param {Element} dom 传入的 dom 元素
    * @returns {DomElementInfo} 元素信息对象，用于获取元素信息
    * @function ry
-   * @example 
+   * @example
    * var a =  document.getElementById('banner');
    * var b =ry(a);
-   * b.addClass('banner-style'); 
+   * b.addClass('banner-style');
    * // => <h1 id='banner' class='banner-style'> hello world </h1>
    */
   function ry(dom) {
@@ -721,6 +721,18 @@
 
   var DomElementInfo = function (dom) {
     this.ele = dom;
+  };
+
+  var siblings = function (n, elem) {
+    var matched = [];
+
+    for (; n; n = n.nextSibling) {
+      if (n.nodeType === 1 && n !== elem) {
+        matched.push(n);
+      }
+    }
+
+    return matched;
   };
 
   DomElementInfo.prototype = {
@@ -764,12 +776,12 @@
 
         return {
           top: rect.top + window.pageYOffset - docElem.clientTop,
-          left: rect.left + window.pageXOffset - docElem.clientLeft
+          left: rect.left + window.pageXOffset - docElem.clientLeft,
         };
       } else {
         return {
           top: 0,
-          left: 0
+          left: 0,
         };
       }
     },
@@ -819,7 +831,7 @@
     },
     sibling: function (cur, dir) {
       //eslint-disable-next-line
-      while ((cur = cur[dir]) && cur.nodeType !== 1) { }
+      while ((cur = cur[dir]) && cur.nodeType !== 1) {}
       return cur;
     },
     next: function () {
@@ -829,17 +841,17 @@
       return this.sibling(this.ele, 'previousSibling');
     },
     siblings: function () {
-      return this.siblings((this.ele.parentNode || {}).firstChild, this.ele);
+      return siblings((this.ele.parentNode || {}).firstChild, this.ele);
     },
     children: function () {
-      return this.siblings(this.ele.firstChild);
+      return siblings(this.ele.firstChild);
     },
     parent: function () {
       var parent = this.ele.parentNode;
       parent = parent && parent.nodeType !== 11 ? parent : null;
       return ry(parent);
     },
-    // 兼容不原生支持 previousElementSibling 的旧版浏览器
+    // 兼容原生不支持 previousElementSibling 的旧版浏览器
     previousElementSibling: function () {
       var el = this.ele;
       if ('previousElementSibling' in document.documentElement) {
@@ -886,14 +898,14 @@
       } catch (err) {
         return [];
       }
-    }
+    },
   };
 
   /** 兼容低版本 IE 的事件注册方法
    * @category Event
    * @param {HTMLElement|Window} target 事件源，window 或 DOM 元素
    * @param {String} eventName 事件名，如 load、click、mousedown
-   * @param {Function} evenHandler 事件处理函数
+   * @param {Function} eventHandler 事件处理函数
    * @param {Boolean} ?useCapture 是否使用事件捕获、默认值为 true
    * @example
    * addEvent(window, 'hashchange', function(){
@@ -901,7 +913,7 @@
    * };
    * @function addEvent
    */
-  function addEvent(target, eventName, evenHandler, useCapture) {
+  function addEvent(target, eventName, eventHandler, useCapture) {
     function fixEvent(event) {
       if (event) {
         event.preventDefault = fixEvent.preventDefault;

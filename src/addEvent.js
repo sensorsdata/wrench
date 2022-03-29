@@ -4,7 +4,7 @@ import ry from './ry';
  * @category Event
  * @param {HTMLElement|Window} target 事件源，window 或 DOM 元素
  * @param {String} eventName 事件名，如 load、click、mousedown
- * @param {Function} evenHandler 事件处理函数
+ * @param {Function} eventHandler 事件处理函数
  * @param {Boolean} ?useCapture 是否使用事件捕获、默认值为 true
  * @example
  * addEvent(window, 'hashchange', function(){
@@ -12,7 +12,7 @@ import ry from './ry';
  * };
  * @function addEvent
  */
-export default function addEvent(target, eventName, evenHandler, useCapture) {
+export default function addEvent(target, eventName, eventHandler, useCapture) {
   function fixEvent(event) {
     if (event) {
       event.preventDefault = fixEvent.preventDefault;

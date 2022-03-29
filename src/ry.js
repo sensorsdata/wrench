@@ -18,10 +18,10 @@ import isArray from './isArray';
  * @param {Element} dom 传入的 dom 元素
  * @returns {DomElementInfo} 元素信息对象，用于获取元素信息
  * @function ry
- * @example 
+ * @example
  * var a =  document.getElementById('banner');
  * var b =ry(a);
- * b.addClass('banner-style'); 
+ * b.addClass('banner-style');
  * // => <h1 id='banner' class='banner-style'> hello world </h1>
  */
 export default function ry(dom) {
@@ -30,6 +30,18 @@ export default function ry(dom) {
 
 var DomElementInfo = function (dom) {
   this.ele = dom;
+};
+
+var siblings = function (n, elem) {
+  var matched = [];
+
+  for (; n; n = n.nextSibling) {
+    if (n.nodeType === 1 && n !== elem) {
+      matched.push(n);
+    }
+  }
+
+  return matched;
 };
 
 DomElementInfo.prototype = {
@@ -73,12 +85,12 @@ DomElementInfo.prototype = {
 
       return {
         top: rect.top + window.pageYOffset - docElem.clientTop,
-        left: rect.left + window.pageXOffset - docElem.clientLeft
+        left: rect.left + window.pageXOffset - docElem.clientLeft,
       };
     } else {
       return {
         top: 0,
-        left: 0
+        left: 0,
       };
     }
   },
@@ -128,7 +140,7 @@ DomElementInfo.prototype = {
   },
   sibling: function (cur, dir) {
     //eslint-disable-next-line
-    while ((cur = cur[dir]) && cur.nodeType !== 1) { }
+    while ((cur = cur[dir]) && cur.nodeType !== 1) {}
     return cur;
   },
   next: function () {
@@ -138,17 +150,17 @@ DomElementInfo.prototype = {
     return this.sibling(this.ele, 'previousSibling');
   },
   siblings: function () {
-    return this.siblings((this.ele.parentNode || {}).firstChild, this.ele);
+    return siblings((this.ele.parentNode || {}).firstChild, this.ele);
   },
   children: function () {
-    return this.siblings(this.ele.firstChild);
+    return siblings(this.ele.firstChild);
   },
   parent: function () {
     var parent = this.ele.parentNode;
     parent = parent && parent.nodeType !== 11 ? parent : null;
     return ry(parent);
   },
-  // 兼容不原生支持 previousElementSibling 的旧版浏览器
+  // 兼容原生不支持 previousElementSibling 的旧版浏览器
   previousElementSibling: function () {
     var el = this.ele;
     if ('previousElementSibling' in document.documentElement) {
@@ -195,5 +207,5 @@ DomElementInfo.prototype = {
     } catch (err) {
       return [];
     }
-  }
+  },
 };

@@ -2,47 +2,56 @@ import test from 'tape';
 import sinon from 'sinon';
 import loadScript from '../src/loadScript';
 
-// mock head
-const mockHead = {
-  nodeType: 1,
-  tagName: 'head',
-  children: [],
-  appendChild: function (ele) {
-    this.children.push(ele);
-  },
-};
-// mock link
-const mockLink = {
-  nodeType: 1,
-  tagName: 'link',
-  rel: '',
-  href: '',
-  onload: function () {},
-  onreadystatechange: function () {},
-  onerror: function () {},
-};
-// mock script
-const mockScript = {
-  nodeType: 1,
-  tagName: 'script',
-  charset: '',
-  async: '',
-  src: '',
-  type: '',
-  readyState: undefined,
-  setAttribute: function () {},
-  onload: function () {},
-  onreadystatechange: function () {},
-  onerror: function () {},
-};
-
-// 模拟 document 事件
-global.document = {
-  createElement: function () {},
-  getElementsByTagName: function () {},
-};
-
 test('test loadScript function', (t) => {
+  // mock head
+  var createHead = function () {
+    return {
+      nodeType: 1,
+      tagName: 'head',
+      children: [],
+      appendChild: function (ele) {
+        this.children.push(ele);
+      },
+    };
+  };
+  // mock script
+  var createScript = function () {
+    return {
+      nodeType: 1,
+      tagName: 'script',
+      charset: '',
+      async: '',
+      src: '',
+      type: '',
+      readyState: undefined,
+      setAttribute: function () {},
+      onload: function () {},
+      onreadystatechange: function () {},
+      onerror: function () {},
+    };
+  };
+  // mock link
+  var createLink = function () {
+    return {
+      nodeType: 1,
+      tagName: 'link',
+      rel: '',
+      href: '',
+      readyState: undefined,
+      onload: function () {},
+      onreadystatechange: function () {},
+      onerror: function () {},
+    };
+  };
+
+  // 模拟 document 事件
+  global.document = {
+    createElement: function () {},
+    getElementsByTagName: function () {},
+  };
+
+  // test loadScript function when script type is js
+  // console.log('test loadScript function when script type is js');
   test('test loadScript function when script type is js', (t) => {
     // js para
     var para = {
@@ -55,6 +64,9 @@ test('test loadScript function', (t) => {
         console.log('js script load error');
       },
     };
+
+    var mockHead = new createHead();
+    var mockScript = new createScript();
 
     // 加载 js 脚本
     sinon
@@ -125,12 +137,12 @@ test('test loadScript function', (t) => {
         );
       });
     });
+
     sinon.restore();
     t.end();
   });
 
   test('test loadScript function when script type is css', (t) => {
-    // 加载 css 脚本
     const cssPara = {
       url: '/test.css',
       type: 'css',
@@ -142,6 +154,9 @@ test('test loadScript function', (t) => {
       },
     };
 
+    var mockHead = new createHead();
+    var mockLink = new createLink();
+
     sinon.stub(mockLink);
     sinon
       .stub(global.document, 'getElementsByTagName')
@@ -152,6 +167,7 @@ test('test loadScript function', (t) => {
       .withArgs('link')
       .returns(mockLink);
     loadScript(cssPara);
+    // 是否设置正确属性
     const testCases = [
       { k: 'rel', v: 'stylesheet' },
       { k: 'href', v: cssPara.url },
@@ -164,10 +180,48 @@ test('test loadScript function', (t) => {
       );
     });
 
+    // test g.onload & g.onreadystatechange
+    // 当 !this.readyState || this.readyState = loaded || complete;
+    var stub = sinon.stub(mockLink, 'onload');
+    var stub2 = sinon.stub(mockLink, 'onreadystatechange');
+    [undefined, 'loaded', 'complete'].forEach((item) => {
+      ['onload', 'onreadystatechange'].forEach((curr) => {
+        stub.restore();
+        stub2.restore();
+        sinon.stub(mockLink, 'readyState').value(item);
+        mockLink[curr]();
+        ['onload', 'onreadystatechange'].forEach((i) => {
+          t.equal(
+            mockLink[i],
+            null,
+            `call g.${curr} when mockLink.readyState is ${JSON.stringify(
+              item
+            )}, then g.${i} turns to null`
+          );
+        });
+      });
+    });
+    stub.restore();
+    stub2.restore();
+
+    // 当 !(!this.readyState || this.readyState = loaded || complete)
+    stub.restore();
+    stub2.restore();
+    sinon.stub(mockLink, 'readyState').value('test');
+    ['onload', 'onreadystatechange'].forEach((value) => {
+      mockLink[value]();
+      ['onload', 'onreadystatechange'].forEach((v) => {
+        t.notEqual(
+          mockLink[v],
+          null,
+          `call g.${value} when mockLink.readyState !== null && this.readyState !== 'loaded' && this.readyState !== 'complete'), then g.${v} won't turn to null`
+        );
+      });
+    });
+
     sinon.restore();
-    delete global.Document;
+    delete global.document;
     t.end();
   });
-
   t.end();
 });
