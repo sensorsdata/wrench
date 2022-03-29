@@ -16,6 +16,7 @@ release-npm:
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
     - npm config get
     - npm config ls -l
+    - npm profile get
     - npm install
     - npm run test
     - npm run build
