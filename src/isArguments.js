@@ -1,3 +1,5 @@
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
 /**检测是否是函数内部 arguments 对象
  * @category Util
  * @param {*} arg 传入参数 

@@ -1014,6 +1014,7 @@ function xhr(cors) {
 }
 
 var nativeForEach = Array.prototype.forEach;
+var hasOwnProperty$2 = Object.prototype.hasOwnProperty;
 
 /** 迭代器回调
  * @callback iteratorCallback
@@ -1048,13 +1049,14 @@ function each(obj, iterator, context) {
     }
   } else {
     for (var key in obj) {
-      if (hasOwnProperty.call(obj, key)) {
+      if (hasOwnProperty$2.call(obj, key)) {
         iterator.call(context, obj[key], key, obj);
       }
     }
   }
 }
 
+var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
 /** 使用源对象对目标对象进行扩展,
  * 只扩展第一层,<br>
  * 如果遇到目标对象已经存在的属性，则直接覆盖目标对象原来的属性值
@@ -1096,7 +1098,7 @@ function each(obj, iterator, context) {
 function extend(obj) {
   each(Array.prototype.slice.call(arguments, 1), function (source) {
     for (var prop in source) {
-      if (hasOwnProperty.call(source, prop) && source[prop] !== void 0) {
+      if (hasOwnProperty$1.call(source, prop) && source[prop] !== void 0) {
         obj[prop] = source[prop];
       }
     }
@@ -2344,6 +2346,8 @@ function inherit(subclass, superclass) {
   subclass.superclass = superclass.prototype;
   return subclass;
 }
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**检测是否是函数内部 arguments 对象
  * @category Util

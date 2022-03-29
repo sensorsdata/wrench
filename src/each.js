@@ -1,6 +1,7 @@
 import isArray from './isArray';
 
 var nativeForEach = Array.prototype.forEach;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /** 迭代器回调
  * @callback iteratorCallback

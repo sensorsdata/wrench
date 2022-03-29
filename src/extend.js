@@ -1,5 +1,5 @@
 import each from './each';
-
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 /** 使用源对象对目标对象进行扩展,
  * 只扩展第一层,<br>
  * 如果遇到目标对象已经存在的属性，则直接覆盖目标对象原来的属性值
