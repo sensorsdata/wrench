@@ -1,4 +1,4 @@
-import Sinon from 'sinon';
+import sinon from 'sinon';
 import test from 'tape';
 import getIOSVersion from '../src/getIOSVersion';
 
@@ -32,7 +32,7 @@ test('test getIOSVersion function', (t) => {
     );
   });
 
-  Sinon.stub(Number, 'parseInt').throws('some exception');
+  sinon.stub(Number, 'parseInt').throws('some exception');
   val = getIOSVersion();
   t.equal(
     val,
@@ -40,7 +40,7 @@ test('test getIOSVersion function', (t) => {
     'call getIOSVersion() when some exceptions happened, then it returns ""'
   );
 
-  Sinon.restore();
+  sinon.restore();
   delete global.navigator;
   t.end();
 });

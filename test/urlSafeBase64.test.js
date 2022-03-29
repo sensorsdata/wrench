@@ -16,18 +16,15 @@ test('test urlSafeBase64 function', (t) => {
     'when call urlSafeBase64.decode("RUNOOB-_."), then it returns "RUNOOB+/="'
   );
 
-  val = urlSafeBase64.trim('aGVsbG/kuJbnlYw=');
-  t.equal(
-    val,
-    'aGVsbG/kuJbnlYw',
-    'when call urlSafeBase64.trim("aGVsbG/kuJbnlYw="), then it returns "aGVsbG/kuJbnlYw"'
-  );
-  val = urlSafeBase64.trim('aGVsbG/kuJbnlYw.');
-  t.equal(
-    val,
-    'aGVsbG/kuJbnlYw',
-    'when call urlSafeBase64.trim("aGVsbG/kuJbnlYw."), then it returns "aGVsbG/kuJbnlYw"'
-  );
+  // test urlSafeBase64.trim
+  ['aGVsbG/kuJbnlYw=', 'aGVsbG/kuJbnlYw.'].forEach((item) => {
+    val = urlSafeBase64.trim(item);
+    t.equal(
+      val,
+      'aGVsbG/kuJbnlYw',
+      `when call urlSafeBase64.trim("${item}"), then it returns "aGVsbG/kuJbnlYw"`
+    );
+  });
 
   val = urlSafeBase64.isBase64('aGVsbG/kuJbnlYw=');
   t.equal(

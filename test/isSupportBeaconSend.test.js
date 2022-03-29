@@ -1,5 +1,5 @@
 import test from 'tape';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 import isSupportBeaconSend from '../src/isSupportBeaconSend';
 
 test('test isSupportBeaconSend function', (t) => {
@@ -63,7 +63,7 @@ test('test isSupportBeaconSend function', (t) => {
 
   // navigator == "object" && typeof navigator.sendBeacon == 'function'
   testCases.forEach((testCase) => {
-    Sinon.stub(global.navigator, 'userAgent').value(testCase.ua);
+    sinon.stub(global.navigator, 'userAgent').value(testCase.ua);
     const val = isSupportBeaconSend();
     t.equal(
       val,
@@ -72,19 +72,19 @@ test('test isSupportBeaconSend function', (t) => {
         testCase.msg
       )}, then it returns ${testCase.expect}`
     );
-    Sinon.restore();
+    sinon.restore();
   });
 
   // navigator !== "object"
-  Sinon.stub(global, 'navigator').value(undefined);
+  sinon.stub(global, 'navigator').value(undefined);
   var val = isSupportBeaconSend();
   t.equal(
     val,
     false,
     'call isSupportBeaconSend() when navigator !== "object", then it returns false'
   );
-  
-  Sinon.restore();
+
+  sinon.restore();
   delete global.navigator;
   t.end();
 });

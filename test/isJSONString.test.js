@@ -4,7 +4,6 @@ import isJSONString from '../src/isJSONString';
 
 test('test isJSONString function', (t) => {
   var str = '{"a":123}';
-
   var val = isJSONString(str);
   t.equal(val, true, `when call isJSONString('${str}'), then it returns true`);
 

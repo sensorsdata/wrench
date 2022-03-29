@@ -43,11 +43,7 @@ test('test cookie function', (t) => {
   // cookie.get()
   const getCases = [
     // document.cookie = ''
-    {
-      name: 'key1',
-      str: '',
-      expect: null,
-    },
+    { name: 'key1', str: '', expect: null },
     // document.cookie.split(';')[i] 中有 ' '
     {
       name: 'expires',

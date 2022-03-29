@@ -4,14 +4,8 @@ import hashCode53 from '../src/hashCode53';
 test('test hashCode53 function', (t) => {
   const testCases = [
     { input: '', expect: 0 },
-    {
-      input: 'hello world',
-      expect: -5975507814869267,
-    },
-    {
-      input: 'JavaScript_шеллы',
-      expect: 4968547713331013,
-    },
+    { input: 'hello world', expect: -5975507814869267 },
+    { input: 'JavaScript_шеллы', expect: 4968547713331013 },
   ];
 
   var val;
