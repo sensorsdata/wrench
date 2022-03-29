@@ -16,7 +16,8 @@ release-npm:
     - npm install
     - npm run test
     - npm run build
-    #- npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+    - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+    - npm profile get
     - ls -a
     - npm publish --verbose
   only:
