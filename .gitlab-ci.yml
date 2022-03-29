@@ -1,9 +1,12 @@
 image: node:17.6.0
+
 stages:
   - release-npm
   - release-github
 
 release-npm:
+  tags:
+    - wrench2
   stage: release-npm
   artifacts:
     paths:
