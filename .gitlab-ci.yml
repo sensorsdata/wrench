@@ -23,7 +23,8 @@ release-npm:
     - npm run test
     - npm run build
     - ls -a
-    - npm publish --registry='//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" --verbose
+    - NPM_TOKEN = ${NPM_TOKEN}
+    - npm publish
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
   when: 
