@@ -8,19 +8,20 @@ release-npm:
   stage: release-npm
   artifacts:
     paths:
-      # - dist/
-      # - coverage
-      # - doc
+      - dist/
+      - coverage
+      - doc
       - a.txt
   script:
     - node -v
     - npm -v
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-    - npm config ls -l >a.txt
-  
+    - npm config --global set registry https://registry.npmjs.org/
 
 
-    # - npm profile get
+    - npm config ls -l >npmconfig.txt
+
+    - npm profile get
     # - npm install
     # - npm run test
     # - npm run build
