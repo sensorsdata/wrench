@@ -16,7 +16,21 @@ release-npm:
     - npm -v
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
     - npm config get globalconfig
+
+    - ls
+    - cd ..
+    - cd ..
+    - ls
+    - cd usr 
+    - ls
+    - cd local 
+    - ls
+    - cd etc 
+    - ls
     - cat /usr/local/etc/npmrc
+
+
+
     - npm profile get
     - npm install
     - npm run test
