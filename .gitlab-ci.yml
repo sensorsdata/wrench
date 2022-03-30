@@ -26,8 +26,8 @@ release-npm:
     - cd local 
     - ls
     - cd etc 
-    - ls
-    - cat npmrc
+    - ls -a
+    - cat .npmrc
 
 
     - npm profile get
