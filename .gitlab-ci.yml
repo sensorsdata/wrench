@@ -21,7 +21,7 @@ release-npm:
 
     - npm config ls -l >npmconfig.txt
 
-    - npm profile get
+    # - npm profile get
     # - npm install
     # - npm run test
     # - npm run build
