@@ -16,7 +16,8 @@ release-npm:
     - node -v
     - npm -v
   
-    - npm config --global set registry https://registry.npmjs.org/
+    - export npm_config_registry=https://registry.npmjs.org/
+
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" 
 
     - npm config ls -l >npmconfig.txt
