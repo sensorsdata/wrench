@@ -16,7 +16,7 @@ release-npm:
     - node -v
     - npm -v
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-    - npm config ls -l | >a.txt
+    - npm config ls -l >a.txt
   
 
 
