@@ -16,6 +16,7 @@ release-npm:
     - npm -v
     - npm config delete registry
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+    - ping registry.npmjs.org
     - npm profile get
     - npm install
     - npm run test
