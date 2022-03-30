@@ -3,17 +3,19 @@ import sinon from 'sinon';
 import _localStorage from '../src/localStorage';
 
 var val;
+var createContext = function () {
+  global.window = {
+    localStorage: {
+      getItem: function () {},
+      setItem: function () {},
+      removeItem: function () {},
+    },
+  };
+};
 test('test _localStorage function', (t) => {
-  // test _localStorage.get
   test('test _localStorage.get', (t) => {
-    // 模拟 window.localStorage
-    global.window = {
-      localStorage: {
-        getItem: function () {},
-        setItem: function () {},
-        removeItem: function () {},
-      },
-    };
+    createContext();
+    console.log(global.window);
     var k = 'key1';
     var v = 'value1';
     var k2 = 'key2';
@@ -57,15 +59,8 @@ test('test _localStorage function', (t) => {
     t.end();
   });
 
-  // _localStorage.set
   test('test _localStorage.set', (t) => {
-    global.window = {
-      localStorage: {
-        getItem: function () {},
-        setItem: function () {},
-        removeItem: function () {},
-      },
-    };
+    createContext();
     sinon.stub(global.window.localStorage, 'setItem').callsFake(sinon.fake());
     sinon
       .stub(global.window.localStorage, 'getItem')
@@ -80,13 +75,7 @@ test('test _localStorage function', (t) => {
   });
 
   test('test _localStorage.isSupport', (t) => {
-    global.window = {
-      localStorage: {
-        getItem: function () {},
-        setItem: function () {},
-        removeItem: function () {},
-      },
-    };
+    createContext();
     var k3 = '__local_store_support__';
     var v3 = 'testIsSupportStorage';
 
@@ -99,35 +88,32 @@ test('test _localStorage function', (t) => {
     var stub = sinon.stub(global.window.localStorage, 'getItem');
     stub.withArgs(k3).returns(v3);
     val = _localStorage.isSupport();
+    stub.restore();
     t.equal(
       val,
       true,
       '_localStorage.isSupport performs as expected when _localStorage.get(supportName) == val'
     );
 
-    stub.restore();
-
     // _localStorage.get(supportName) !== val
     stub.withArgs('__local_store_support__').returns(undefined);
     val = _localStorage.isSupport();
+    sinon.restore();
     t.equal(
       val,
       false,
       '_localStorage.isSupport performs as expected when _localStorage.get(supportName) !== val'
     );
 
-    sinon.restore();
-
     // 抛出异常
     sinon.stub(global.window.localStorage, 'setItem').throws('some exception');
     val = _localStorage.isSupport();
+    sinon.restore();
     t.equal(
       val,
       false,
       '_localStorage.isSupport performs as expected when exception happens'
     );
-
-    sinon.restore();
     delete global.window;
     t.end();
   });

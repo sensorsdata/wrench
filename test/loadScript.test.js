@@ -45,14 +45,17 @@ test('test loadScript function', (t) => {
   };
 
   // 模拟 document 事件
-  global.document = {
-    createElement: function () {},
-    getElementsByTagName: function () {},
+  var createContext = function () {
+    global.document = {
+      createElement: function () {},
+      getElementsByTagName: function () {},
+    };
   };
 
   // test loadScript function when script type is js
   // console.log('test loadScript function when script type is js');
   test('test loadScript function when script type is js', (t) => {
+    createContext();
     // js para
     var para = {
       url: '/test.js',
@@ -143,6 +146,7 @@ test('test loadScript function', (t) => {
   });
 
   test('test loadScript function when script type is css', (t) => {
+    createContext();
     const cssPara = {
       url: '/test.css',
       type: 'css',

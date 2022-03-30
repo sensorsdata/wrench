@@ -167,6 +167,5 @@ test('test ajax function', (t) => {
     delete global.XDomainRequest;
     t.end();
   });
-
   t.end();
 });

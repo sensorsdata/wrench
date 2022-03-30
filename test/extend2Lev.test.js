@@ -38,7 +38,6 @@ test('test extend2Lev function', (t) => {
     },
   };
 
-  // start test
   var val = extend2Lev(obj, source1);
   t.deepEqual(val, target, 'when call extend2Lev(obj, source), then it returns target');
 

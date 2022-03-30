@@ -51,7 +51,6 @@ test('test getScreenOrientation function', (t) => {
   val = getScreenOrientation();
   t.equal(val, 'landscape', 'getScreenOrientation performs as expected');
 
-  // Sinon.restore();
   stub.restore();
 
   // matchMediaFunc('(orientation: portrait)').matches
@@ -68,8 +67,11 @@ test('test getScreenOrientation function', (t) => {
 
   // !matchMediaFunc('(orientation: portrait)').matches & !matchMediaFunc('(orientation: landscape)').matches
   stub = Sinon.stub(global.window, 'msMatchMedia');
-  stub.withArgs('(orientation: landscape)').returns({ matches: false });
-  stub.withArgs('(orientation: portrait)').returns({ matches: false });
+  stub
+    .withArgs('(orientation: landscape)')
+    .returns({ matches: false })
+    .withArgs('(orientation: portrait)')
+    .returns({ matches: false });
   val = getScreenOrientation();
   t.equal(val, '未取到值', 'getScreenOrientation performs as expected');
 
@@ -82,5 +84,7 @@ test('test getScreenOrientation function', (t) => {
   t.equal(val, '未取到值', 'getScreenOrientation performs as expected');
 
   Sinon.restore();
+  delete global.screen;
+  delete global.window;
   t.end();
 });

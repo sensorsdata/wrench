@@ -16,7 +16,6 @@ test('test addHashEvent function', (t) => {
 
   // !target.addEventListener
   sinon.stub(global.window, 'addEventListener').value(undefined);
-
   // "pushState" in window.history
   addHashEvent(cb);
   t.ok(

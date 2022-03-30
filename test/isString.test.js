@@ -10,7 +10,7 @@ test('test isString function', (t) => {
     { input: new Date('2020-2-2 8:0:12'), expect: false },
     { input: new RegExp('\\w+'), expect: false },
   ];
-  
+
   var val;
   testCases.forEach((testCase) => {
     val = isString(testCase.input);
@@ -24,11 +24,7 @@ test('test isString function', (t) => {
   });
 
   val = isString(function () {});
-  t.equal(
-    val,
-    false,
-    'when call isString(function () {}), then it returns false'
-  );
+  t.equal(val, false, 'when call isString(function () {}), then it returns false');
 
   t.end();
 });

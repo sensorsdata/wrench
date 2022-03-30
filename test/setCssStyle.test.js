@@ -141,5 +141,6 @@ test('test setCssStyle function', (t) => {
   );
 
   sinon.restore();
+  delete global.document;
   t.end();
 });

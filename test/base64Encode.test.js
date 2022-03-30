@@ -9,11 +9,7 @@ test('test base64Encode function', (t) => {
   sinon.stub(global, 'btoa').withArgs('RUNOOB').returns('UlVOT09C');
 
   var val = base64Encode('RUNOOB');
-  t.equal(
-    val,
-    'UlVOT09C',
-    'when call base64Encode("RUNOOB"), then it returns "UlVOT09C"'
-  );
+  t.equal(val, 'UlVOT09C', 'when call base64Encode("RUNOOB"), then it returns "UlVOT09C"');
 
   sinon.restore();
   // encodeURIComponent('hello世界') -> 'hello%E4%B8%96%E7%95%8C'

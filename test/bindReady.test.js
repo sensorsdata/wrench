@@ -50,5 +50,6 @@ test('test bindReady function', (t) => {
     'call bindReady(func, window) when !window.document.addEventListener, then global.window.attachEvent get called once'
   );
   sinon.restore();
+  delete global.window;
   t.end();
 });
