@@ -14,16 +14,12 @@ release-npm:
   script:
     - node -v
     - npm -v
-    # - npm config set registry //registry.npmjs.org/
-    # - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-    # - npm config get |>>a.txt
-    # - cat a.txt
-    # - npm profile get
+    - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+    - npm profile get
     - npm install
     - npm run test
     - npm run build
     - ls -a
-    - NPM_TOKEN = ${NPM_TOKEN}
     - npm publish
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
