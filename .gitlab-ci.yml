@@ -17,17 +17,15 @@ release-npm:
     - npm -v
   
     - export npm_config_registry=https://registry.npmjs.org/
-
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" 
-
     - npm config ls -l >npmconfig.txt
 
     - npm profile get
-    # - npm install
-    # - npm run test
-    # - npm run build
-    # - ls -a
-    # - npm publish
+    - npm install
+    - npm run test
+    - npm run build
+    - ls -a
+    - npm publish
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
   when: 
