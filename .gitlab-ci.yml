@@ -11,14 +11,14 @@ release-npm:
       - dist/
       - coverage
       - doc
-      - npmconfig.txt
+      # - npmconfig.txt
   script:
     - node -v
     - npm -v
   
     - export npm_config_registry=https://registry.npmjs.org/
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" 
-    - npm config ls -l >npmconfig.txt
+    # - npm config ls -l >npmconfig.txt
 
     - npm profile get
     - npm install
