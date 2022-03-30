@@ -21,7 +21,7 @@ release-npm:
     - npm run test
     - npm run build
     - ls -a
-    - npm publish --verbose
+    - yarn publish --verbose
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
   when: 
