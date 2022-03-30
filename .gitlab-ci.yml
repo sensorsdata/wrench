@@ -11,7 +11,7 @@ release-npm:
       - dist/
       - coverage
       - doc
-      - a.txt
+      - npmconfig.txt
   script:
     - node -v
     - npm -v
