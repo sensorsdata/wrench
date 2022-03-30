@@ -15,13 +15,13 @@ release-npm:
     - node -v
     - npm -v
     # - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-    - npm config get
-    - npm profile get  -- registry='//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" --verbose
+    # - npm config get
+    # - npm profile get
     - npm install
     - npm run test
     - npm run build
     - ls -a
-    - npm publish -- registry='//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" --verbose
+    - npm publish registry='//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" --verbose
   only:
     - web # only autorun when click “RunPipeLine” on GitLab WebSite
   when: 
