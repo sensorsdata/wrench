@@ -14,7 +14,7 @@ release-npm:
   script:
     - node -v
     - npm -v
-    - npm config delete registry
+    - npm config get globalconfig
     - npm config set -- '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
     - ping registry.npmjs.org
     - npm profile get
