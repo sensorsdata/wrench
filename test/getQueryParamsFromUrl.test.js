@@ -11,13 +11,13 @@ test('test getQueryParamsFromUrl function', (t) => {
         silly: 'willy',
         'field[0]': 'zero',
         'field[2]': 'two#test=hash',
-        chucky: 'cheese',
-      },
+        chucky: 'cheese'
+      }
     },
     {
       url: 'https://a.b.com',
-      expect: {},
-    },
+      expect: {}
+    }
   ];
   
   var val;

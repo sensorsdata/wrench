@@ -8,8 +8,8 @@ var createContext = function () {
     localStorage: {
       getItem: function () {},
       setItem: function () {},
-      removeItem: function () {},
-    },
+      removeItem: function () {}
+    }
   };
 };
 test('test _localStorage function', (t) => {

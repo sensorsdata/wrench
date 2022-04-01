@@ -8,7 +8,7 @@ test('test removeScriptProtocol function', (t) => {
     { input: 666, expect: '' },
     { input: null, expect: '' },
     { input: undefined, expect: '' },
-    { input: {}, expect: '' },
+    { input: {}, expect: '' }
   ];
   
   var val;

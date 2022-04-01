@@ -207,5 +207,5 @@ DomElementInfo.prototype = {
     } catch (err) {
       return [];
     }
-  },
+  }
 };

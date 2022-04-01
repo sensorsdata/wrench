@@ -9,7 +9,7 @@ test('test isFunction function', (t) => {
     { input: null, expect: false },
     { input: undefined, expect: false },
     { input: new Object(), expect: false },
-    { input: new Date(), expect: false },
+    { input: new Date(), expect: false }
   ];
 
   var val = isFunction(function () {});

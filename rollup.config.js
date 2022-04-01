@@ -9,7 +9,7 @@ export default [{
   input: 'src/index.js',
   output: {
     file: 'dist/wrench-es6.js',
-    format: 'es',
+    format: 'es'
   }
 }
 ];

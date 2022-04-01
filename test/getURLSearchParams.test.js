@@ -12,13 +12,13 @@ test('test getURLSearchParams function', (t) => {
         silly: 'willy',
         'field[0]': 'zero',
         'field[2]': 'two#test=hash',
-        chucky: 'cheese',
-      },
+        chucky: 'cheese'
+      }
     },
     {
       input: '',
-      expect: {},
-    },
+      expect: {}
+    }
   ];
 
   var val;

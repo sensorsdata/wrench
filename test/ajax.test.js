@@ -20,7 +20,7 @@ test('test ajax function', (t) => {
         return 'error';
       },
       header: { ExtraHeader: 'TestValue' },
-      data: { name: 'Alice', age: 18 },
+      data: { name: 'Alice', age: 18 }
     };
   };
   var requestObj;

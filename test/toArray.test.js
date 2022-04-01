@@ -7,7 +7,7 @@ test('test toArray function', (t) => {
     { input: undefined, expect: [] },
     { input: [1, 2, 3], expect: [1, 2, 3] },
     { input: { a: 1, b: 2 }, expect: [1, 2] },
-    { input: { a: 1, b: [1, 2, 3] }, expect: [1, [1, 2, 3]] },
+    { input: { a: 1, b: [1, 2, 3] }, expect: [1, [1, 2, 3]] }
   ];
 
   var val;

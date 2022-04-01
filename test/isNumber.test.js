@@ -8,7 +8,7 @@ test('test isNumber function', (t) => {
     { input: null, expect: false },
     { input: undefined, expect: false },
     { input: [], expect: false },
-    { input: {}, expect: false },
+    { input: {}, expect: false }
   ];
   
   testCases.forEach((testCase) => {

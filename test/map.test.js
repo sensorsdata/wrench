@@ -15,7 +15,7 @@ test('test map function', (t) => {
     { input: null, expect: [] },
     { input: undefined, expect: [] },
     // obj !== null
-    { input: obj, expect: target },
+    { input: obj, expect: target }
   ];
 
   var val;

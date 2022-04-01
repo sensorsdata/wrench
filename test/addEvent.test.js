@@ -8,7 +8,7 @@ test('test addEvent function', (t) => {
     hashchange: function () {},
     onhashchange: undefined,
     click: function () {},
-    onclick: undefined,
+    onclick: undefined
   };
   var target = window;
   var eventName = 'hashchange';
@@ -16,7 +16,7 @@ test('test addEvent function', (t) => {
   const eventInfo = {
     type: 'hashchange',
     target: '',
-    srcElement: { id: 'btnTrack' },
+    srcElement: { id: 'btnTrack' }
   };
 
   // element && element.addEventListener

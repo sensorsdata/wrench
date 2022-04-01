@@ -9,7 +9,7 @@ test('test isHttpUrl function', (t) => {
     { input: undefined, expect: false },
     { input: 666, expect: false },
     { input: {}, expect: false },
-    { input: true, expect: false },
+    { input: true, expect: false }
   ];
 
   var val;

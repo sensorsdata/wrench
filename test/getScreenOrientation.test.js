@@ -6,7 +6,7 @@ test('test getScreenOrientation function', (t) => {
   const testCases = [
     { obj: { msOrientation: 'landscape' }, expect: 'landscape' },
     { obj: { mozOrientation: 'portrait' }, expect: 'portrait' },
-    { obj: { orientation: { type: 'landscape' } }, expect: 'landscape' },
+    { obj: { orientation: { type: 'landscape' } }, expect: 'landscape' }
   ];
 
   global.screen = {};
@@ -22,7 +22,7 @@ test('test getScreenOrientation function', (t) => {
   // 模拟 window.matchMedia
   global.window = {
     matchMedia: function () {},
-    msMatchMedia: function () {},
+    msMatchMedia: function () {}
   };
   // matchMediaFunc('(orientation: landscape)').matches
   var stub = Sinon.stub(global.window, 'matchMedia');

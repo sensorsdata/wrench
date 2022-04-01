@@ -14,19 +14,19 @@ test('test hasAttribute function', (t) => {
       1: 'test',
       id: {
         value: 'sp1',
-        specified: true,
+        specified: true
       },
       test: {
         value: '123',
-        specified: true,
-      },
+        specified: true
+      }
     },
-    hasAttribute: function () {},
+    hasAttribute: function () {}
   };
 
   const testCases = [
     { attrName: 'test', expect: true },
-    { attrName: 'test2', expect: false },
+    { attrName: 'test2', expect: false }
   ];
 
   sinon.stub(div, 'hasAttribute').value(undefined);

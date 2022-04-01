@@ -26,7 +26,7 @@ test('test each function', (t) => {
       expect: [11, 12, 13],
       iterator: function (v, i, arr) {
         arr[i] = v + 10;
-      },
+      }
     },
     // isObject(obj)
     {
@@ -34,7 +34,7 @@ test('test each function', (t) => {
       expect: { a: 11, b: 12, c: 13 },
       iterator: function (value, key, obj) {
         obj[key] = value + 10;
-      },
+      }
     },
     // instance 中有继承父对象的属性
     {
@@ -42,7 +42,7 @@ test('test each function', (t) => {
       expect: target,
       iterator: function (value, key, obj) {
         obj[key] = value + 10;
-      },
+      }
     },
     // input 为 0 / ''
     {
@@ -50,15 +50,15 @@ test('test each function', (t) => {
       expect: 0,
       iterator: function (value, key, obj) {
         obj[key] = value + 10;
-      },
+      }
     },
     {
       input: '',
       expect: '',
       iterator: function (value, key, obj) {
         obj[key] = value + 10;
-      },
-    },
+      }
+    }
   ];
 
   // start test

@@ -31,7 +31,7 @@ test('test listenPageState function ', t => {
     sinon.stub(addEventModule, 'default').value(mockAddEvent);
     testListener = {
       visible: sinon.fake.returns(),
-      hidden: sinon.fake.returns(),
+      hidden: sinon.fake.returns()
     };
   }
 

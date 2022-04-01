@@ -6,7 +6,7 @@ test('test mediaQueriesSupported function', (t) => {
   global.window = {
     matchMedia: function () {
       return true;
-    },
+    }
   };
 
   sinon.stub(global.window, 'matchMedia').value(undefined);

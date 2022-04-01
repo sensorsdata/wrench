@@ -31,15 +31,15 @@ test('test getHostname function', (t) => {
       return {
         href: url,
         hostname: '',
-        searchParams: '',
+        searchParams: ''
       };
-    },
+    }
   };
   var url = 'https://www.example.com';
   Sinon.stub(global.window, 'URL').withArgs(url).returns({
     href: url,
     hostname: 'www.example.com',
-    searchParams: '',
+    searchParams: ''
   });
   val = getHostname(url);
   t.equal(val, 'www.example.com', 'success');

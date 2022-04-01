@@ -6,23 +6,23 @@ test('test extend function', (t) => {
     name: 'Alice',
     age: 18,
     address: {
-      addr1: 'BeiJing',
-    },
+      addr1: 'BeiJing'
+    }
   };
   const source = {
     name: 'Bob',
     favor: 'Apple',
     address: {
-      addr1: 'TianJing',
-    },
+      addr1: 'TianJing'
+    }
   };
   const target = {
     name: 'Bob',
     age: 18,
     favor: 'Apple',
     address: {
-      addr1: 'TianJing',
-    },
+      addr1: 'TianJing'
+    }
   };
 
   // 对象继承

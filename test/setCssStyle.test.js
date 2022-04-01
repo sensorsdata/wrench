@@ -10,7 +10,7 @@ test('test setCssStyle function', (t) => {
    */
   // const parentNode
   const mockParent = {
-    children: [],
+    children: []
   };
   // mock script
   const mockScript = {
@@ -22,13 +22,13 @@ test('test setCssStyle function', (t) => {
       charset: {
         specified: true,
         textContent: 'UTF-8',
-        value: 'UTF-8',
+        value: 'UTF-8'
       },
       src: {
         specified: true,
         textContent: 'sensorsdata.js',
-        value: 'sensorsdata.js',
-      },
+        value: 'sensorsdata.js'
+      }
     },
     parentNode: {
       parent: mockParent,
@@ -39,8 +39,8 @@ test('test setCssStyle function', (t) => {
         } else {
           mockParent.children.splice(ind - 1, 1, newEle);
         }
-      },
-    },
+      }
+    }
   };
   // mock head
   const mockHead = {
@@ -57,7 +57,7 @@ test('test setCssStyle function', (t) => {
     },
     appendChild: function (ele) {
       this.children.push(ele);
-    },
+    }
   };
   // mock style
   const mockStyle = {
@@ -66,18 +66,18 @@ test('test setCssStyle function', (t) => {
     children: [],
     type: '',
     styleSheet: {
-      cssText: '',
+      cssText: ''
     },
     innerHTML: '',
     appendChild: function () {
       this.innerHTML = 'body { \n    background :red\n  }';
-    },
+    }
   };
 
   global.document = {
     createElement: function () {},
     createTextNode: function () {},
-    getElementsByTagName: function () {},
+    getElementsByTagName: function () {}
   };
   var css = `body { 
     background :red

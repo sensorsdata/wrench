@@ -18,7 +18,7 @@ test('test getElementContent function', t => {
     {
       innerText: (() => { let str = ''; for (let i = 0; i < 300; i++) { str += '1'; } return str; })(),
       expected: (() => { let str = ''; for (let i = 0; i < 255; i++) { str += '1'; } return str; })()
-    },
+    }
   ];
 
   elementCases.forEach(e => {

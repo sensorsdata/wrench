@@ -5,7 +5,7 @@ import xhr from '../src/xhr';
 test('test xhr function', (t) => {
   global.window = {
     XMLHttpRequest: Sinon.useFakeXMLHttpRequest(),
-    ActiveXObject: function () {},
+    ActiveXObject: function () {}
   };
   global.XMLHttpRequest = Sinon.useFakeXMLHttpRequest();
   global.XMLHttpRequest.onCreate = function (xhr) {

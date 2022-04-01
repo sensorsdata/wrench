@@ -21,7 +21,7 @@ test('test isEmptyObject function', (t) => {
     { input: [], expect: false },
     { input: null, expect: false },
     { input: undefined, expect: false },
-    { input: true, expect: false },
+    { input: true, expect: false }
   ];
 
   testCases.forEach((testCase) => {

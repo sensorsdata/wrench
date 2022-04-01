@@ -6,23 +6,23 @@ test('test getQueryParam function', (t) => {
     {
       url: 'https://a.b.com?a=1&b=2',
       key: 'b',
-      expect: '2',
+      expect: '2'
     },
     {
       url: 'https://a.b.com?a=1&b=2',
       key: 'c',
-      expect: '',
+      expect: ''
     },
     {
       url: 'https://a.b.com',
       key: 'a',
-      expect: '',
+      expect: ''
     },
     {
       url: 'https://a.b.com?a=1&b=2&c=3',
       key: 'c=',
-      expect: '',
-    },
+      expect: ''
+    }
   ];
 
   var val;

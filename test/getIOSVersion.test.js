@@ -7,17 +7,17 @@ test('test getIOSVersion function', (t) => {
     {
       appVersion:
         '5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36',
-      expect: '',
+      expect: ''
     },
     {
       appVersion:
         'Mozilla/5.0 (iPad; CPU OS 13_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1 IMO',
-      expect: 13,
-    },
+      expect: 13
+    }
   ];
 
   global.navigator = {
-    appVersion: '',
+    appVersion: ''
   };
   
   // start test
