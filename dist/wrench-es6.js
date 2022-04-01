@@ -2192,6 +2192,26 @@ function getURL(url) {
   }
 }
 
+/** 对传入的 url_path 字符串进行头尾空格去除，并进行 decodeURI 解码<br>
+ * 若未传入 url_path 则对当前页面 URL 的路径部分进行 decodeURI 解码并返回
+ * @param {String} ?url_path 传入 url_path 字符串
+ * @returns 返回解码后的 url_path 或 decodeURI 解码后的当前页面 URL 的路径部分
+ * @category Bom
+ * @function getURLPath
+ *
+ * @example
+ * // 在 "http://localhost:8080/世界.html"
+ * getURLPath() //=> "/世界.html"
+ */
+function getURLPath(url_path) {
+  if (isString(url_path)) {
+    url_path = trim(url_path);
+    return _decodeURI(url_path);
+  } else {
+    return _decodeURI(location.pathname);
+  }
+}
+
 /** 检测是否具有指定属性名的属性
  * @category Dom
  * @param {Element} ele 传入 dom 元素
@@ -3256,4 +3276,4 @@ var urlSafeBase64 = {
   }
 };
 
-export { EventEmitter, _URL as URL, UUID, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, logger, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, values, xhr };
+export { EventEmitter, _URL as URL, UUID, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLPath, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, logger, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, values, xhr };
