@@ -85,12 +85,12 @@ DomElementInfo.prototype = {
 
       return {
         top: rect.top + window.pageYOffset - docElem.clientTop,
-        left: rect.left + window.pageXOffset - docElem.clientLeft,
+        left: rect.left + window.pageXOffset - docElem.clientLeft
       };
     } else {
       return {
         top: 0,
-        left: 0,
+        left: 0
       };
     }
   },
