@@ -5,21 +5,21 @@ test('test trim function', (t) => {
   const testCases = [
     {
       input: ' hello world begins with whitespace',
-      expect: 'hello world begins with whitespace',
+      expect: 'hello world begins with whitespace'
     },
     {
       input: 'hello wolrd ends with whitespace ',
-      expect: 'hello wolrd ends with whitespace',
+      expect: 'hello wolrd ends with whitespace'
     },
     {
       input: ' hello wolrd begins and ends with whitespace ',
-      expect: 'hello wolrd begins and ends with whitespace',
+      expect: 'hello wolrd begins and ends with whitespace'
     },
     {
       input:
         '       hello wolrd begins and ends with multiple whitespace         ',
-      expect: 'hello wolrd begins and ends with multiple whitespace',
-    },
+      expect: 'hello wolrd begins and ends with multiple whitespace'
+    }
   ];
 
   testCases.forEach((testCase) => {

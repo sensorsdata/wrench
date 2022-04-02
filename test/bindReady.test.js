@@ -7,16 +7,16 @@ test('test bindReady function', (t) => {
     document: {
       readyState: undefined,
       documentElement: {
-        doScroll: function () {},
+        doScroll: function () {}
       },
       addEventListener: function () {},
       removeEventListener: function () {},
       attachEvent: function () {},
-      detachEvent: function () {},
+      detachEvent: function () {}
     },
     frameElement: undefined,
     addEventListener: function () {},
-    attachEvent: function () {},
+    attachEvent: function () {}
   };
 
   var helper;

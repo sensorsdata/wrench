@@ -9,7 +9,7 @@ test('test isArray function', (t) => {
     { input: undefined, expect: false },
     { input: null, expect: false },
     { input: 666, expect: false },
-    { input: '666', expect: false },
+    { input: '666', expect: false }
   ];
   
   testCases.forEach((testCase) => {

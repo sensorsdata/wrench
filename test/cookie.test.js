@@ -14,7 +14,7 @@ test('test cookie function', (t) => {
     },
     set(newVal) {
       tmp = newVal;
-    },
+    }
   });
 
   // cookie.set()
@@ -48,8 +48,8 @@ test('test cookie function', (t) => {
     {
       name: 'expires',
       str: 'key2=value2; expires=Sat, 02 Apr 2022 10:46:06 GMT; path=/; secure',
-      expect: 'Sat, 02 Apr 2022 10:46:06 GMT',
-    },
+      expect: 'Sat, 02 Apr 2022 10:46:06 GMT'
+    }
   ];
   getCases.forEach((getCase) => {
     document.cookie = getCase.str;

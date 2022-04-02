@@ -8,7 +8,7 @@ test('test strToUnicode function', (t) => {
     { input: undefined, expect: undefined },
     { input: 666, expect: 666 },
     { input: {}, expect: {} },
-    { input: true, expect: true },
+    { input: true, expect: true }
   ];
 
   var val;

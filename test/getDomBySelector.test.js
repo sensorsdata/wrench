@@ -70,7 +70,7 @@ test('test getDomBySelector function', t => {
     },
     {
       selector: 123,
-      expect: null,
+      expect: null
     },
     {
       selector: ':nth-of-type',

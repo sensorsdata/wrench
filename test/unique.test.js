@@ -5,7 +5,7 @@ test('test unique function', (t) => {
   const testCases = [
     { input: [1, 1, 2, 3, 3, 4, 5], expect: [1, 2, 3, 4, 5] },
     { input: [1, 2, 3, 4, 5], expect: [1, 2, 3, 4, 5] },
-    { input: [], expect: [] },
+    { input: [], expect: [] }
   ];
 
   testCases.forEach((testCase) => {

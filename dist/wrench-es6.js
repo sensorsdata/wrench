@@ -770,12 +770,12 @@ DomElementInfo.prototype = {
 
       return {
         top: rect.top + window.pageYOffset - docElem.clientTop,
-        left: rect.left + window.pageXOffset - docElem.clientLeft,
+        left: rect.left + window.pageXOffset - docElem.clientLeft
       };
     } else {
       return {
         top: 0,
-        left: 0,
+        left: 0
       };
     }
   },
@@ -892,7 +892,7 @@ DomElementInfo.prototype = {
     } catch (err) {
       return [];
     }
-  },
+  }
 };
 
 /** 兼容低版本 IE 的事件注册方法

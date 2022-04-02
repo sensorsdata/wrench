@@ -4,7 +4,7 @@ import rot13obfs from '../src/rot13obfs';
 test('test rot13obfs function', (t) => {
   const testCases = [
     { input: 'hello', expect: 'uryy|' },
-    { input: '￥hello', expect: '￥uryy|' },
+    { input: '￥hello', expect: '￥uryy|' }
   ];
   var val;
   testCases.forEach((testCase) => {

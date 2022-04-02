@@ -7,16 +7,16 @@ test('test extend2Lev function', (t) => {
     age: 18,
     address: {
       addr1: 'BeiJing',
-      addr2: 'HeiBei',
-    },
+      addr2: 'HeiBei'
+    }
   };
 
   var source1 = {
     name: 'Bob',
     favor: 'Apple',
     address: {
-      addr1: 'TianJing',
-    },
+      addr1: 'TianJing'
+    }
   };
 
   var source2 = {
@@ -24,8 +24,8 @@ test('test extend2Lev function', (t) => {
     favor: 'Apple',
     test: undefined,
     address: {
-      addr1: 'TianJing',
-    },
+      addr1: 'TianJing'
+    }
   };
 
   var target = {
@@ -34,8 +34,8 @@ test('test extend2Lev function', (t) => {
     favor: 'Apple',
     address: {
       addr1: 'TianJing',
-      addr2: 'HeiBei',
-    },
+      addr2: 'HeiBei'
+    }
   };
 
   var val = extend2Lev(obj, source1);

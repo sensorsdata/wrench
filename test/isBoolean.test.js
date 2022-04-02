@@ -9,7 +9,7 @@ test('test isBoolean function', (t) => {
     { input: undefined, expect: false },
     { input: null, expect: false },
     { input: {}, expect: false },
-    { input: [], expect: false },
+    { input: [], expect: false }
   ];
 
   testCases.forEach((testCase) => {

@@ -4,7 +4,7 @@ import dfmapping from '../src/dfmapping';
 test('test dfmapping function', (t) => {
   const testCases = [
     { input: 'hello world', expect: 'zrkkm MmekV' },
-    { input: 'zrkkm MmekV', expect: 'hello world' },
+    { input: 'zrkkm MmekV', expect: 'hello world' }
   ];
 
   var val;

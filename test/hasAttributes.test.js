@@ -14,17 +14,17 @@ test('test hasAttributes function', (t) => {
       2: 'test2',
       id: {
         value: 'sp1',
-        specified: true,
+        specified: true
       },
       test: {
         value: '123',
-        specified: true,
+        specified: true
       },
       test2: {
         value: '345',
-        specified: true,
-      },
-    },
+        specified: true
+      }
+    }
   };
 
   const testCases = [
@@ -35,7 +35,7 @@ test('test hasAttributes function', (t) => {
     { attrNames: ['test', 'test2'], expect: true },
     { attrNames: ['tester', 'test'], expect: true },
     // !(typeof attrNames === 'string') && !isArray(attrNames)
-    { attrNames: undefined, expect: undefined },
+    { attrNames: undefined, expect: undefined }
   ];
 
   testCases.forEach((testCase) => {

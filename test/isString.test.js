@@ -8,7 +8,7 @@ test('test isString function', (t) => {
     { input: null, expect: false },
     { input: undefined, expect: false },
     { input: new Date('2020-2-2 8:0:12'), expect: false },
-    { input: new RegExp('\\w+'), expect: false },
+    { input: new RegExp('\\w+'), expect: false }
   ];
 
   var val;

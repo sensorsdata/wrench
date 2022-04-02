@@ -15,12 +15,12 @@ var mockDom = function () {
       1: 'test',
       id: {
         value: 'sp1',
-        specified: true,
+        specified: true
       },
       test: {
         value: '123',
-        specified: true,
-      },
+        specified: true
+      }
     },
     children: [],
     offsetWidth: 10,
@@ -40,7 +40,7 @@ var mockDom = function () {
     currentStyle: {},
     parentNode: [],
     parentElement: [],
-    appendChild: function () {},
+    appendChild: function () {}
   };
 };
 
@@ -101,21 +101,21 @@ test('test ry function', (t) => {
     // if (rect.width || rect.height)
     global.window = {
       pageXOffset: 20,
-      pageYOffset: 20,
+      pageYOffset: 20
     };
     sinon.stub(dom, 'getBoundingClientRect').callsFake(function func() {
       return {
         width: 200,
         height: 200,
         top: 100,
-        left: 300,
+        left: 300
       };
     });
     sinon.stub(dom, 'ownerDocument').value({
       documentElement: {
         clientTop: 10,
-        clientLeft: 20,
-      },
+        clientLeft: 20
+      }
     });
     const newDom = ry(dom);
     var val = newDom.offset();
@@ -129,7 +129,7 @@ test('test ry function', (t) => {
     sinon.stub(dom, 'getBoundingClientRect').callsFake(function func() {
       return {
         width: undefined,
-        height: undefined,
+        height: undefined
       };
     });
     const newDomSec = ry(dom);
@@ -147,7 +147,7 @@ test('test ry function', (t) => {
 
   test('test DomElementInfo.prototype.getSize', (t) => {
     global.window = {
-      getComputedStyle: function () {},
+      getComputedStyle: function () {}
     };
 
     const dom = new mockDom();
@@ -216,7 +216,7 @@ test('test ry function', (t) => {
         } else {
           this.children.splice(ind - 1, 1, newNode);
         }
-      },
+      }
     };
 
     const mockDiv = {
@@ -225,7 +225,7 @@ test('test ry function', (t) => {
       children: [],
       appendChild: function (ele) {
         this.children.push(ele);
-      },
+      }
     };
 
     global.document = { createElement: function () {} };
@@ -260,7 +260,7 @@ test('test ry function', (t) => {
   test('test DomElementInfo.prototype.getCssStyle', (t) => {
     var dom = new mockDom();
     dom.style = {
-      getPropertyValue: function () {},
+      getPropertyValue: function () {}
     };
     sinon.stub(dom.style, 'getPropertyValue').withArgs('color').returns('red');
     // if this.ele.style.getPropertyValue(prop)
@@ -280,7 +280,7 @@ test('test ry function', (t) => {
       .withArgs('color')
       .returns(undefined);
     global.window = {
-      getMatchedCSSRules: function () {},
+      getMatchedCSSRules: function () {}
     };
     newDom = ry(dom);
     [null, 666].forEach((item) => {
@@ -324,13 +324,13 @@ test('test ry function', (t) => {
       nextSibling: {
         nodeType: 1,
         tagName: 'p',
-        innerHTML: 'nextTest',
+        innerHTML: 'nextTest'
       },
       previousSibling: {
         nodeType: 1,
         tagName: 'p',
-        innerHTML: 'previousTest',
-      },
+        innerHTML: 'previousTest'
+      }
     };
 
     const Ele = ry(tmp);
@@ -358,7 +358,7 @@ test('test ry function', (t) => {
       nodeType: 1,
       tagName: 'div',
       children: [mockP, mockSpan, dom],
-      firstChild: mockP,
+      firstChild: mockP
     };
     dom.parentNode = mockParent;
     var newDom = ry(dom);
@@ -387,7 +387,7 @@ test('test ry function', (t) => {
     const mockParent = {
       nodeType: 1,
       tagName: 'div',
-      children: [],
+      children: []
     };
     dom.parentNode = mockParent;
 
@@ -403,13 +403,13 @@ test('test ry function', (t) => {
 
   test('test DomElementInfo.prototype.previousElementSibling', (t) => {
     global.document = {
-      documentElement: { previousElementSibling: undefined },
+      documentElement: { previousElementSibling: undefined }
     };
     const prev = {
       nodeType: 1,
       tagName: 'div',
       innerHTML: 'prev',
-      className: 'prev-div-style',
+      className: 'prev-div-style'
     };
     var dom = new mockDom();
     dom.previousElementSibling = prev;
@@ -457,7 +457,7 @@ test('test ry function', (t) => {
     const mockParent = {
       nodeType: 1,
       tagName: 'div',
-      children: [],
+      children: []
     };
     var dom = new mockDom();
     dom.parentNode = mockParent;
@@ -490,13 +490,13 @@ test('test ry function', (t) => {
       {
         attr: 'nodeType',
         replaceAttr: 2,
-        info: '!ieElement(newDom.ele)',
+        info: '!ieElement(newDom.ele)'
       },
       {
         attr: 'parentElement',
         replaceAttr: null,
-        info: 'newDom.ele.parentElement === null',
-      },
+        info: 'newDom.ele.parentElement === null'
+      }
     ];
 
     var val;

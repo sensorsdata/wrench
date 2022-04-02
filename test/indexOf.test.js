@@ -5,7 +5,7 @@ import sinon from 'sinon';
 test('test indexOf function', (t) => {
   const testCases = [
     { input: [[1, 2, 3], 1], expect: 0 },
-    { input: [[1, 2, 3], 0], expect: -1 },
+    { input: [[1, 2, 3], 0], expect: -1 }
   ];
 
   var arr = [1, 2, 3];

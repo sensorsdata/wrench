@@ -4,7 +4,7 @@ import isSupportCors from '../src/isSupportCors';
 
 test('test isSupportCors function', (t) => {
   global.window = {
-    XMLHttpRequest: sinon.useFakeXMLHttpRequest(),
+    XMLHttpRequest: sinon.useFakeXMLHttpRequest()
   };
 
   sinon.stub(global.window, 'XMLHttpRequest').value(undefined);

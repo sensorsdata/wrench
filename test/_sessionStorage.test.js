@@ -12,7 +12,7 @@ test('test _sessionStorage function', (t) => {
       if (this.map[supportName] == val) {
         delete this.map[supportName];
       }
-    },
+    }
   };
 
   // 不支持 sessionStorage 时

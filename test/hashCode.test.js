@@ -7,7 +7,7 @@ const testCases = [
   { input: undefined, expect: 0 },
   { input: null, expect: 0 },
   { input: 666, expect: 0 },
-  { input: {}, expect: 0 },
+  { input: {}, expect: 0 }
 ];
 
 test('test hashCode function', (t) => {

@@ -5,10 +5,10 @@ import addHashEvent from '../src/addHashEvent';
 test('test addHashEvent function', (t) => {
   global.window = {
     history: {
-      pushState: function () {},
+      pushState: function () {}
     },
     // onhashchange: undefined,
-    addEventListener: function () {},
+    addEventListener: function () {}
   };
   var cb = function () {
     console.log('callback');

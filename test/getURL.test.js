@@ -6,7 +6,7 @@ test('test getURL function', (t) => {
   var target = 'https://www.test.com';
 
   global.location = {
-    href: 'https://www.example.com',
+    href: 'https://www.example.com'
   };
 
   var val = getURL(url);

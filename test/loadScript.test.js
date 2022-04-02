@@ -11,7 +11,7 @@ test('test loadScript function', (t) => {
       children: [],
       appendChild: function (ele) {
         this.children.push(ele);
-      },
+      }
     };
   };
   // mock script
@@ -27,7 +27,7 @@ test('test loadScript function', (t) => {
       setAttribute: function () {},
       onload: function () {},
       onreadystatechange: function () {},
-      onerror: function () {},
+      onerror: function () {}
     };
   };
   // mock link
@@ -40,7 +40,7 @@ test('test loadScript function', (t) => {
       readyState: undefined,
       onload: function () {},
       onreadystatechange: function () {},
-      onerror: function () {},
+      onerror: function () {}
     };
   };
 
@@ -48,7 +48,7 @@ test('test loadScript function', (t) => {
   var createContext = function () {
     global.document = {
       createElement: function () {},
-      getElementsByTagName: function () {},
+      getElementsByTagName: function () {}
     };
   };
 
@@ -65,7 +65,7 @@ test('test loadScript function', (t) => {
       },
       onerror: function () {
         console.log('js script load error');
-      },
+      }
     };
 
     var mockHead = new createHead();
@@ -90,7 +90,7 @@ test('test loadScript function', (t) => {
       { k: 'async', v: 'async' },
       { k: 'charset', v: 'UTF-8' },
       { k: 'src', v: para.url },
-      { k: 'type', v: 'text/javascript' },
+      { k: 'type', v: 'text/javascript' }
     ];
     cases.forEach((item) => {
       t.equal(
@@ -155,7 +155,7 @@ test('test loadScript function', (t) => {
       },
       onerror: function () {
         console.log('css script load error');
-      },
+      }
     };
 
     var mockHead = new createHead();
@@ -174,7 +174,7 @@ test('test loadScript function', (t) => {
     // 是否设置正确属性
     const testCases = [
       { k: 'rel', v: 'stylesheet' },
-      { k: 'href', v: cssPara.url },
+      { k: 'href', v: cssPara.url }
     ];
     testCases.forEach((testCase) => {
       t.equal(

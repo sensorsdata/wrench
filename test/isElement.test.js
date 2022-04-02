@@ -8,7 +8,7 @@ test('test isElement function', (t) => {
     { input: 1, expect: false },
     { input: true, expect: false },
     { input: null, expect: false },
-    { input: undefined, expect: false },
+    { input: undefined, expect: false }
   ];
 
   var val;
