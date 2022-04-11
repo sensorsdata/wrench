@@ -1,3 +1,314 @@
+/** 检测传入参数是否是函数
+ * @category Util
+ * @param {*} arg 传入参数
+ * @returns 是否是函数
+ * @function isFunction
+ * @example 
+ * isFunction (function(){}) //=> true
+ */
+function isFunction(arg) {
+  if (!arg) {
+    return false;
+  }
+  var type = Object.prototype.toString.call(arg);
+  return type == '[object Function]' || type == '[object AsyncFunction]';
+}
+
+/** 获取当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
+ * @category Util
+ * @function now
+ * @returns {Number} 返回当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
+ * @example 
+ * now() // 1646122486530
+ */
+function now() {
+  if (Date.now && isFunction(Date.now)) {
+    return Date.now();
+  }
+  return new Date().getTime();
+}
+
+var logFn;
+
+/** wrench 库的日志打印模块，可以通过 setup 设置自定义日志打印方式
+ * @category Util
+ * @exports logger
+ */
+var logger = {
+  /** 自定义工具库的日志函数，默认使用控制台输出
+   * 
+   * @param {Function} logger 日志函数
+   * @example
+   * function myLog(arg){
+   *    console.log(arg);
+   *    alert(arg);
+   * }
+   * logger.setup(myLog); // 使用 myLog 作为日志输出 
+   */
+  setup: function (logger) {
+    logFn = logger;
+  },
+  /**
+   * 使用自定义的日志函数输出日志
+   * 
+   * @example
+   * logger.log('hello world','1234');
+   */
+  log: function () {
+    (logFn || (console && console.log) || function () { }).apply(null, arguments);
+  }
+};
+
+/** 一个封装了 localStorage 的对象
+ * @category Bom
+ * @exports localStorage
+ */
+var _localStorage = {
+  /** 获取 localStorage 值
+   * 
+   * @param {String} key 传入存储值的键 key
+   * @returns {String} 返回值
+   * @example
+   * localStorage.set('key1','value1');
+   * localStorage.get('key1'); //=> value1
+   */
+  get: function (key) {
+    return window.localStorage.getItem(key);
+  },
+  /** 获取 localStorage 值并且通过 JSON.parse 解析为 JS 对象
+   * 如果无法成功解析，则返回字符串值
+   * @param {String} key 传入存储值的键 key
+   * @returns {Object} 返回值
+   * @example
+   * localStorage.set('key2',JSON.stringify({a:1}));
+   * localStorage.parse('key2'); //=> {a:1}
+   */
+  parse: function (key) {
+    var storedValue;
+    try {
+      storedValue = JSON.parse(_localStorage.get(key)) || null;
+    } catch (err) {
+      logger.log(err);
+    }
+    return storedValue;
+  },
+  /** 设置 localStorage 键值
+   * 
+   * @param {String} key 传入存储值的键 key
+   * @param {String} value 传入存储值的值 value
+   * @example
+   *  localStorage.set('key1','value1');
+   *  localStorage.get('key1'); //=> value1
+   */
+  set: function (key, value) {
+    window.localStorage.setItem(key, value);
+  },
+  /** 删除 localStorage 键值
+   * 
+   * @param {*} key 传入存储值的键 key
+   * @example
+   * localStorage.remove('key2');
+   * localStorage.get('key2') //=> null
+   */
+  remove: function (key) {
+    window.localStorage.removeItem(key);
+  },
+  /** 检测当前浏览器是否支持 localStorage 存储
+   * 
+   * @returns {Boolean} 返回当前浏览器是否支持 localStorage 存储
+   * @example
+   * // 在支持 localStorage 的浏览器中
+   * localStorage.isSupport() //=> true
+   */
+  isSupport: function () {
+    var supported = true;
+    try {
+      var supportName = '__local_store_support__';
+      var val = 'testIsSupportStorage';
+      _localStorage.set(supportName, val);
+      if (_localStorage.get(supportName) !== val) {
+        supported = false;
+      }
+      _localStorage.remove(supportName);
+    } catch (err) {
+      supported = false;
+    }
+    return supported;
+  }
+};
+
+/** 检测传入参数是否是对象类型
+ * @category Util
+ * @param {*} arg 传入参数
+ * @returns {Boolean} 是否是对象类型
+ * @function isObject
+ * @example 
+ * isObject({}) //=> true
+ * isObject(1) //=> false
+ */
+function isObject(arg) {
+  if (arg == null) {
+    return false;
+  } else {
+    return Object.prototype.toString.call(arg) == '[object Object]';
+  }
+}
+
+/** 获取指定数字范围内的随随机数
+ * @param {Number} max 随机数最大值
+ * @category Math
+ * @function getRandomBasic
+ * @return 指定数字范围内的随机数
+ * 
+ * @example
+ * getRandomBasic(100) //=> 85
+ */
+var getRandomBasic = (function () {
+  var today = new Date();
+  var seed = today.getTime();
+  function rnd() {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280.0;
+  }
+  return function rand(number) {
+    return Math.ceil(rnd() * number);
+  };
+})();
+
+/** 安全的 js 随机数生成方式,返回与原生 Math.random 类似的 0-1 的随机数值
+ * @function getRandom
+ * @category Math
+ * @returns {Number} 一个介于 0 -1 的数字
+ *
+ * @example
+ * getRandom() //=> 0.8368784293552812
+ */
+function getRandom() {
+  if (typeof Uint32Array === 'function') {
+    var cry = '';
+    if (typeof crypto !== 'undefined') {
+      cry = crypto;
+    } else if (typeof msCrypto !== 'undefined') {
+      // eslint-disable-next-line no-undef
+      cry = msCrypto;
+    }
+    if (isObject(cry) && cry.getRandomValues) {
+      var typedArray = new Uint32Array(1);
+      var randomNumber = cry.getRandomValues(typedArray)[0];
+      var integerLimit = Math.pow(2, 32);
+      return randomNumber / integerLimit;
+    }
+  }
+  return getRandomBasic(10000000000000000000) / 10000000000000000000;
+}
+
+/** 对传入字符串进行安全的 JSON 反序列化操作，如果反序列化失败则返回 null
+ * @category Encoding
+ * @param {String} str 传入字符串
+ * @returns {Object} 反序列化后的对象
+ * @function safeJSONParse
+ * 
+ * @example
+ * safeJSONParse('{\"a\":124}') //=> {a: 124}
+ */
+function safeJSONParse(str) {
+  var val = null;
+  try {
+    val = JSON.parse(str);
+    // eslint-disable-next-line no-empty
+  } catch (e) { }
+  return val;
+}
+
+/** ConcurrentStorage 构造函数
+ * @category Util
+ * @param {String} lockGetPrefix get 方法，锁前缀
+ * @param {String} lockSetPrefix set 方法，锁前缀
+ * @returns {Undefined} 没有返回值
+ * @function ConcurrentStorage
+ * @example 
+ * new ConcurrentStorage('123', '123') //=> undefined
+ */
+function ConcurrentStorage(lockGetPrefix, lockSetPrefix) {
+  this.lockGetPrefix = lockGetPrefix || 'lock-get-prefix';
+  this.lockSetPrefix = lockSetPrefix || 'lock-set-prefix';
+}
+
+/** 是用 lock 的方式从 localStorage 中读取，解决多 Tab 竞争，某一对 key-value 只会被一个 Tab 读取，并在读取后删除
+ * @category Util
+ * @param {String} key 读取的键
+ * @param {Number} lockTimeout 加锁时长
+ * @param {Number} checkTime 加锁后校验随机数时长
+ * @param {Function} callback 读取 key 回调，如果 key-value 不归属于当前 Tab 则 callback(null)
+ * @returns {Undefined} 没有返回值
+ * @function LocalStorage.prototype.get
+ * @example 
+ * let lock = new ConcurrentStorage('123'); lock.get('123', 10000, 1000, function() {}) //=> undefined
+ */
+ConcurrentStorage.prototype.get = function (key, lockTimeout, checkTime, callback) {
+  if (!key) throw new Error('key is must');
+  lockTimeout = lockTimeout || 10000;
+  checkTime = checkTime || 1000;
+  callback = callback || function () {};
+  var lockKey = this.lockGetPrefix + key;
+  var lock = _localStorage.get(lockKey);
+  var randomNum = String(getRandom());
+  if (lock) {
+    lock = safeJSONParse(lock) || { randomNum: 0, expireTime: 0 };
+    if (lock.expireTime > now()) {
+      return callback(null);
+    }
+  }
+  _localStorage.set(lockKey, JSON.stringify({ randomNum: randomNum, expireTime: now() + lockTimeout }));
+  setTimeout(function () {
+    lock = safeJSONParse(_localStorage.get(lockKey)) || { randomNum: 0, expireTime: 0 };
+    if (lock && lock.randomNum === randomNum) {
+      callback(_localStorage.get(key));
+      _localStorage.remove(key);
+      _localStorage.remove(lockKey);
+    } else {
+      callback(null);
+    }
+  }, checkTime);
+};
+
+/** 是用 lock 的方式往 localStorage 中存值，解决多 Tab 竞争，对某个 key 设置 value，最终只有一个 Tab 的 value 会生效
+ * @category Util
+ * @param {String} key 设置的 key
+ * @param {String} val 设置的 value
+ * @param {Number} lockTimeout 加锁时长
+ * @param {Number} checkTime 加锁后随机数校验时长，决定 key 的归属
+ * @param {Function} callback 设置 key 的回调，如果 key 不归属当前 tab，则 callback({ status: 'fail', reason: 'This key is locked' })
+ * @returns {Undefined} 没有返回值
+ * @function LocalStorage.prototype.set
+ * @example
+ * let lock = new ConcurrentStorage('123'); lock.set('123', '123', 10000, 1000, function() {}) //=> undefined
+ */
+ConcurrentStorage.prototype.set = function (key, val, lockTimeout, checkTime, callback) {
+  if (!key || !val) throw new Error('key and val is must');
+  lockTimeout = lockTimeout || 10000;
+  checkTime = checkTime || 1000;
+  callback = callback || function () {};
+  var lockKey = this.lockSetPrefix + key;
+  var lock = _localStorage.get(lockKey);
+  var randomNum = String(getRandom());
+  if (lock) {
+    lock = safeJSONParse(lock) || { randomNum: 0, expireTime: 0 };
+    if (lock.expireTime > now()) {
+      return callback({ status: 'fail', reason: 'This key is locked' });
+    }
+  }
+  _localStorage.set(lockKey, JSON.stringify({ randomNum: randomNum, expireTime: now() + lockTimeout }));
+  setTimeout(function () {
+    lock = safeJSONParse(_localStorage.get(lockKey)) || { randomNum: 0, expireTime: 0 };
+    if (lock.randomNum === randomNum) {
+      _localStorage.set(key, val) && callback({ status: 'success' });
+    } else {
+      callback({ status: 'fail', reason: 'This key is locked' });
+    }
+  }, checkTime);
+};
+
 function isValidListener(listener) {
   if (typeof listener === 'function') {
     return true;
@@ -257,37 +568,6 @@ function trim(str) {
   return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 }
 
-var logFn;
-
-/** wrench 库的日志打印模块，可以通过 setup 设置自定义日志打印方式
- * @category Util
- * @exports logger
- */
-var logger = {
-  /** 自定义工具库的日志函数，默认使用控制台输出
-   * 
-   * @param {Function} logger 日志函数
-   * @example
-   * function myLog(arg){
-   *    console.log(arg);
-   *    alert(arg);
-   * }
-   * logger.setup(myLog); // 使用 myLog 作为日志输出 
-   */
-  setup: function (logger) {
-    logFn = logger;
-  },
-  /**
-   * 使用自定义的日志函数输出日志
-   * 
-   * @example
-   * logger.log('hello world','1234');
-   */
-  log: function () {
-    (logFn || (console && console.log) || function () { }).apply(null, arguments);
-  }
-};
-
 /**
  * @typedef {Object} URLParser URL 解析器对象，用于添加查询参数，和重新获取添加查询参数后的 URL 字符串
  * @property {Function} setUrl <strong>setUrl(url:String)->void</strong><br>重新设置需要解析的 url
@@ -492,71 +772,6 @@ function _URL(url) {
   return result;
 }
 
-/** 检测传入参数是否是对象类型
- * @category Util
- * @param {*} arg 传入参数
- * @returns {Boolean} 是否是对象类型
- * @function isObject
- * @example 
- * isObject({}) //=> true
- * isObject(1) //=> false
- */
-function isObject(arg) {
-  if (arg == null) {
-    return false;
-  } else {
-    return Object.prototype.toString.call(arg) == '[object Object]';
-  }
-}
-
-/** 获取指定数字范围内的随随机数
- * @param {Number} max 随机数最大值
- * @category Math
- * @function getRandomBasic
- * @return 指定数字范围内的随机数
- * 
- * @example
- * getRandomBasic(100) //=> 85
- */
-var getRandomBasic = (function () {
-  var today = new Date();
-  var seed = today.getTime();
-  function rnd() {
-    seed = (seed * 9301 + 49297) % 233280;
-    return seed / 233280.0;
-  }
-  return function rand(number) {
-    return Math.ceil(rnd() * number);
-  };
-})();
-
-/** 安全的 js 随机数生成方式,返回与原生 Math.random 类似的 0-1 的随机数值
- * @function getRandom
- * @category Math
- * @returns {Number} 一个介于 0 -1 的数字
- *
- * @example
- * getRandom() //=> 0.8368784293552812
- */
-function getRandom() {
-  if (typeof Uint32Array === 'function') {
-    var cry = '';
-    if (typeof crypto !== 'undefined') {
-      cry = crypto;
-    } else if (typeof msCrypto !== 'undefined') {
-      // eslint-disable-next-line no-undef
-      cry = msCrypto;
-    }
-    if (isObject(cry) && cry.getRandomValues) {
-      var typedArray = new Uint32Array(1);
-      var randomNumber = cry.getRandomValues(typedArray)[0];
-      var integerLimit = Math.pow(2, 32);
-      return randomNumber / integerLimit;
-    }
-  }
-  return getRandomBasic(10000000000000000000) / 10000000000000000000;
-}
-
 /** 浏览器环境的生成唯一 ID 的算法
  * @function UUID
  * @category Util
@@ -653,22 +868,6 @@ function isElement(arg) {
  */
 function isUndefined(arg) {
   return arg === void 0;
-}
-
-/** 检测传入参数是否是函数
- * @category Util
- * @param {*} arg 传入参数
- * @returns 是否是函数
- * @function isFunction
- * @example 
- * isFunction (function(){}) //=> true
- */
-function isFunction(arg) {
-  if (!arg) {
-    return false;
-  }
-  var type = Object.prototype.toString.call(arg);
-  return type == '[object Function]' || type == '[object AsyncFunction]';
 }
 
 /** 检测传入参数是否是数组类型
@@ -1198,7 +1397,7 @@ function ajax(para) {
 
   function abort() {
     try {
-      if (isObject(g) && g.abort) {
+      if (g && typeof g === 'object' && g.abort) {
         g.abort();
       }
     } catch (error) {
@@ -2793,98 +2992,6 @@ function loadScript(para) {
   para.appendCall(g);
 }
 
-/** 一个封装了 localStorage 的对象
- * @category Bom
- * @exports localStorage
- */
-var _localStorage = {
-  /** 获取 localStorage 值
-   * 
-   * @param {String} key 传入存储值的键 key
-   * @returns {String} 返回值
-   * @example
-   * localStorage.set('key1','value1');
-   * localStorage.get('key1'); //=> value1
-   */
-  get: function (key) {
-    return window.localStorage.getItem(key);
-  },
-  /** 获取 localStorage 值并且通过 JSON.parse 解析为 JS 对象
-   * 如果无法成功解析，则返回字符串值
-   * @param {String} key 传入存储值的键 key
-   * @returns {Object} 返回值
-   * @example
-   * localStorage.set('key2',JSON.stringify({a:1}));
-   * localStorage.parse('key2'); //=> {a:1}
-   */
-  parse: function (key) {
-    var storedValue;
-    try {
-      storedValue = JSON.parse(_localStorage.get(key)) || null;
-    } catch (err) {
-      logger.log(err);
-    }
-    return storedValue;
-  },
-  /** 设置 localStorage 键值
-   * 
-   * @param {String} key 传入存储值的键 key
-   * @param {String} value 传入存储值的值 value
-   * @example
-   *  localStorage.set('key1','value1');
-   *  localStorage.get('key1'); //=> value1
-   */
-  set: function (key, value) {
-    window.localStorage.setItem(key, value);
-  },
-  /** 删除 localStorage 键值
-   * 
-   * @param {*} key 传入存储值的键 key
-   * @example
-   * localStorage.remove('key2');
-   * localStorage.get('key2') //=> null
-   */
-  remove: function (key) {
-    window.localStorage.removeItem(key);
-  },
-  /** 检测当前浏览器是否支持 localStorage 存储
-   * 
-   * @returns {Boolean} 返回当前浏览器是否支持 localStorage 存储
-   * @example
-   * // 在支持 localStorage 的浏览器中
-   * localStorage.isSupport() //=> true
-   */
-  isSupport: function () {
-    var supported = true;
-    try {
-      var supportName = '__local_store_support__';
-      var val = 'testIsSupportStorage';
-      _localStorage.set(supportName, val);
-      if (_localStorage.get(supportName) !== val) {
-        supported = false;
-      }
-      _localStorage.remove(supportName);
-    } catch (err) {
-      supported = false;
-    }
-    return supported;
-  }
-};
-
-/** 获取当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
- * @category Util
- * @function now
- * @returns {Number} 返回当前时间相对于 1970-01-01 00:00:00 经过的毫秒数
- * @example 
- * now() // 1646122486530
- */
-function now() {
-  if (Date.now && isFunction(Date.now)) {
-    return Date.now();
-  }
-  return new Date().getTime();
-}
-
 /** 删除传入字符串开头的 'javascript'
  * 
  * @param {String} str 传入字符串
@@ -2944,24 +3051,6 @@ function rot13defs(str) {
   str = String(str);
 
   return rot13obfs(str, n - key);
-}
-
-/** 对传入字符串进行安全的 JSON 反序列化操作，如果反序列化失败则返回 null
- * @category Encoding
- * @param {String} str 传入字符串
- * @returns {Object} 反序列化后的对象
- * @function safeJSONParse
- * 
- * @example
- * safeJSONParse('{\"a\":124}') //=> {a: 124}
- */
-function safeJSONParse(str) {
-  var val = null;
-  try {
-    val = JSON.parse(str);
-    // eslint-disable-next-line no-empty
-  } catch (e) { }
-  return val;
 }
 
 /** 将传入对象中的所有 Date 类型的值转换为格式为 YYYY-MM-DD HH:MM:SS.sss
@@ -3276,4 +3365,4 @@ var urlSafeBase64 = {
   }
 };
 
-export { EventEmitter, _URL as URL, UUID, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLPath, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, logger, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, values, xhr };
+export { ConcurrentStorage, EventEmitter, _URL as URL, UUID, addEvent, addHashEvent, ajax, base64Decode, base64Encode, bindReady, cookie, coverExtend, _decodeURI as decodeURI, _decodeURIComponent as decodeURIComponent, dfmapping, each, encodeDates, extend, extend2Lev, filter, formatDate, formatJsonString, getCookieTopLevelDomain, getDomBySelector, getElementContent, getHostname, getIOSVersion, getQueryParam, getQueryParamsFromUrl, getRandom, getRandomBasic, getScreenOrientation, getUA, getURL, getURLSearchParams, hasAttribute, hasAttributes, hashCode, hashCode53, indexOf, inherit, isArguments, isArray, isBoolean, isDate, isElement, isEmptyObject, isFunction, isHttpUrl, isIOS, isJSONString, isNumber, isObject, isString, isSupportBeaconSend, isSupportCors, isUndefined, jsonp, listenPageState, loadScript, _localStorage as localStorage, logger, map, mediaQueriesSupported, now, removeScriptProtocol, rot13defs, rot13obfs, ry, safeJSONParse, searchObjDate, _sessionStorage as sessionStorage, setCssStyle, strToUnicode, throttle, toArray, trim, unique, urlParse, urlSafeBase64, values, xhr };
