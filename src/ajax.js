@@ -84,7 +84,7 @@ export default function ajax(para) {
 
   function abort() {
     try {
-      if (isObject(g) && g.abort) {
+      if (g && typeof g === 'object' && g.abort) {
         g.abort();
       }
     } catch (error) {
