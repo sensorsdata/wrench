@@ -2841,7 +2841,11 @@
      *  localStorage.get('key1'); //=> value1
      */
     set: function (key, value) {
-      window.localStorage.setItem(key, value);
+      try {
+        window.localStorage.setItem(key, value);
+      } catch(err) {
+        logger.log(err);
+      }
     },
     /** 删除 localStorage 键值
      * 

@@ -10,3 +10,6 @@ console.log(trim(' some string with white space at start'));
 
 ### 文档地址
 https://lulu0110.github.io
+
+### 代码提交注意事项
+1. 首次 clone wrenchjs，运行 npm i && npm run prepare；
