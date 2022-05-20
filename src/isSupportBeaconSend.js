@@ -26,7 +26,9 @@ export default function isSupportBeaconSend() {
     if (typeof Sys.safari === 'undefined') {
       Sys.safari = ver[0];
     }
-    if (ver[0] && ver[0] < 13) {
+    if (ver[0] && (Sys.qqBuildinBrowser || Sys.qqBrowser)) {
+      supported = false;
+    } else if (ver[0] && ver[0] < 13) {
       if (Sys.chrome > 41 || Sys.firefox > 30 || Sys.opera > 25 || Sys.safari > 12) {
         supported = true;
       }

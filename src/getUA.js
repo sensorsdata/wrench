@@ -20,7 +20,11 @@ export default function getUA() {
   var Sys = {};
   var ua = navigator.userAgent.toLowerCase();
   var s;
-  if ((s = ua.match(/opera.([\d.]+)/))) {
+  if ((s = ua.match(/ qq\/([\d.]+)/))) {
+    Sys.qqBuildinBrowser = Number(s[1].split('.')[0]);
+  } else if ((s = ua.match(/mqqbrowser\/([\d.]+)/))) {
+    Sys.qqBrowser = Number(s[1].split('.')[0]);
+  } else if ((s = ua.match(/opera.([\d.]+)/))) {
     Sys.opera = Number(s[1].split('.')[0]);
   } else if ((s = ua.match(/msie ([\d.]+)/))) {
     Sys.ie = Number(s[1].split('.')[0]);
