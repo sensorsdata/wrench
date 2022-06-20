@@ -1,3 +1,7 @@
+# 1.0.6 (2022-06-20)
+1.  修复
+     - `location.hostname` 进行安全校验
+
 # 1.0.5 (2022-05-20)
 1.  修复
      - `isSupportBeaconSend` 增加对 `iOS` 手机上 `qq` 浏览器和 `qq` 的支持判断
