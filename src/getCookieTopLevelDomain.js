@@ -1,5 +1,20 @@
 import isArray from './isArray';
 
+/**
+ * 
+ * @param {String} hostname 
+ * 传入 hostname，返回一个经过安全校验的 hostname
+ * @returns {String}
+ */
+function getSafeHostname(hostname){
+  //eslint-disable-next-line
+  if(typeof hostname === 'string' &&  hostname.match(/^[a-zA-Z0-9\u4e00-\u9fa5\-\.]+$/)){
+    return hostname;
+  }else{
+    return '';
+  }
+}
+
 /** 获取指定域名的顶级域名， 例如在 a.example.com 中调用该方法，将返回 example.com
  * 
  * @param {String} ?hostname 指定域名，缺省值为当前域名
@@ -16,17 +31,9 @@ import isArray from './isArray';
 export default function getCookieTopLevelDomain(hostname, testFlag) {
   hostname = hostname || location.hostname;
   testFlag = testFlag || 'domain_test';
-  function validHostname(value) {
-    if (value) {
-      return value;
-    } else {
-      return false;
-    }
-  }
-  var new_hostname = validHostname(hostname);
-  if (!new_hostname) {
-    return '';
-  }
+ 
+  var new_hostname = getSafeHostname(hostname);
+
   var splitResult = new_hostname.split('.');
   if (isArray(splitResult) && splitResult.length >= 2 && !/^(\d+\.)+\d+$/.test(new_hostname)) {
     var domainStr = '.' + splitResult.splice(splitResult.length - 1, 1);

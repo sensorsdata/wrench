@@ -3,13 +3,13 @@ import getCookieTopLevelDomain from '../src/getCookieTopLevelDomain';
 
 test('test getCookieTopLevelDomain function', t => {
   const testCases = [
-    ['https://wwww.example.com', '.example.com'],
-    ['https://music.example.com', '.example.com'],
-    ['https://video.example.org', '.example.org'],
-    ['https://w.w.example.org', '.example.org'],
-    ['https://a.example.cn', '.example.cn'],
-    ['https://a.b.example.org', '.example.org'],
-    ['https://a.b.c.d.com', '.d.com']
+    ['wwww.example.com', '.example.com'],
+    ['music.example.com', '.example.com'],
+    ['video.example.org', '.example.org'],
+    ['w.w.example.org', '.example.org'],
+    ['a.example.cn', '.example.cn'],
+    ['a.b.example.org', '.example.org'],
+    ['a.b.c.d.com', '.d.com']
   ];
 
   function prepareTestContext() {
@@ -39,7 +39,7 @@ test('test getCookieTopLevelDomain function', t => {
     t.equal(getCookieTopLevelDomain(tCase[0]), tCase[1], `when call getCookieTopLevelDomain("${tCase[0]},then it returns "${tCase[1]}")`);
   });
 
-  global.location = {};
+  global.location = {hostnanme:'www.xxx.fff'};
   prepareTestContext();
   t.equal(getCookieTopLevelDomain(), '', 'when location.hostname is null or undefined, and call getCookieTopLevelDomain(), then it returns "" ');
 
