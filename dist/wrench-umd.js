@@ -1728,7 +1728,7 @@
 
       function getValid(data) {
         if (data) {
-          return data.replaceAll(/\r\n/g, '');
+          return data.replace(/\r\n/g, '');
         } else {
           return false;
         }
