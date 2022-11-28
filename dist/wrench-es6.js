@@ -3085,9 +3085,9 @@ function rot13defs(str) {
  * v //=> {a: '2020-02-02 08:00:12.00'}
  */
 function searchObjDate(o) {
-  if (isObject(o)) {
+  if (isObject(o) || isArray(o)) {
     each(o, function (a, b) {
-      if (isObject(a)) {
+      if (isObject(a) || isArray(a)) {
         searchObjDate(o[b]);
       } else {
         if (isDate(a)) {
