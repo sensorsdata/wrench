@@ -724,8 +724,8 @@ function _URL(url) {
   var isURLAPIWorking = function () {
     var url;
     try {
-      url = new URL('http://modernizr.com/');
-      return url.href === 'http://modernizr.com/';
+      url = new URL('https://www.sensorsdata.cn/');
+      return url.href === 'https://www.sensorsdata.cn/';
     } catch (e) {
       return false;
     }
