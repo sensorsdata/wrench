@@ -20,8 +20,38 @@ test('test getQueryParam function', (t) => {
     },
     {
       url: 'https://a.b.com?a=1&b=2&c=3',
-      key: 'c=',
+      key: 'c',
+      expect: '3'
+    },
+    {
+      url: 'https://a.b.com#abc?a=1&b=2&c=4',
+      key: 'c',
+      expect: '4'
+    },
+    {
+      url: 'https://a.b.com#abc',
+      key: 'c',
       expect: ''
+    },
+    {
+      url: 'https://a.b.com#abc?a=1',
+      key: 'c',
+      expect: ''
+    },
+    {
+      url: 'https://a.b.com#abc?a=1&c=2',
+      key: 'c',
+      expect: '2'
+    },
+    {
+      url: 'https://a.b.com?a=1&b=2&c=3#abc',
+      key: 'c',
+      expect: '3'
+    },
+    {
+      url: 'https://a.b.com?a=1&b=2&c=3#abc?c=4',
+      key: 'c',
+      expect: '3'
     }
   ];
 
