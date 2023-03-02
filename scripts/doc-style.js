@@ -28,6 +28,11 @@ function changeStyle() {
     let content = fs.readFileSync(path, { encoding: 'utf-8' });
     const $ = cheerio.load(content);
     $('.footer').remove();
+    $('.page-title h1').each((c, i) => {
+      if ($(i).text() === 'Home') {
+        $(i).text('神策 SDK 工具库');
+      }
+    });
 
     // const selectors = ['.category h3', '.content h1'];
     // selectors.forEach(s => {
