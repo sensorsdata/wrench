@@ -94,7 +94,7 @@
       try {
         storedValue = JSON.parse(_localStorage.get(key)) || null;
       } catch (err) {
-        logger.log(err);
+        logger.log('parse localStorage failed');
       }
       return storedValue;
     },
@@ -109,8 +109,8 @@
     set: function (key, value) {
       try {
         window.localStorage.setItem(key, value);
-      } catch(err) {
-        logger.log(err);
+      } catch (err) {
+        logger.log('localStorage is not support');
       }
     },
     /** 删除 localStorage 键值
