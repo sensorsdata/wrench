@@ -966,16 +966,15 @@ DomElementInfo.prototype = {
     return this;
   },
   offset: function () {
-    var rect = this.ele.getBoundingClientRect();
-    if (rect.width || rect.height) {
+    try {
+      var rect = this.ele.getBoundingClientRect();
       var doc = this.ele.ownerDocument;
       var docElem = doc.documentElement;
-
       return {
         top: rect.top + window.pageYOffset - docElem.clientTop,
         left: rect.left + window.pageXOffset - docElem.clientLeft
       };
-    } else {
+    } catch (e) {
       return {
         top: 0,
         left: 0
@@ -1028,7 +1027,7 @@ DomElementInfo.prototype = {
   },
   sibling: function (cur, dir) {
     //eslint-disable-next-line
-    while ((cur = cur[dir]) && cur.nodeType !== 1) {}
+    while ((cur = cur[dir]) && cur.nodeType !== 1) { }
     return cur;
   },
   next: function () {
