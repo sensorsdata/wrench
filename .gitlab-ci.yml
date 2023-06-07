@@ -3,7 +3,6 @@ image: node:17.6.0
 stages:
   - release-npm
   - release-github
-  - Chat-Review
 
 release-npm:
   stage: release-npm
@@ -63,19 +62,4 @@ release-github:
   when: 
       manual
   allow_failure: false
-
-chat-review:
-  stage: Chat-Review
-  image: jfrog-internal.sensorsdata.cn/docker/python:3.9.10-chat-review-0.0.8
-  variables: 
-    OPENAI_API_BASE: 'https://sensors-name01.openai.azure.com/'
-    OPENAI_API_TYPE: 'azure'
-    OPENAI_ENGINE: 'first-gpt35'
-
-  script:
-    - chat-review --openai_api_key $OPENAI_API_KEY --openai_engine $OPENAI_ENGINE --gitlab_host $CI_SERVER_URL --gitlab_token $GITLAB_CHATGPT_BOT_TOKEN --project_id $CI_PROJECT_ID --mr_iid $CI_MERGE_REQUEST_IID
-  only:
-    - merge_requests
-  tags:
-    - eks-runner
  
