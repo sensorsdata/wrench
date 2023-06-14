@@ -2831,6 +2831,7 @@
     var head = document.getElementsByTagName('head')[0];
     var timer = null;
     var isError = false; //防止失败逻辑重复触发
+    script.defer = 'defer';
     head.appendChild(script);
     if (isNumber(obj.timeout)) {
       timer = setTimeout(function () {
