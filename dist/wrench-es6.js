@@ -1155,7 +1155,7 @@ function addEvent(target, eventName, eventHandler, useCapture) {
       if (!event) {
         return undefined;
       }
-      event.target = event.srcElement;
+      event.target = event.srcElement || event.target;
 
       var ret = true;
       var old_result, new_result;
