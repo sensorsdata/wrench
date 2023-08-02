@@ -2834,6 +2834,7 @@
     script.defer = 'defer';
     head.appendChild(script);
     if (isNumber(obj.timeout)) {
+      var timeoutVal = Math.min(obj.timeout, 5 * 60 * 1000);
       timer = setTimeout(function () {
         if (isError) {
           return false;
@@ -2845,7 +2846,7 @@
         timer = null;
         head.removeChild(script);
         isError = true;
-      }, obj.timeout);
+      }, timeoutVal);
     }
     window[obj.callbackName] = function () {
       clearTimeout(timer);
@@ -2882,7 +2883,7 @@
       obj.error(err);
       isError = true;
     };
-    script.src = obj.url;
+    script.src = encodeURI(obj.url);
   }
 
   /**
