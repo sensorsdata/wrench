@@ -141,7 +141,7 @@ export default function ajax(para) {
     try {
       if (g.readyState == 4) {
         if ((g.status >= 200 && g.status < 300) || g.status == 304) {
-          para.success(getJSON(g.responseText));
+          para.success(getJSON(g.responseText), g.status);
         } else {
           para.error(getJSON(g.responseText), g.status);
         }
