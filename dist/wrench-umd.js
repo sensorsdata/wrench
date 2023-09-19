@@ -1424,15 +1424,15 @@
       }
     }
 
-    para.success = function (data) {
-      oldsuccess(data);
+    para.success = function (data,status) {
+      oldsuccess(data,status);
       if (errorTimer) {
         clearTimeout(errorTimer);
         errorTimer = null;
       }
     };
-    para.error = function (err) {
-      olderror(err);
+    para.error = function (err,status) {
+      olderror(err,status);
       if (errorTimer) {
         clearTimeout(errorTimer);
         errorTimer = null;
@@ -1446,7 +1446,7 @@
     if (typeof XDomainRequest !== 'undefined' && g instanceof XDomainRequest) {
       //XDomainRequest success callback
       g.onload = function () {
-        para.success && para.success(getJSON(g.responseText));
+        para.success && para.success(getJSON(g.responseText), g.status);
         g.onreadystatechange = null;
         g.onload = null;
         g.onerror = null;
@@ -1463,7 +1463,7 @@
       try {
         if (g.readyState == 4) {
           if ((g.status >= 200 && g.status < 300) || g.status == 304) {
-            para.success(getJSON(g.responseText));
+            para.success(getJSON(g.responseText), g.status);
           } else {
             para.error(getJSON(g.responseText), g.status);
           }
